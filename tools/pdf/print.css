@@ -167,8 +167,14 @@ body {
   white-space: pre-wrap;
 }
 
-/* KaTeX should render LTR even inside RTL body */
+/* KaTeX should render LTR even inside RTL body.
+ * `direction: ltr` alone is not enough — the parent RTL context still
+ * reorders the math's neutral characters (parens, operators, digits)
+ * via the Unicode bidi algorithm. `unicode-bidi: isolate` creates a
+ * fresh bidi context so the math is laid out independently of its
+ * surrounding Hebrew. */
 .katex,
 .katex-display {
   direction: ltr;
+  unicode-bidi: isolate;
 }

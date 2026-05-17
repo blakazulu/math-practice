@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
-import { Download, X, FileDown } from "lucide-react";
+import { ChevronDown, Download, X, FileDown } from "lucide-react";
 import { PDF_MANIFEST, type PdfCategory, type PdfManifestEntry } from "@/data/pdfManifest";
 
 interface Props {
@@ -37,6 +37,15 @@ export function DownloadTestsModal({ open, onClose }: Props) {
   const closeRef = useRef<HTMLButtonElement>(null);
 
   const [availability, setAvailability] = useState<Record<string, boolean>>(probeCache);
+  const [expanded, setExpanded] = useState<Record<PdfCategory, boolean>>({
+    "math-knowledge": false,
+    "logic-reasoning": false,
+    "sample-exams": false,
+  });
+
+  function toggle(cat: PdfCategory) {
+    setExpanded((prev) => ({ ...prev, [cat]: !prev[cat] }));
+  }
 
   useEffect(() => {
     if (!open) return;
@@ -125,57 +134,95 @@ export function DownloadTestsModal({ open, onClose }: Props) {
               </button>
             </header>
 
-            <div className="flex-1 overflow-y-auto p-3 sm:p-4 space-y-5">
-              {CATEGORY_ORDER.map((cat) => (
-                <section key={cat}>
-                  <div className="section-label mb-2">{CATEGORY_LABEL[cat]}</div>
-                  <ul className="space-y-2">
-                    {GROUPED[cat].map((entry) => {
-                      // Optimistic: show as available until the HEAD probe says otherwise.
-                      const available = availability[entry.url] ?? true;
-                      return (
-                        <li key={entry.slug}>
-                          {available ? (
-                            <a
-                              href={entry.url}
-                              download
-                              aria-label={`הורדת ${entry.label_he} – ${entry.questionCount} שאלות`}
-                              className="card flex items-center gap-3 p-4 hover:border-brand-500 focus-visible:ring-2 focus-visible:ring-brand-500"
-                            >
-                              <span className="flex-1 min-w-0">
-                                <span className="block font-bold text-lg text-ink leading-snug">
-                                  {entry.label_he}
-                                </span>
-                                <span className="block text-base text-muted mt-0.5 tabular-nums">
-                                  {entry.questionCount} שאלות
-                                </span>
-                              </span>
-                              <span className="shrink-0 inline-flex items-center gap-1.5 text-brand-700 font-semibold">
-                                <Download size={18} />
-                                הורדה
-                              </span>
-                            </a>
-                          ) : (
-                            <div
-                              className="card flex items-center gap-3 p-4 opacity-60"
-                              aria-disabled="true"
-                            >
-                              <span className="flex-1 min-w-0">
-                                <span className="block font-bold text-lg text-ink leading-snug">
-                                  {entry.label_he}
-                                </span>
-                                <span className="block text-base text-muted mt-0.5">
-                                  לא זמין כרגע
-                                </span>
-                              </span>
-                            </div>
-                          )}
-                        </li>
-                      );
-                    })}
-                  </ul>
-                </section>
-              ))}
+            <div className="flex-1 overflow-y-auto p-3 sm:p-4 space-y-3">
+              {CATEGORY_ORDER.map((cat) => {
+                const isOpen = expanded[cat];
+                const panelId = `dl-cat-${cat}`;
+                return (
+                  <section key={cat}>
+                    <button
+                      type="button"
+                      onClick={() => toggle(cat)}
+                      aria-expanded={isOpen}
+                      aria-controls={panelId}
+                      className="card w-full flex items-center justify-between gap-3 p-4 text-right hover:border-brand-500 focus-visible:ring-2 focus-visible:ring-brand-500"
+                    >
+                      <span className="flex items-center gap-3 min-w-0">
+                        <span className="font-bold text-lg text-ink">
+                          {CATEGORY_LABEL[cat]}
+                        </span>
+                        <span className="text-base text-muted tabular-nums">
+                          {GROUPED[cat].length}
+                        </span>
+                      </span>
+                      <motion.span
+                        animate={{ rotate: isOpen ? 0 : -90 }}
+                        transition={{ duration: reduced ? 0 : 0.18 }}
+                        className="shrink-0 text-muted"
+                      >
+                        <ChevronDown size={20} />
+                      </motion.span>
+                    </button>
+                    <AnimatePresence initial={false}>
+                      {isOpen && (
+                        <motion.ul
+                          id={panelId}
+                          initial={{ height: 0, opacity: 0 }}
+                          animate={{ height: "auto", opacity: 1 }}
+                          exit={{ height: 0, opacity: 0 }}
+                          transition={{ duration: reduced ? 0 : 0.22 }}
+                          style={{ overflow: "hidden" }}
+                          className="space-y-2 mt-2"
+                        >
+                          {GROUPED[cat].map((entry) => {
+                            // Optimistic: show as available until the HEAD probe says otherwise.
+                            const available = availability[entry.url] ?? true;
+                            return (
+                              <li key={entry.slug}>
+                                {available ? (
+                                  <a
+                                    href={entry.url}
+                                    download
+                                    aria-label={`הורדת ${entry.label_he} – ${entry.questionCount} שאלות`}
+                                    className="card flex items-center gap-3 p-4 hover:border-brand-500 focus-visible:ring-2 focus-visible:ring-brand-500"
+                                  >
+                                    <span className="flex-1 min-w-0">
+                                      <span className="block font-bold text-lg text-ink leading-snug">
+                                        {entry.label_he}
+                                      </span>
+                                      <span className="block text-base text-muted mt-0.5 tabular-nums">
+                                        {entry.questionCount} שאלות
+                                      </span>
+                                    </span>
+                                    <span className="shrink-0 inline-flex items-center gap-1.5 text-brand-700 font-semibold">
+                                      <Download size={18} />
+                                      הורדה
+                                    </span>
+                                  </a>
+                                ) : (
+                                  <div
+                                    className="card flex items-center gap-3 p-4 opacity-60"
+                                    aria-disabled="true"
+                                  >
+                                    <span className="flex-1 min-w-0">
+                                      <span className="block font-bold text-lg text-ink leading-snug">
+                                        {entry.label_he}
+                                      </span>
+                                      <span className="block text-base text-muted mt-0.5">
+                                        לא זמין כרגע
+                                      </span>
+                                    </span>
+                                  </div>
+                                )}
+                              </li>
+                            );
+                          })}
+                        </motion.ul>
+                      )}
+                    </AnimatePresence>
+                  </section>
+                );
+              })}
             </div>
           </motion.div>
         </motion.div>
