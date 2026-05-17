@@ -30,6 +30,7 @@ export function PracticePage() {
 
   const [stickyWrong, setStickyWrong] = useState<OptionLetter[]>([]);
   const [starKey, setStarKey] = useState(0);
+  const [flashGreen, setFlashGreen] = useState(false);
 
   useEffect(() => {
     loadBank();
@@ -88,7 +89,11 @@ export function PracticePage() {
     }
     const attemptIndex = session.currentAttempts as 0 | 1 | 2;
     const outcome = attemptAnswer(correct);
-    if (outcome === "first-correct") setStarKey((k) => k + 1);
+    if (outcome === "first-correct") {
+      setStarKey((k) => k + 1);
+      setFlashGreen(true);
+      window.setTimeout(() => setFlashGreen(false), 300);
+    }
     if (user && topic) {
       recordAnswer({
         userId: user.id,
@@ -149,6 +154,18 @@ export function PracticePage() {
           </div>
         )}
         <StarBurst triggerKey={starKey} />
+      </div>
+      {flashGreen && (
+        <div
+          aria-hidden
+          className="pointer-events-none fixed inset-0 z-40 ring-inset ring-8 ring-brand-500/30 animate-flicker"
+        />
+      )}
+      <div className="fixed bottom-0 left-0 right-0 h-1 bg-hair z-30">
+        <div
+          className="h-full bg-brand-500 transition-all duration-300"
+          style={{ width: `${((session.index + 1) / session.queue.length) * 100}%` }}
+        />
       </div>
     </main>
   );
