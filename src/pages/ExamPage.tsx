@@ -117,7 +117,7 @@ export function ExamPage() {
                 enabled={session.timerEnabled}
                 onTick={examTick}
               />
-              <button onClick={() => setConfirmEnd(true)} className="btn-secondary !px-3 !py-2 min-h-[40px]">
+              <button onClick={() => setConfirmEnd(true)} className="btn-secondary !px-3 !py-2 min-h-[44px]">
                 <X size={16} />
                 סיים
               </button>
@@ -146,7 +146,7 @@ export function ExamPage() {
               topRight={
                 <button
                   onClick={() => examFlag(currentId, !flagged)}
-                  className={`min-h-[40px] px-3 py-2 rounded-lg text-sm font-semibold flex items-center gap-1.5 ${
+                  className={`min-h-[44px] px-3 py-2 rounded-lg text-sm font-semibold flex items-center gap-1.5 ${
                     flagged ? "bg-warn-50 text-warn-700" : "text-faint hover:bg-hair"
                   }`}
                   aria-pressed={flagged}
@@ -201,9 +201,13 @@ export function ExamPage() {
       <Confirm
         open={confirmEnd}
         title="לסיים את המבחן?"
-        body={`ענית על ${answeredCount} מתוך ${session.queue.length} שאלות.${
-          flaggedCount > 0 ? ` יש ${flaggedCount} שאלות מסומנות.` : ""
-        }`}
+        body={[
+          `ענית על ${answeredCount} מתוך ${session.queue.length} שאלות.`,
+          remaining > 0 ? `${remaining} שאלות לא נענו.` : "",
+          flaggedCount > 0 ? `${flaggedCount} שאלות מסומנות.` : "",
+        ]
+          .filter(Boolean)
+          .join(" ")}
         confirmLabel="סיים והצג ציון"
         onConfirm={() => {
           setConfirmEnd(false);
