@@ -50,6 +50,10 @@ export function DownloadTestsModal({ open, onClose }: Props) {
 
     let cancelled = false;
     const toProbe = PDF_MANIFEST.filter((e) => probeCache[e.url] === undefined);
+    if (toProbe.length === 0) {
+      setAvailability({ ...probeCache });
+      return;
+    }
     if (toProbe.length > 0) {
       Promise.all(
         toProbe.map(async (e) => {

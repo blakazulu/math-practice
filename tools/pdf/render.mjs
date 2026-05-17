@@ -57,6 +57,10 @@ function findImages(qId, mapping) {
 
 function renderQuestion(q, mapping, imagesBaseUrl) {
   const letters = ["א", "ב", "ג", "ד"];
+  // visual-only flag: the question's answer options are images, not text.
+  // We render only the letter labels (no option text) and the answer key
+  // still shows the correct letter + explanation. Don't be tempted to
+  // "fix" by collapsing this with the `!txt` check below — they are distinct.
   const isVisualOnly = (q.flags || []).includes("visual-only");
   const imageBases = findImages(q.id, mapping);
   const imageHtml =
