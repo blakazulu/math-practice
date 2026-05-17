@@ -1,10 +1,7 @@
 import { describe, it, expect, beforeEach, afterEach, vi } from "vitest";
 import { act, renderHook } from "@testing-library/react";
 import { useInstallPrompt } from "@/lib/useInstallPrompt";
-import {
-  writeInstallPromptState,
-  INSTALL_PROMPT_KEY,
-} from "@/lib/installPromptStorage";
+import { writeInstallPromptState } from "@/lib/installPromptStorage";
 
 /**
  * Helpers to stub the environment the hook reads from. Each test that needs
