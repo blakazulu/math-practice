@@ -11,6 +11,8 @@ export function ExamTimer({ remainingSec, enabled, onTick }: Props) {
   const tickRef = useRef(onTick);
   tickRef.current = onTick;
   const [shake, setShake] = useState(false);
+  const remainingRef = useRef(remainingSec);
+  remainingRef.current = remainingSec;
 
   useEffect(() => {
     if (!enabled) return;
@@ -18,14 +20,24 @@ export function ExamTimer({ remainingSec, enabled, onTick }: Props) {
     return () => window.clearInterval(id);
   }, [enabled]);
 
+  // Single "are we in the warning window?" boolean drives the shake interval;
+  // putting `remainingSec` itself in the dep array tore down the 5s interval
+  // every tick (which fires every 1s) so the shake never fired.
+  const inWarning = enabled && remainingSec > 0 && remainingSec <= 10;
   useEffect(() => {
-    if (!enabled || remainingSec > 10) return;
+    if (!inWarning) return;
+    let shakeTimeout = 0;
     const id = window.setInterval(() => {
+      if (remainingRef.current > 10 || remainingRef.current <= 0) return;
       setShake(true);
-      window.setTimeout(() => setShake(false), 350);
+      shakeTimeout = window.setTimeout(() => setShake(false), 350);
     }, 5000);
-    return () => window.clearInterval(id);
-  }, [enabled, remainingSec]);
+    return () => {
+      window.clearInterval(id);
+      window.clearTimeout(shakeTimeout);
+      setShake(false);
+    };
+  }, [inWarning]);
 
   if (!enabled) return null;
 
