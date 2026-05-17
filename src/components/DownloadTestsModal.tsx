@@ -1,5 +1,5 @@
-import { useEffect, useMemo, useState } from "react";
-import { AnimatePresence, motion } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { Download, X, FileDown } from "lucide-react";
 import { PDF_MANIFEST, type PdfCategory, type PdfManifestEntry } from "@/data/pdfManifest";
 
@@ -15,6 +15,16 @@ const CATEGORY_LABEL: Record<PdfCategory, string> = {
   "sample-exams": "מבחנים לדוגמה",
 };
 
+const GROUPED: Record<PdfCategory, PdfManifestEntry[]> = (() => {
+  const out: Record<PdfCategory, PdfManifestEntry[]> = {
+    "math-knowledge": [],
+    "logic-reasoning": [],
+    "sample-exams": [],
+  };
+  for (const e of PDF_MANIFEST) out[e.category].push(e);
+  return out;
+})();
+
 // Module-level cache so reopening the modal doesn't re-probe.
 const probeCache: Record<string, boolean> = {};
 
@@ -23,39 +33,50 @@ export function __resetProbeCacheForTests() {
 }
 
 export function DownloadTestsModal({ open, onClose }: Props) {
-  const grouped = useMemo(() => {
-    const out: Record<PdfCategory, PdfManifestEntry[]> = {
-      "math-knowledge": [],
-      "logic-reasoning": [],
-      "sample-exams": [],
-    };
-    for (const e of PDF_MANIFEST) out[e.category].push(e);
-    return out;
-  }, []);
+  const reduced = useReducedMotion();
+  const closeRef = useRef<HTMLButtonElement>(null);
 
   const [availability, setAvailability] = useState<Record<string, boolean>>(probeCache);
 
   useEffect(() => {
     if (!open) return;
+
+    closeRef.current?.focus();
+
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") onClose();
+    };
+    window.addEventListener("keydown", onKey);
+
     let cancelled = false;
     const toProbe = PDF_MANIFEST.filter((e) => probeCache[e.url] === undefined);
-    if (toProbe.length === 0) return;
-    Promise.all(
-      toProbe.map(async (e) => {
-        try {
-          const res = await fetch(e.url, { method: "HEAD" });
-          probeCache[e.url] = res.ok;
-        } catch {
-          probeCache[e.url] = false;
-        }
-      }),
-    ).then(() => {
-      if (!cancelled) setAvailability({ ...probeCache });
-    });
+    if (toProbe.length > 0) {
+      Promise.all(
+        toProbe.map(async (e) => {
+          try {
+            const res = await fetch(e.url, { method: "HEAD" });
+            probeCache[e.url] = res.ok;
+          } catch {
+            probeCache[e.url] = false;
+          }
+        }),
+      ).then(() => {
+        if (!cancelled) setAvailability({ ...probeCache });
+      });
+    }
+
     return () => {
+      window.removeEventListener("keydown", onKey);
       cancelled = true;
     };
-  }, [open]);
+  }, [open, onClose]);
+
+  const panelInitial = reduced ? { opacity: 0 } : { y: 32, opacity: 0, scale: 0.96 };
+  const panelAnimate = reduced ? { opacity: 1 } : { y: 0, opacity: 1, scale: 1 };
+  const panelExit = reduced ? { opacity: 0 } : { y: 24, opacity: 0, scale: 0.98 };
+  const panelTransition = reduced
+    ? { duration: 0.15 }
+    : { type: "spring" as const, stiffness: 340, damping: 28 };
 
   return (
     <AnimatePresence>
@@ -71,10 +92,10 @@ export function DownloadTestsModal({ open, onClose }: Props) {
           onClick={onClose}
         >
           <motion.div
-            initial={{ y: 32, opacity: 0, scale: 0.96 }}
-            animate={{ y: 0, opacity: 1, scale: 1 }}
-            exit={{ y: 24, opacity: 0, scale: 0.98 }}
-            transition={{ type: "spring", stiffness: 340, damping: 28 }}
+            initial={panelInitial}
+            animate={panelAnimate}
+            exit={panelExit}
+            transition={panelTransition}
             className="card w-full max-w-2xl max-h-[88vh] sm:max-h-[80vh] rounded-t-3xl sm:rounded-3xl shadow-xl flex flex-col"
             onClick={(e) => e.stopPropagation()}
           >
@@ -91,6 +112,7 @@ export function DownloadTestsModal({ open, onClose }: Props) {
                 </div>
               </div>
               <button
+                ref={closeRef}
                 onClick={onClose}
                 aria-label="סגירה"
                 className="shrink-0 rounded-full p-2 hover:bg-hair focus-visible:ring-2 focus-visible:ring-brand-500"
@@ -104,7 +126,8 @@ export function DownloadTestsModal({ open, onClose }: Props) {
                 <section key={cat}>
                   <div className="section-label mb-2">{CATEGORY_LABEL[cat]}</div>
                   <ul className="space-y-2">
-                    {grouped[cat].map((entry) => {
+                    {GROUPED[cat].map((entry) => {
+                      // Optimistic: show as available until the HEAD probe says otherwise.
                       const available = availability[entry.url] ?? true;
                       return (
                         <li key={entry.slug}>
@@ -112,7 +135,7 @@ export function DownloadTestsModal({ open, onClose }: Props) {
                             <a
                               href={entry.url}
                               download
-                              aria-label={`הורדת ${entry.label_he}`}
+                              aria-label={`הורדת ${entry.label_he} – ${entry.questionCount} שאלות`}
                               className="card flex items-center gap-3 p-4 hover:border-brand-500 focus-visible:ring-2 focus-visible:ring-brand-500"
                             >
                               <span className="flex-1 min-w-0">

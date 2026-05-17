@@ -53,7 +53,7 @@ describe("DownloadTestsModal", () => {
     setFetchAllMissing();
     render(<DownloadTestsModal open onClose={() => {}} />);
     await waitFor(() => {
-      expect(screen.getAllByText("לא זמין כרגע").length).toBeGreaterThan(0);
+      expect(screen.getAllByText("לא זמין כרגע").length).toBe(PDF_MANIFEST.length);
     });
   });
 
