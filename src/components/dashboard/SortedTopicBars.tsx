@@ -6,14 +6,7 @@ interface Props {
   rows: TopicMastery[];
 }
 
-const CAT_LABEL_HE: Record<string, string> = {
-  "math-knowledge": "ידע מתמטי",
-  "logic-reasoning": "חשיבה והגיון",
-  "sample-exams": "מבחנים",
-};
-
 export function SortedTopicBars({ rows }: Props) {
-  const max = 100;
   const practiceRows = rows.filter((r) => r.categoryId !== "sample-exams");
   return (
     <div className="card p-5 lg:p-6">
@@ -24,7 +17,6 @@ export function SortedTopicBars({ rows }: Props) {
 
       <ul className="space-y-2">
         {practiceRows.map((r) => {
-          const widthPct = (r.pct / max) * 100;
           const to = `/practice/${urlFromTopicId(r.topicId)}`;
           return (
             <li key={r.topicId}>
@@ -34,7 +26,7 @@ export function SortedTopicBars({ rows }: Props) {
               >
                 <div className="flex items-center justify-between gap-3 mb-2">
                   <span className="text-base text-muted tabular-nums shrink-0">
-                    {r.mastered}/{r.total} · {CAT_LABEL_HE[r.categoryId] ?? r.categoryId}
+                    {r.mastered}/{r.total} · {r.categoryName}
                   </span>
                   <span className="font-bold text-ink leading-tight text-right flex-1">
                     {r.topicName}
@@ -50,10 +42,10 @@ export function SortedTopicBars({ rows }: Props) {
                 >
                   <div
                     className="absolute inset-y-0 right-0 bg-brand-500 rounded-full transition-[width] duration-500"
-                    style={{ width: `${widthPct}%` }}
+                    style={{ width: `${r.pct}%` }}
                   />
                 </div>
-                <div className="mt-1 text-base text-brand-700 tabular-nums font-semibold text-left">
+                <div className="mt-1 text-base text-brand-700 tabular-nums font-semibold text-start">
                   {r.pct}%
                 </div>
               </Link>
