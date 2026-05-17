@@ -1,0 +1,26 @@
+# Node
+node_modules/
+.npm/
+
+# Build outputs
+app/dist/
+app/.vite/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
+.idea/
+
+# Logs
+*.log
+
+# Brainstorm/visual companion artifacts
+.superpowers/
+
+# Test artifacts
+app/coverage/
+app/playwright-report/
+app/test-results/

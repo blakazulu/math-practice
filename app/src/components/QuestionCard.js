@@ -1,0 +1,7 @@
+import { jsxs as _jsxs, jsx as _jsx } from "react/jsx-runtime";
+import { ImageOff } from "lucide-react";
+import { InlineMath } from "@/lib/katex";
+import { TriesIndicator } from "./TriesIndicator";
+export function QuestionCard({ question, position, used, topRight, image, needsImage, }) {
+    return (_jsxs("section", { className: "card p-5 sm:p-6", children: [_jsxs("header", { className: "flex items-center justify-between mb-4", children: [_jsxs("div", { className: "flex items-center gap-3", children: [position && (_jsxs("span", { className: "text-sm font-bold text-brand-600 tabular-nums", children: ["\u05E9\u05D0\u05DC\u05D4 ", position.index + 1, " / ", position.total] })), used !== undefined && _jsx(TriesIndicator, { used: used })] }), topRight] }), image ? (_jsx("img", { src: image.src, alt: image.alt, loading: "lazy", className: "mb-4 rounded-xl border border-border max-w-full" })) : needsImage ? (_jsxs("div", { className: "mb-4 rounded-xl border border-dashed border-border bg-hair text-muted p-6 flex flex-col items-center gap-2", children: [_jsx(ImageOff, { size: 28 }), _jsx("span", { className: "font-semibold", children: "\u05EA\u05DE\u05D5\u05E0\u05D4 \u05EA\u05EA\u05D5\u05D5\u05E1\u05E3 \u05D1\u05E7\u05E8\u05D5\u05D1" })] })) : null, _jsx("div", { className: "text-base sm:text-lg leading-relaxed text-ink", children: _jsx(InlineMath, { text: question.question }) })] }));
+}
