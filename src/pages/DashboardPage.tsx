@@ -6,6 +6,8 @@ import { PageHeader } from "@/components/PageHeader";
 import { StatBan } from "@/components/dashboard/StatBan";
 import { SortedTopicBars } from "@/components/dashboard/SortedTopicBars";
 import { TopicBulletList } from "@/components/dashboard/TopicBulletList";
+import { ExamLineChart } from "@/components/dashboard/ExamLineChart";
+import { ExamSlopeChart } from "@/components/dashboard/ExamSlopeChart";
 import { selectActiveUser, useStore } from "@/store";
 import { pageEnter, useMotionVariants } from "@/lib/motion";
 import {
@@ -14,6 +16,8 @@ import {
   todaySparkline,
   masteryTrendSparkline,
   masteryByTopic,
+  examTimeSeries,
+  examSlopes,
 } from "@/lib/dashboardStats";
 
 export function DashboardPage() {
@@ -86,7 +90,11 @@ export function DashboardPage() {
 
               <TopicBulletList rows={mastery} />
 
-              {/* Section 4: Exam progression */}
+              <section className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                <ExamLineChart points={examTimeSeries(user)} />
+                <ExamSlopeChart slopes={examSlopes(user, bank)} />
+              </section>
+
               {/* Section 5: Action cards */}
             </>
             );
