@@ -12,7 +12,8 @@
     "test:e2e": "playwright test",
     "lint": "eslint .",
     "format": "prettier --write src",
-    "sync-data": "node scripts/sync-data.mjs"
+    "sync-data": "node scripts/sync-data.mjs",
+    "gen-share-images": "node scripts/gen-share-images.mjs"
   },
   "dependencies": {
     "framer-motion": "^12.38.0",

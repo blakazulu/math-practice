@@ -1,0 +1,248 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;800;900&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --brand-50: #f0fdf4;
+        --brand-100: #dcfce7;
+        --brand-200: #bbf7d0;
+        --brand-500: #22c55e;
+        --brand-600: #16a34a;
+        --brand-700: #15803d;
+        --ink: #0f1a14;
+        --muted: #6b7280;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: "Heebo", system-ui, sans-serif;
+        background: white;
+        color: var(--ink);
+      }
+      .card {
+        width: 1200px;
+        height: 630px;
+        position: relative;
+        overflow: hidden;
+        background:
+          radial-gradient(
+            circle at 90% -10%,
+            var(--brand-100) 0%,
+            var(--brand-50) 25%,
+            rgba(255, 255, 255, 0) 55%
+          ),
+          radial-gradient(
+            circle at -5% 110%,
+            var(--brand-100) 0%,
+            var(--brand-50) 25%,
+            rgba(255, 255, 255, 0) 50%
+          ),
+          white;
+      }
+      .grid {
+        position: absolute;
+        inset: 0;
+        display: grid;
+        grid-template-columns: 1.1fr 1fr;
+        padding: 72px 88px;
+        gap: 64px;
+        align-items: center;
+      }
+      .copy {
+        z-index: 2;
+      }
+      .label {
+        font-size: 22px;
+        font-weight: 700;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--brand-600);
+        margin: 0 0 28px 0;
+      }
+      h1 {
+        font-size: 92px;
+        line-height: 0.95;
+        font-weight: 900;
+        letter-spacing: -0.02em;
+        margin: 0 0 24px 0;
+      }
+      .accent {
+        background-image: linear-gradient(90deg, var(--brand-600) 0%, var(--brand-500) 100%);
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+        color: transparent;
+      }
+      .sub {
+        font-size: 34px;
+        line-height: 1.3;
+        font-weight: 500;
+        color: var(--muted);
+        margin: 0 0 36px 0;
+        max-width: 580px;
+      }
+      .stats {
+        display: flex;
+        gap: 14px;
+        flex-wrap: nowrap;
+      }
+      .pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        background: var(--brand-100);
+        color: var(--brand-700);
+        font-weight: 800;
+        font-size: 22px;
+        padding: 10px 18px;
+        border-radius: 999px;
+        white-space: nowrap;
+      }
+      .pill b {
+        font-weight: 900;
+      }
+      .mark {
+        position: relative;
+        z-index: 2;
+        display: grid;
+        place-items: center;
+      }
+      .mark svg {
+        width: 100%;
+        max-width: 380px;
+        height: auto;
+        display: block;
+        filter: drop-shadow(0 24px 48px rgba(34, 197, 94, 0.25));
+      }
+      .corner {
+        position: absolute;
+        bottom: 32px;
+        right: 88px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        font-size: 20px;
+        color: var(--muted);
+        font-weight: 600;
+        z-index: 2;
+      }
+      .domain {
+        color: var(--brand-700);
+      }
+      /* drifting leaf ornaments */
+      .leaf {
+        position: absolute;
+        color: var(--brand-200);
+        opacity: 0.55;
+      }
+      .leaf.l1 {
+        top: 60px;
+        left: 40px;
+      }
+      .leaf.l2 {
+        top: 280px;
+        left: 540px;
+      }
+      .leaf.l3 {
+        bottom: 100px;
+        left: 90px;
+      }
+      .leaf.l4 {
+        top: 80px;
+        right: 60px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="card">
+      <!-- decorative leaves -->
+      <svg class="leaf l1" width="56" height="56" viewBox="0 0 24 24" fill="currentColor" aria-hidden>
+        <path d="M12 22c-4-3-7-7-6-13 5-1 9 2 10 8" opacity="0.65" />
+        <path d="M12 22c4-3 7-7 6-13-5-1-9 2-10 8" opacity="0.85" />
+      </svg>
+      <svg class="leaf l2" width="40" height="40" viewBox="0 0 24 24" fill="currentColor" aria-hidden>
+        <path d="M12 22c-4-3-7-7-6-13 5-1 9 2 10 8" opacity="0.65" />
+        <path d="M12 22c4-3 7-7 6-13-5-1-9 2-10 8" opacity="0.85" />
+      </svg>
+      <svg class="leaf l3" width="70" height="70" viewBox="0 0 24 24" fill="currentColor" aria-hidden>
+        <path d="M12 22c-4-3-7-7-6-13 5-1 9 2 10 8" opacity="0.65" />
+        <path d="M12 22c4-3 7-7 6-13-5-1-9 2-10 8" opacity="0.85" />
+      </svg>
+      <svg class="leaf l4" width="48" height="48" viewBox="0 0 24 24" fill="currentColor" aria-hidden>
+        <path d="M12 22c-4-3-7-7-6-13 5-1 9 2 10 8" opacity="0.65" />
+        <path d="M12 22c4-3 7-7 6-13-5-1-9 2-10 8" opacity="0.85" />
+      </svg>
+
+      <div class="grid">
+        <div class="copy">
+          <p class="label">תוכנית לנוער מוכשר במתמטיקה</p>
+          <h1>
+            תרגול חשבון מתקדם<br />
+            <span class="accent">לכיתות ו׳.</span>
+          </h1>
+          <p class="sub">
+            הכנה לבחינת הקבלה לתוכניות המחוננים — בעברית, בקצב שלכם, בלי הרשמה.
+          </p>
+          <div class="stats">
+            <span class="pill"><b>497</b> שאלות</span>
+            <span class="pill"><b>7</b> מבחנים</span>
+            <span class="pill"><b>23</b> נושאים</span>
+          </div>
+        </div>
+
+        <div class="mark">
+          <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" aria-hidden>
+            <circle cx="50" cy="50" r="48" fill="#F0FDF4" />
+            <path
+              d="M50 92 L50 50"
+              stroke="#15803D"
+              stroke-width="6"
+              stroke-linecap="round"
+            />
+            <path
+              d="M50 55 C 30 50 18 35 23 16 C 44 20 54 38 50 55 Z"
+              fill="#22C55E"
+            />
+            <path
+              d="M50 55 C 70 50 82 35 77 16 C 56 20 46 38 50 55 Z"
+              fill="#16A34A"
+            />
+            <path
+              d="M50 55 C 41 47 35 36 32 24"
+              stroke="#15803D"
+              stroke-width="1.5"
+              fill="none"
+              stroke-linecap="round"
+              opacity="0.5"
+            />
+            <path
+              d="M50 55 C 59 47 65 36 68 24"
+              stroke="#0F1A14"
+              stroke-width="1.5"
+              fill="none"
+              stroke-linecap="round"
+              opacity="0.35"
+            />
+          </svg>
+        </div>
+      </div>
+
+      <div class="corner">
+        <span>חשבונייה</span>
+        <span style="opacity: 0.45">·</span>
+        <span class="domain">adv-math-practice.netlify.app</span>
+      </div>
+    </div>
+  </body>
+</html>
