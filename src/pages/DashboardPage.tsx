@@ -42,6 +42,7 @@ export function DashboardPage() {
           {!bank && <p className="text-muted">טוען נתונים…</p>}
           {bank && (() => {
             const firstTry = firstTryAccuracyPct(user);
+            const mastery = masteryByTopic(user, bank);
             return (
             <>
               <section
@@ -81,9 +82,9 @@ export function DashboardPage() {
                   : `דיוק בניסיון ראשון: ${firstTry}%`}
               </p>
 
-              <SortedTopicBars rows={masteryByTopic(user, bank)} />
+              <SortedTopicBars rows={mastery} />
 
-              <TopicBulletList rows={masteryByTopic(user, bank)} />
+              <TopicBulletList rows={mastery} />
 
               {/* Section 4: Exam progression */}
               {/* Section 5: Action cards */}

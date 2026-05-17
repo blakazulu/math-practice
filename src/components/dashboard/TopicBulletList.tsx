@@ -22,7 +22,7 @@ export function TopicBulletList({ rows }: Props) {
           .map((r) => (
             <li key={r.topicId} className="flex items-center gap-4">
               <div className="flex-1 min-w-0 text-right">
-                <div className="font-bold text-ink truncate-none leading-tight">{r.topicName}</div>
+                <div className="font-bold text-ink leading-tight">{r.topicName}</div>
                 <div className="text-base text-muted tabular-nums">{r.pct}%</div>
               </div>
               <BulletGraph value={r.pct} target={80} />
