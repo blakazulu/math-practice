@@ -2,9 +2,11 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { UserPlus, Trash2 } from "lucide-react";
 import { useStore } from "@/store";
-import { Logo } from "@/components/Logo";
 import { Confirm } from "@/components/Confirm";
+import { DownloadTestsButton } from "@/components/DownloadTestsButton";
+import { DownloadTestsModal } from "@/components/DownloadTestsModal";
 import { HeroBackdrop } from "@/components/HeroBackdrop";
+import { Logo } from "@/components/Logo";
 import { useMagnetic } from "@/lib/useMagnetic";
 
 export function WelcomePage() {
@@ -17,6 +19,7 @@ export function WelcomePage() {
 
   const [name, setName] = useState("");
   const [confirmDelete, setConfirmDelete] = useState<string | null>(null);
+  const [downloadsOpen, setDownloadsOpen] = useState(false);
   const list = Object.values(users).sort((a, b) => a.createdAt - b.createdAt);
 
   function handleCreate(e: React.FormEvent) {
@@ -32,7 +35,10 @@ export function WelcomePage() {
   }
 
   return (
-    <main className="min-h-screen bg-white">
+    <main className="relative min-h-screen bg-white">
+      <div className="absolute top-3 right-3 sm:top-5 sm:right-5 z-10">
+        <DownloadTestsButton onClick={() => setDownloadsOpen(true)} />
+      </div>
       <div className="relative max-w-xl mx-auto px-4 sm:px-6 lg:px-10 py-8 lg:py-16 overflow-hidden">
         <HeroBackdrop position="center-top" />
         <div className="relative z-10">
@@ -110,6 +116,7 @@ export function WelcomePage() {
         </div>
       </div>
 
+      <DownloadTestsModal open={downloadsOpen} onClose={() => setDownloadsOpen(false)} />
       <Confirm
         open={!!confirmDelete}
         title="למחוק את המשתמש?"
