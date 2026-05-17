@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { HashRouter } from "react-router-dom";
+import { BrowserRouter } from "react-router-dom";
 import { AppRoutes } from "./routes";
 import { useStore } from "@/store";
 
@@ -15,8 +15,8 @@ export function App() {
   }, [loadBank]);
 
   return (
-    <HashRouter>
+    <BrowserRouter>
       <AppRoutes />
-    </HashRouter>
+    </BrowserRouter>
   );
 }

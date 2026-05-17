@@ -5,7 +5,9 @@ import path from "node:path";
 
 export default defineConfig({
   plugins: [react()],
-  base: "./",
+  // Absolute base — required so `index.html` references /assets/... and works
+  // when a deep route is rewritten to / by Netlify (BrowserRouter).
+  base: "/",
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "src"),
