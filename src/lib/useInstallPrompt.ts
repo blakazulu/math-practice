@@ -64,16 +64,31 @@ export function useInstallPrompt(): {
     const iosSafari = detectIOSSafari();
     if (iosSafari) setPlatform("ios");
 
+    const onBeforeInstallPrompt = (e: Event) => {
+      e.preventDefault();
+      deferredEventRef.current = e as BeforeInstallPromptEvent;
+      setPlatform("android");
+    };
+
+    const onAppInstalled = () => {
+      installedRef.current = true;
+      deferredEventRef.current = null;
+      writeInstallPromptState({ dismissedAt: null, installed: true });
+      setShouldShow(false);
+    };
+
+    window.addEventListener("beforeinstallprompt", onBeforeInstallPrompt);
+    window.addEventListener("appinstalled", onAppInstalled);
+
     const timer = window.setTimeout(() => {
       if (installedRef.current) return;
-      // For iOS, platform is already "ios". For Android, only show if the
-      // beforeinstallprompt event has fired and set platform to "android".
-      // If neither, the hook stays silent.
       setShouldShow((prev) => prev || iosSafari || deferredEventRef.current !== null);
     }, ARM_DELAY_MS);
 
     return () => {
       window.clearTimeout(timer);
+      window.removeEventListener("beforeinstallprompt", onBeforeInstallPrompt);
+      window.removeEventListener("appinstalled", onAppInstalled);
     };
   }, []);
 
