@@ -1,9 +1,16 @@
 import { describe, it, expect } from "vitest";
 import { readFileSync } from "node:fs";
 import { PDF_MANIFEST } from "@/data/pdfManifest";
-import { topicIdFromUrl } from "@/data/types";
+import { dirForCategoryId, topicIdFromUrl } from "@/data/types";
 
 const bank = JSON.parse(readFileSync("data/questions.json", "utf8"));
+
+function slugToParts(slug: string): { cat: string; topicSlug: string } {
+  const knownCats = ["math-knowledge", "logic-reasoning", "sample-exams"];
+  const cat = knownCats.find((c) => slug.startsWith(c + "-"));
+  if (!cat) throw new Error(`slug missing known category prefix: ${slug}`);
+  return { cat, topicSlug: slug.slice(cat.length + 1) };
+}
 
 describe("pdfManifest", () => {
   it("has 23 entries (16 topics + 7 sample exams)", () => {
@@ -16,13 +23,10 @@ describe("pdfManifest", () => {
     }
   });
 
-  it("every slug round-trips to a real topic id via TOPIC_URL_SLUGS", () => {
+  it("every slug resolves to a known TopicId", () => {
     for (const entry of PDF_MANIFEST) {
-      const knownCats = ["math-knowledge", "logic-reasoning", "sample-exams"];
-      const matchedCat = knownCats.find((c) => entry.slug.startsWith(c + "-"));
-      expect(matchedCat).toBeDefined();
-      const topicSlug = entry.slug.slice((matchedCat as string).length + 1);
-      const id = topicIdFromUrl(matchedCat as string, topicSlug);
+      const { cat, topicSlug } = slugToParts(entry.slug);
+      const id = topicIdFromUrl(cat, topicSlug);
       expect(id).not.toBeNull();
     }
   });
@@ -34,19 +38,16 @@ describe("pdfManifest", () => {
   });
 
   it("every topic in questions.json has exactly one manifest entry", () => {
-    const expected = new Set<string>();
-    for (const cat of bank.categories) {
-      for (const t of cat.topics) {
-        const dir = cat.id === "math-knowledge" ? "01_ידע_מתמטי" : cat.id === "logic-reasoning" ? "02_חשיבה_והגיון" : "03_מבחנים_לדוגמה";
-        expected.add(`${dir}/${t.id}`);
-      }
-    }
+    const allTopics = bank.categories.flatMap((cat: { id: string; topics: { id: string }[] }) =>
+      cat.topics.map((t) => `${dirForCategoryId(cat.id)}/${t.id}`),
+    );
+    expect(PDF_MANIFEST.length).toBe(allTopics.length);
+
+    const expected = new Set<string>(allTopics);
     const got = new Set(
       PDF_MANIFEST.map((e) => {
-        const knownCats = ["math-knowledge", "logic-reasoning", "sample-exams"];
-        const matchedCat = knownCats.find((c) => e.slug.startsWith(c + "-")) as string;
-        const topicSlug = e.slug.slice(matchedCat.length + 1);
-        return topicIdFromUrl(matchedCat, topicSlug)!;
+        const { cat, topicSlug } = slugToParts(e.slug);
+        return topicIdFromUrl(cat, topicSlug)!;
       }),
     );
     expect(got).toEqual(expected);
@@ -56,15 +57,12 @@ describe("pdfManifest", () => {
     const counts: Record<string, number> = {};
     for (const cat of bank.categories) {
       for (const t of cat.topics) {
-        const dir = cat.id === "math-knowledge" ? "01_ידע_מתמטי" : cat.id === "logic-reasoning" ? "02_חשיבה_והגיון" : "03_מבחנים_לדוגמה";
-        counts[`${dir}/${t.id}`] = t.question_count;
+        counts[`${dirForCategoryId(cat.id)}/${t.id}`] = t.question_count;
       }
     }
     for (const e of PDF_MANIFEST) {
-      const knownCats = ["math-knowledge", "logic-reasoning", "sample-exams"];
-      const matchedCat = knownCats.find((c) => e.slug.startsWith(c + "-")) as string;
-      const topicSlug = e.slug.slice(matchedCat.length + 1);
-      const id = topicIdFromUrl(matchedCat, topicSlug)!;
+      const { cat, topicSlug } = slugToParts(e.slug);
+      const id = topicIdFromUrl(cat, topicSlug)!;
       expect(e.questionCount).toBe(counts[id]);
     }
   });
