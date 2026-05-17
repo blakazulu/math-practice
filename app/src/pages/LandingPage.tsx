@@ -154,7 +154,7 @@ export function LandingPage() {
       <footer className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 py-8 text-center text-base text-muted">
         מקור החומר —{" "}
         <a
-          href="https://moodle.yuni.co.il/course/view.php?id=4"
+          href="https://yuni.co.il/"
           target="_blank"
           rel="noreferrer"
           className="underline hover:text-ink"
