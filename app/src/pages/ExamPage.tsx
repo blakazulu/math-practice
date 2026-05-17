@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Flag, X } from "lucide-react";
 import { selectActiveUser, useStore } from "@/store";
@@ -32,8 +32,12 @@ export function ExamPage() {
   const bank = useStore((s) => s.bank);
 
   const [confirmEnd, setConfirmEnd] = useState(false);
+  /** Guards against finalize() re-entering after its store writes invalidate the effect's deps. */
+  const finalizedRef = useRef(false);
 
   const finalize = useCallback(() => {
+    if (finalizedRef.current) return;
+    finalizedRef.current = true;
     const s = useStore.getState().session;
     if (!s || s.mode !== "exam" || !user || !bank) return;
     const cat = bank.categories.find((c) => c.id === "sample-exams");
