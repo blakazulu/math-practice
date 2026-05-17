@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { BookOpen, Calendar, Settings, Target } from "lucide-react";
 import { selectActiveUser, selectReviewQueueSize, useStore } from "@/store";
@@ -6,6 +6,11 @@ import { topicIdFor, urlFromTopicId } from "@/data/types";
 import type { TopicProgress } from "@/data/types";
 import { StatPill } from "@/components/StatPill";
 import { Logo } from "@/components/Logo";
+import { HeroBackdrop } from "@/components/HeroBackdrop";
+import { Ornament } from "@/components/Ornament";
+import { Confetti } from "@/components/Confetti";
+
+type OrnamentName = "compass" | "brain-wave" | "sprout-mark";
 
 export function HomePage() {
   const user = useStore(selectActiveUser);
@@ -23,7 +28,6 @@ export function HomePage() {
     loadBank();
   }, [loadBank]);
 
-  // Build a category -> [(topicId, topicMeta, progress)] for the grid.
   const categoryRows = useMemo(() => {
     if (!bank) return [];
     return bank.categories.map((cat) => ({
@@ -40,6 +44,35 @@ export function HomePage() {
       }),
     }));
   }, [bank, user]);
+
+  const fullName = user?.name ?? "";
+  const [typed, setTyped] = useState(fullName);
+  const [confettiTrigger, setConfettiTrigger] = useState(0);
+  const lastStreakRef = useRef(0);
+
+  useEffect(() => {
+    const reduced = window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
+    if (reduced || !fullName) {
+      setTyped(fullName);
+      return;
+    }
+    setTyped("");
+    let i = 0;
+    const id = window.setInterval(() => {
+      i += 1;
+      setTyped(fullName.slice(0, i));
+      if (i >= fullName.length) window.clearInterval(id);
+    }, 30);
+    return () => window.clearInterval(id);
+  }, [fullName]);
+
+  const streakDays = user?.progress.stats.currentStreakDays ?? 0;
+  useEffect(() => {
+    if (streakDays === 7 && lastStreakRef.current !== 7) {
+      setConfettiTrigger((k) => k + 1);
+    }
+    lastStreakRef.current = streakDays;
+  }, [streakDays]);
 
   if (!user) return null;
 
@@ -70,22 +103,25 @@ export function HomePage() {
         </header>
 
         {/* Hero band */}
-        <section className="mb-8 lg:mb-10">
-          <p className="section-label mb-3">תרגול חשבון מתקדם · כיתות ו׳</p>
-          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tightest leading-[1.06] text-ink">
-            שלום {user.name},<br />
-            <span className="h1-hero-accent">מה נתאמן היום?</span>
-          </h1>
-          <p className="mt-4 text-lg text-muted max-w-2xl">
-            3 ניסיונות לכל שאלה, רמז ביניהם, מבחנים שלמים בסוף.
-          </p>
+        <section className="relative mb-8 lg:mb-10 overflow-hidden">
+          <HeroBackdrop position="top-left" />
+          <div className="relative z-10">
+            <p className="section-label mb-3">תרגול חשבון מתקדם · כיתות ו׳</p>
+            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tightest leading-[1.06] text-ink">
+              שלום {typed},<br />
+              <span className="h1-hero-accent">מה נתאמן היום?</span>
+            </h1>
+            <p className="mt-4 text-lg text-muted max-w-2xl">
+              3 ניסיונות לכל שאלה, רמז ביניהם, מבחנים שלמים בסוף.
+            </p>
+          </div>
         </section>
 
         {/* Review queue banner */}
         {reviewSize > 0 && (
           <Link
             to="/review"
-            className="card flex items-center gap-3 p-4 mb-8 bg-warn-50 border-warn-200 text-warn-700 font-semibold text-lg"
+            className="card flex items-center gap-3 p-4 mb-8 bg-warn-50 border-warn-200 text-warn-700 font-semibold text-lg animate-pulse-glow"
           >
             <Target size={20} />
             <span className="flex-1">{reviewSize} שאלות לחזרה</span>
@@ -93,15 +129,17 @@ export function HomePage() {
           </Link>
         )}
 
-        {/* Mode picker — bigger on desktop */}
-        <section className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-12">
-          <ModeBigCard
-            to="/practice"
-            icon={<BookOpen size={28} />}
-            title="תרגול לפי נושא"
-            subtitle="בחרי תחום, 3 ניסיונות לכל שאלה, רמז ביניהם."
-            primary
-          />
+        {/* Mode picker — asymmetric: primary spans 2/3, secondary 1/3 */}
+        <section className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-12">
+          <div className="sm:col-span-2">
+            <ModeBigCard
+              to="/practice"
+              icon={<BookOpen size={28} />}
+              title="תרגול לפי נושא"
+              subtitle="בחרי תחום, 3 ניסיונות לכל שאלה, רמז ביניהם."
+              primary
+            />
+          </div>
           <ModeBigCard
             to="/exam"
             icon={<Calendar size={28} />}
@@ -115,26 +153,36 @@ export function HomePage() {
         )}
         {!bank && !bankError && <p className="text-muted">טוען נושאים...</p>}
 
-        {/* Math knowledge */}
         {mathCat && (
-          <CategorySection title={mathCat.name} topics={mathCat.topics} cta="תרגול" />
+          <CategorySection
+            title={mathCat.name}
+            topics={mathCat.topics}
+            cta="תרגול"
+            ornamentName="compass"
+          />
         )}
 
-        {/* Logic & reasoning */}
         {logicCat && (
-          <CategorySection title={logicCat.name} topics={logicCat.topics} cta="תרגול" />
+          <CategorySection
+            title={logicCat.name}
+            topics={logicCat.topics}
+            cta="תרגול"
+            ornamentName="brain-wave"
+          />
         )}
 
-        {/* Sample exams */}
         {examsCat && (
           <CategorySection
             title={examsCat.name}
             topics={examsCat.topics}
             cta="מבחן"
             examMode
+            ornamentName="sprout-mark"
           />
         )}
       </div>
+
+      <Confetti trigger={confettiTrigger} />
     </main>
   );
 }
@@ -184,6 +232,7 @@ function CategorySection({
   topics,
   cta,
   examMode,
+  ornamentName,
 }: {
   title: string;
   topics: Array<{
@@ -194,12 +243,23 @@ function CategorySection({
   }>;
   cta: string;
   examMode?: boolean;
+  ornamentName?: OrnamentName;
 }) {
   void cta;
   return (
     <section className="mb-10">
-      <h2 className="section-label mb-4">{title}</h2>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3">
+      <h2 className="section-label mb-4 flex items-center gap-2">
+        {ornamentName && (
+          <span className="text-brand-500">
+            <Ornament name={ornamentName} size={18} />
+          </span>
+        )}
+        {title}
+      </h2>
+      <div
+        className="grid gap-3"
+        style={{ gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))" }}
+      >
         {topics.map((t) => {
           const attempted = t.progress?.attempted ?? 0;
           const mastered = t.progress?.mastered ?? 0;
@@ -207,24 +267,34 @@ function CategorySection({
           const to = examMode
             ? `/exam/${urlFromTopicId(t.id)}`
             : `/practice/${urlFromTopicId(t.id)}`;
+          const circumference = 2 * Math.PI * 12;
           return (
             <Link
               key={t.id}
               to={to}
-              className="card p-4 lg:p-5 flex flex-col gap-3 hover:border-brand-500 focus-visible:ring-2 focus-visible:ring-brand-500"
+              className="relative card p-4 lg:p-5 flex flex-col gap-2 hover:border-brand-500 focus-visible:ring-2 focus-visible:ring-brand-500"
             >
-              <div className="flex items-baseline justify-between gap-2">
+              <div className="absolute top-3 left-3" aria-hidden>
+                <svg width="28" height="28" viewBox="0 0 28 28">
+                  <circle cx="14" cy="14" r="12" fill="none" stroke="#F3F4F6" strokeWidth="3" />
+                  <circle
+                    cx="14"
+                    cy="14"
+                    r="12"
+                    fill="none"
+                    stroke="#22C55E"
+                    strokeWidth="3"
+                    strokeLinecap="round"
+                    strokeDasharray={`${(pct / 100) * circumference} ${circumference}`}
+                    transform="rotate(-90 14 14)"
+                  />
+                </svg>
+              </div>
+              <div className="flex items-baseline justify-between gap-2 pl-9">
                 <span className="font-bold text-lg text-ink truncate">{t.name}</span>
                 <span className="text-base text-faint tabular-nums shrink-0">
                   {attempted}/{t.total}
                 </span>
-              </div>
-              <div className="h-2 rounded-full bg-hair overflow-hidden">
-                <div
-                  className="h-full bg-brand-500"
-                  style={{ width: `${pct}%` }}
-                  aria-label={`${pct} אחוז שליטה`}
-                />
               </div>
               <div className="text-base text-muted">
                 {attempted === 0
