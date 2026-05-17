@@ -1,9 +1,17 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
+import { Star, Flame, Target, TrendingUp } from "lucide-react";
 import { PageHeader } from "@/components/PageHeader";
+import { StatBan } from "@/components/dashboard/StatBan";
 import { selectActiveUser, useStore } from "@/store";
 import { pageEnter, useMotionVariants } from "@/lib/motion";
+import {
+  overallMasteryPct,
+  firstTryAccuracyPct,
+  todaySparkline,
+  masteryTrendSparkline,
+} from "@/lib/dashboardStats";
 
 export function DashboardPage() {
   const user = useStore(selectActiveUser);
@@ -31,7 +39,40 @@ export function DashboardPage() {
           {!bank && <p className="text-muted">טוען נתונים…</p>}
           {bank && (
             <>
-              {/* Section 1: Hero BANs */}
+              <section className="grid grid-cols-2 lg:grid-cols-4 gap-3 lg:gap-4">
+                <StatBan
+                  label="כוכבים"
+                  value={user.progress.stats.starsEarned}
+                  icon={<Star size={20} />}
+                  tint="warn"
+                />
+                <StatBan
+                  label="רצף ימים"
+                  value={user.progress.stats.currentStreakDays}
+                  icon={<Flame size={20} />}
+                  tint="danger"
+                />
+                <StatBan
+                  label="היום"
+                  value={user.progress.stats.todayCount}
+                  icon={<Target size={20} />}
+                  sparkline={todaySparkline(user)}
+                />
+                <StatBan
+                  label="שליטה כוללת"
+                  value={overallMasteryPct(user, bank)}
+                  unit="%"
+                  icon={<TrendingUp size={20} />}
+                  sparkline={masteryTrendSparkline(user, bank)}
+                />
+              </section>
+
+              <p className="text-base text-muted">
+                {firstTryAccuracyPct(user) === null
+                  ? "ענו על השאלה הראשונה כדי להתחיל לעקוב אחר ההצלחה."
+                  : `דיוק בנסיון ראשון: ${firstTryAccuracyPct(user)}%`}
+              </p>
+
               {/* Section 2: Topic strength bars */}
               {/* Section 3: Topic bullet graphs */}
               {/* Section 4: Exam progression */}
