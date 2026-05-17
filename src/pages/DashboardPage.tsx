@@ -8,7 +8,8 @@ import { SortedTopicBars } from "@/components/dashboard/SortedTopicBars";
 import { TopicBulletList } from "@/components/dashboard/TopicBulletList";
 import { ExamLineChart } from "@/components/dashboard/ExamLineChart";
 import { ExamSlopeChart } from "@/components/dashboard/ExamSlopeChart";
-import { selectActiveUser, useStore } from "@/store";
+import { ActionCards } from "@/components/dashboard/ActionCards";
+import { selectActiveUser, selectReviewQueueSize, useStore } from "@/store";
 import { pageEnter, useMotionVariants } from "@/lib/motion";
 import {
   overallMasteryPct,
@@ -18,12 +19,14 @@ import {
   masteryByTopic,
   examTimeSeries,
   examSlopes,
+  weakestTopicWithAttempts,
 } from "@/lib/dashboardStats";
 
 export function DashboardPage() {
   const user = useStore(selectActiveUser);
   const bank = useStore((s) => s.bank);
   const loadBank = useStore((s) => s.loadBank);
+  const reviewSize = useStore(selectReviewQueueSize);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -95,7 +98,7 @@ export function DashboardPage() {
                 <ExamSlopeChart slopes={examSlopes(user, bank)} />
               </section>
 
-              {/* Section 5: Action cards */}
+              <ActionCards reviewSize={reviewSize} weakestTopic={weakestTopicWithAttempts(user, bank, 3)} />
             </>
             );
           })()}
