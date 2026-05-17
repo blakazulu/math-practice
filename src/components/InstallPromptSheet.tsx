@@ -31,7 +31,9 @@ export function InstallPromptSheet() {
     const previouslyFocused = document.activeElement as HTMLElement | null;
     closeRef.current?.focus();
     return () => {
-      previouslyFocused?.focus?.();
+      if (previouslyFocused && previouslyFocused !== document.body) {
+        previouslyFocused.focus?.();
+      }
     };
   }, [shouldShow]);
 
@@ -74,7 +76,7 @@ export function InstallPromptSheet() {
                   <span className="text-brand-600">
                     <Ornament name="sprout-mark" size={32} />
                   </span>
-                  <h2 id="install-prompt-title" className="font-bold leading-tight">
+                  <h2 id="install-prompt-title" className="text-lg font-bold leading-tight">
                     {platform === "ios"
                       ? "הוסיפו את חשבונייה למסך הבית"
                       : "התקינו את חשבונייה במכשיר"}
