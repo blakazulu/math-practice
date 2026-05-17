@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { PageHeader } from "@/components/PageHeader";
 import { selectActiveUser, useStore } from "@/store";
-import { pageEnter } from "@/lib/motion";
+import { pageEnter, useMotionVariants } from "@/lib/motion";
 
 export function DashboardPage() {
   const user = useStore(selectActiveUser);
@@ -11,22 +11,23 @@ export function DashboardPage() {
   const loadBank = useStore((s) => s.loadBank);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    if (!user) navigate("/welcome", { replace: true });
-  }, [user, navigate]);
+  if (!user) {
+    navigate("/welcome", { replace: true });
+    return null;
+  }
 
   useEffect(() => {
     loadBank();
   }, [loadBank]);
 
-  if (!user) return null;
+  const page = useMotionVariants(pageEnter);
 
   return (
     <main className="min-h-screen bg-white">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-10 py-6 lg:py-10">
         <PageHeader backTo="/home" title="לוח התקדמות" />
 
-        <motion.div initial="hidden" animate="show" variants={pageEnter} className="space-y-8">
+        <motion.div initial="hidden" animate="show" variants={page} className="space-y-8">
           {!bank && <p className="text-muted">טוען נתונים…</p>}
           {bank && (
             <>
