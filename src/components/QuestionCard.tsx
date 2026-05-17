@@ -1,8 +1,11 @@
 import type { ReactNode } from "react";
+import { useState } from "react";
 import { ImageOff } from "lucide-react";
+import { motion } from "framer-motion";
 import type { RawQuestion } from "@/data/types";
 import { InlineMath } from "@/lib/katex";
 import { TriesIndicator } from "./TriesIndicator";
+import { slideInRTL, useMotionVariants } from "@/lib/motion";
 
 interface Props {
   question: RawQuestion;
@@ -21,8 +24,17 @@ export function QuestionCard({
   image,
   needsImage,
 }: Props) {
+  const v = useMotionVariants(slideInRTL);
+  const [imgLoaded, setImgLoaded] = useState(false);
+
   return (
-    <section className="card p-5 sm:p-6">
+    <motion.section
+      key={question.id}
+      initial="hidden"
+      animate="show"
+      variants={v}
+      className="card p-5 sm:p-6"
+    >
       <header className="flex items-center justify-between mb-4">
         <div className="flex items-center gap-3">
           {position && (
@@ -40,7 +52,10 @@ export function QuestionCard({
           src={image.src}
           alt={image.alt}
           loading="lazy"
-          className="mb-4 rounded-xl border border-border max-w-full"
+          onLoad={() => setImgLoaded(true)}
+          className={`mb-4 rounded-xl border border-border ring-2 ring-brand-100 max-w-full transition-opacity duration-300 ${
+            imgLoaded ? "opacity-100" : "opacity-0"
+          }`}
         />
       ) : needsImage ? (
         <div className="mb-4 rounded-xl border border-dashed border-border bg-hair text-muted p-6 flex flex-col items-center gap-2">
@@ -52,6 +67,6 @@ export function QuestionCard({
       <div className="text-base sm:text-lg leading-relaxed text-ink">
         <InlineMath text={question.question} />
       </div>
-    </section>
+    </motion.section>
   );
 }
