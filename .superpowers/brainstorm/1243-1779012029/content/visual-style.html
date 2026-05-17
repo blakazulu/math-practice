@@ -1,0 +1,402 @@
+<style>
+  /* Local style scope for this mockup page */
+  .mockup-style {
+    border-radius: 16px;
+    overflow: hidden;
+    border: 1px solid #ddd;
+    background: white;
+    direction: rtl;
+    text-align: right;
+    font-family: 'Heebo', 'Arial Hebrew', Arial, sans-serif;
+    min-height: 480px;
+  }
+
+  /* === STYLE A: Playful / Kid-bright === */
+  .style-a {
+    background: #fffbf0;
+    color: #2d2d2d;
+  }
+  .style-a .topbar {
+    background: linear-gradient(135deg, #ff9a3c 0%, #ffb84d 100%);
+    color: white;
+    padding: 1.25rem 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .style-a .greeting {
+    font-size: 1.4rem;
+    font-weight: 700;
+  }
+  .style-a .stars {
+    background: rgba(255,255,255,0.25);
+    padding: 0.4rem 0.9rem;
+    border-radius: 999px;
+    font-weight: 600;
+    font-size: 0.9rem;
+  }
+  .style-a .mode-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    padding: 1.5rem;
+  }
+  .style-a .mode-card {
+    background: white;
+    border: 3px solid #ffd599;
+    border-radius: 18px;
+    padding: 1.5rem 1rem;
+    text-align: center;
+    cursor: pointer;
+    box-shadow: 0 4px 0 #ffd599;
+    transition: transform 0.1s;
+  }
+  .style-a .mode-card:hover { transform: translateY(-2px); }
+  .style-a .mode-icon {
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
+  }
+  .style-a .mode-title { font-size: 1.15rem; font-weight: 800; color: #cc6600; }
+  .style-a .mode-sub   { font-size: 0.85rem; color: #888; margin-top: 0.3rem; }
+  .style-a .topic-section {
+    padding: 0 1.5rem 1.5rem;
+  }
+  .style-a .topic-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-bottom: 0.75rem;
+    color: #2d2d2d;
+  }
+  .style-a .topic-pill {
+    display: inline-block;
+    background: white;
+    border: 2px solid #ffd599;
+    border-radius: 999px;
+    padding: 0.4rem 1rem;
+    margin: 0 0 0.5rem 0.5rem;
+    font-size: 0.9rem;
+    cursor: pointer;
+    font-weight: 600;
+  }
+  .style-a .topic-pill.active {
+    background: #ff9a3c;
+    color: white;
+    border-color: #ff9a3c;
+  }
+  .style-a .streak {
+    display: inline-block;
+    background: #fff4d6;
+    border: 2px dashed #ffb84d;
+    padding: 0.6rem 1rem;
+    border-radius: 12px;
+    margin: 0 1.5rem 1rem;
+    font-weight: 600;
+  }
+
+  /* === STYLE B: Clean / Modern Educational === */
+  .style-b {
+    background: white;
+    color: #1a1a2e;
+  }
+  .style-b .topbar {
+    background: white;
+    border-bottom: 1px solid #eee;
+    padding: 1rem 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .style-b .greeting { font-size: 1.15rem; font-weight: 600; }
+  .style-b .stats-mini {
+    display: flex;
+    gap: 1rem;
+    font-size: 0.85rem;
+    color: #555;
+  }
+  .style-b .stats-mini b { color: #2563eb; }
+  .style-b .hero {
+    padding: 1.75rem 1.5rem 0.5rem;
+  }
+  .style-b .hero h2 {
+    font-size: 1.5rem;
+    margin: 0 0 0.5rem;
+    font-weight: 700;
+  }
+  .style-b .hero p { margin: 0; color: #666; font-size: 0.95rem; }
+  .style-b .mode-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.85rem;
+    padding: 1rem 1.5rem;
+  }
+  .style-b .mode-card {
+    background: #f7f9fc;
+    border: 1px solid #e1e6ee;
+    border-radius: 12px;
+    padding: 1.25rem;
+    cursor: pointer;
+  }
+  .style-b .mode-card.primary {
+    background: #2563eb;
+    color: white;
+    border-color: #2563eb;
+  }
+  .style-b .mode-card .mode-title {
+    font-size: 1rem;
+    font-weight: 700;
+    margin-bottom: 0.3rem;
+  }
+  .style-b .mode-card .mode-sub { font-size: 0.85rem; opacity: 0.7; }
+  .style-b .topic-section { padding: 0.5rem 1.5rem 1.5rem; }
+  .style-b .topic-title {
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #888;
+    margin-bottom: 0.75rem;
+  }
+  .style-b .topic-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem 0;
+    border-bottom: 1px solid #f0f0f0;
+    cursor: pointer;
+  }
+  .style-b .topic-row:last-child { border: 0; }
+  .style-b .topic-row .name { font-weight: 500; }
+  .style-b .topic-row .count { color: #888; font-size: 0.85rem; }
+  .style-b .topic-row .progress {
+    width: 80px;
+    height: 6px;
+    background: #eee;
+    border-radius: 999px;
+    overflow: hidden;
+    margin-left: 0.5rem;
+  }
+  .style-b .topic-row .progress::before {
+    content: '';
+    display: block;
+    width: 60%;
+    height: 100%;
+    background: #22c55e;
+  }
+
+  /* === STYLE C: Soft / Friendly Minimal === */
+  .style-c {
+    background: #f5f1ea;
+    color: #2a2a2a;
+    font-family: 'Heebo', sans-serif;
+  }
+  .style-c .topbar {
+    padding: 1.25rem 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .style-c .greeting {
+    font-size: 1.2rem;
+    font-weight: 600;
+  }
+  .style-c .greeting .emoji { font-size: 1.4rem; }
+  .style-c .avatar {
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    background: #d6a877;
+    color: white;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+  }
+  .style-c .summary-card {
+    background: white;
+    border-radius: 16px;
+    padding: 1.25rem;
+    margin: 0 1.5rem 1.25rem;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+  }
+  .style-c .summary-card .label { font-size: 0.8rem; color: #888; margin-bottom: 0.25rem; }
+  .style-c .summary-card .value { font-size: 1.6rem; font-weight: 700; color: #c87b35; }
+  .style-c .summary-row {
+    display: flex;
+    gap: 0.75rem;
+    margin: 0 1.5rem 1rem;
+  }
+  .style-c .summary-row .summary-card {
+    flex: 1;
+    margin: 0;
+    text-align: center;
+  }
+  .style-c .mode-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+    padding: 0 1.5rem 1rem;
+  }
+  .style-c .mode-card {
+    background: white;
+    border-radius: 14px;
+    padding: 1.1rem;
+    cursor: pointer;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+  }
+  .style-c .mode-card.primary {
+    background: #2a2a2a;
+    color: white;
+  }
+  .style-c .mode-icon { font-size: 1.4rem; margin-bottom: 0.4rem; }
+  .style-c .mode-title { font-size: 1rem; font-weight: 700; }
+  .style-c .mode-sub { font-size: 0.8rem; opacity: 0.7; margin-top: 0.2rem; }
+
+  /* Page layout */
+  .three-up {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    margin-top: 1rem;
+  }
+  .style-card-label {
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 0.5rem;
+    padding: 0.5rem;
+    border-radius: 8px;
+    background: #f0f0f0;
+  }
+  @media (max-width: 1000px) {
+    .three-up { grid-template-columns: 1fr; }
+  }
+</style>
+
+<h2>Which visual direction feels right for the app?</h2>
+<p class="subtitle">Same data, three different personalities. Click to select one. All are RTL Hebrew and will render LaTeX correctly.</p>
+
+<div class="three-up">
+  <!-- Option A -->
+  <div class="option" data-choice="a" onclick="toggleSelect(this)" style="padding:0.5rem">
+    <div class="letter" style="margin:0 0 0.5rem">A</div>
+    <div class="style-card-label">A — צבעוני ושמח (Playful)</div>
+    <div class="mockup-style style-a">
+      <div class="topbar">
+        <div class="greeting">היי, נועה! 🎒</div>
+        <div class="stars">⭐ 47 כוכבים</div>
+      </div>
+      <div class="streak">🔥 רצף של 5 ימים — כל הכבוד!</div>
+      <div class="mode-grid">
+        <div class="mode-card">
+          <div class="mode-icon">📚</div>
+          <div class="mode-title">תרגול חופשי</div>
+          <div class="mode-sub">בחרי נושא</div>
+        </div>
+        <div class="mode-card">
+          <div class="mode-icon">📝</div>
+          <div class="mode-title">מבחן לדוגמה</div>
+          <div class="mode-sub">24 שאלות, 60 דקות</div>
+        </div>
+      </div>
+      <div class="topic-section">
+        <div class="topic-title">נושאים פופולריים:</div>
+        <span class="topic-pill active">שברים פשוטים</span>
+        <span class="topic-pill">אחוזים</span>
+        <span class="topic-pill">גאומטריה</span>
+        <span class="topic-pill">חשיבה מרחבית</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Option B -->
+  <div class="option" data-choice="b" onclick="toggleSelect(this)" style="padding:0.5rem">
+    <div class="letter" style="margin:0 0 0.5rem">B</div>
+    <div class="style-card-label">B — נקי ומודרני (Clean Educational)</div>
+    <div class="mockup-style style-b">
+      <div class="topbar">
+        <div class="greeting">היי, נועה</div>
+        <div class="stats-mini">
+          <span>⭐ <b>47</b></span>
+          <span>🔥 <b>5</b></span>
+          <span>היום: <b>12</b></span>
+        </div>
+      </div>
+      <div class="hero">
+        <h2>במה תרצי להתאמן?</h2>
+        <p>תרגול קצר, או מבחן מלא — את בוחרת.</p>
+      </div>
+      <div class="mode-grid">
+        <div class="mode-card primary">
+          <div class="mode-title">תרגול חופשי</div>
+          <div class="mode-sub">בחרי נושא ותרגלי 3 ניסיונות</div>
+        </div>
+        <div class="mode-card">
+          <div class="mode-title">מבחן לדוגמה</div>
+          <div class="mode-sub">24 שאלות · ~60 דקות</div>
+        </div>
+      </div>
+      <div class="topic-section">
+        <div class="topic-title">המשך מאיפה שעצרת</div>
+        <div class="topic-row">
+          <span class="name">שברים פשוטים</span>
+          <span class="count">14 / 33</span>
+          <div class="progress"></div>
+        </div>
+        <div class="topic-row">
+          <span class="name">אחוזים</span>
+          <span class="count">7 / 19</span>
+          <div class="progress" style="--w: 37%"></div>
+        </div>
+        <div class="topic-row">
+          <span class="name">גאומטריה</span>
+          <span class="count">2 / 32</span>
+          <div class="progress" style="--w: 6%"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Option C -->
+  <div class="option" data-choice="c" onclick="toggleSelect(this)" style="padding:0.5rem">
+    <div class="letter" style="margin:0 0 0.5rem">C</div>
+    <div class="style-card-label">C — חמים ורגוע (Warm Minimal)</div>
+    <div class="mockup-style style-c">
+      <div class="topbar">
+        <div class="greeting"><span class="emoji">👋</span> שלום, נועה</div>
+        <div class="avatar">נ</div>
+      </div>
+      <div class="summary-row">
+        <div class="summary-card">
+          <div class="label">רצף ימים</div>
+          <div class="value">5 🔥</div>
+        </div>
+        <div class="summary-card">
+          <div class="label">כוכבים</div>
+          <div class="value">47</div>
+        </div>
+        <div class="summary-card">
+          <div class="label">היום</div>
+          <div class="value">12</div>
+        </div>
+      </div>
+      <div class="mode-grid">
+        <div class="mode-card primary">
+          <div class="mode-icon">📚</div>
+          <div class="mode-title">תרגול</div>
+          <div class="mode-sub">בחרי נושא</div>
+        </div>
+        <div class="mode-card">
+          <div class="mode-icon">📝</div>
+          <div class="mode-title">מבחן</div>
+          <div class="mode-sub">24 ש' · 60 ד'</div>
+        </div>
+      </div>
+      <div style="padding: 0 1.5rem 1.5rem">
+        <div style="font-size: 0.85rem; color: #999; margin-bottom: 0.5rem;">לעבוד עליהן שוב</div>
+        <div style="background: white; border-radius: 12px; padding: 0.75rem 1rem; display: flex; justify-content: space-between; align-items: center;">
+          <span>🎯 8 שאלות בתור</span>
+          <span style="color: #c87b35; font-weight: 600;">חזרה →</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<p style="margin-top: 1rem; text-align:center; color:#666;">All three are responsive — these are desktop views. Mobile collapses to single-column.</p>

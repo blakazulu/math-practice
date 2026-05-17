@@ -1,0 +1,529 @@
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Heebo:wght@300;400;500;600;700;800;900&family=Assistant:wght@300;400;500;600;700;800&family=Frank+Ruhl+Libre:wght@500;700;900&family=Secular+One&family=Rubik:wght@400;500;600;700;800;900&family=Karantina:wght@400;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+  :root { --pcard-radius: 18px; }
+
+  h2.brief { font-family: Inter, system-ui; font-weight: 700; }
+  .subtitle { font-family: Inter, system-ui; color: #555; }
+
+  .v2-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.25rem;
+    margin-top: 1rem;
+  }
+  @media (max-width: 1100px) { .v2-grid { grid-template-columns: 1fr; } }
+
+  .pal-card {
+    border-radius: var(--pcard-radius);
+    overflow: hidden;
+    border: 1px solid rgba(0,0,0,0.07);
+    direction: rtl;
+    text-align: right;
+    background: white;
+  }
+  .pal-header {
+    direction: ltr;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 0.7rem 1rem; font-family: Inter, system-ui; font-size: 0.8rem;
+    background: #fafafa; border-bottom: 1px solid rgba(0,0,0,0.05);
+  }
+  .pal-name { font-weight: 700; }
+  .pal-name small { color: #888; font-weight: 500; margin-left: 0.4rem; }
+  .swatches { display: flex; gap: 5px; }
+  .sw { width: 22px; height: 22px; border-radius: 5px; border: 1px solid rgba(0,0,0,0.08); position: relative; cursor: default; }
+  .sw::after {
+    content: attr(data-hex);
+    position: absolute; bottom: -22px; left: 50%; transform: translateX(-50%);
+    font-size: 9px; color: #888; opacity: 0; transition: opacity 0.15s;
+    white-space: nowrap;
+  }
+  .sw:hover::after { opacity: 1; }
+
+  .surface { min-height: 540px; padding: 1.5rem 1.5rem 1.75rem; }
+  .topbar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; }
+  .brand-mark { font-weight: 800; font-size: 1.2rem; letter-spacing: -0.01em; }
+  .pill {
+    display: inline-flex; align-items: center; gap: 0.4rem;
+    padding: 0.4rem 0.85rem; border-radius: 999px;
+    font-size: 0.85rem; font-weight: 600;
+  }
+  .pill svg { flex-shrink: 0; }
+  .hero h1 { font-size: 2rem; line-height: 1.08; margin: 0 0 0.45rem; font-weight: 800; letter-spacing: -0.015em; }
+  .hero p { font-size: 0.95rem; margin: 0 0 1.4rem; }
+
+  .mode-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.85rem; margin-bottom: 1.4rem; }
+  .mode { padding: 1.1rem 1.05rem; border-radius: 14px; cursor: pointer; display: flex; flex-direction: column; gap: 0.3rem; }
+  .mode .icw {
+    width: 38px; height: 38px; border-radius: 10px;
+    display: inline-flex; align-items: center; justify-content: center;
+    margin-bottom: 0.15rem;
+  }
+  .mode .title { font-weight: 700; font-size: 1.02rem; }
+  .mode .sub { font-size: 0.82rem; }
+
+  .label-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.6rem; }
+  .section-label { font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.09em; font-weight: 700; }
+  .section-meta { font-size: 0.78rem; }
+
+  .topic-row { display: flex; align-items: center; padding: 0.6rem 0; }
+  .topic-row .name { flex: 1; font-weight: 500; }
+  .topic-row .count { font-size: 0.82rem; margin-left: 0.5rem; }
+  .bar { width: 60px; height: 4px; border-radius: 99px; overflow: hidden; margin-left: 0.7rem; }
+  .bar > div { height: 100%; }
+
+  .qcard { border-radius: 14px; padding: 1rem 1.1rem; margin-top: 1.25rem; }
+  .qmeta { font-weight: 700; font-size: 0.85rem; margin-bottom: 0.3rem; letter-spacing: 0.02em; }
+  .qbody { font-size: 0.95rem; line-height: 1.5; }
+  .qbody .latex { font-family: 'Cambria Math', 'STIX Two Math', serif; font-style: italic; }
+  .qopts { display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; margin-top: 0.85rem; }
+  .qopt { padding: 0.55rem 0.75rem; border-radius: 10px; font-size: 0.9rem; font-weight: 500; }
+
+  .type-spec {
+    background: #F7F7F8; padding: 0.85rem 1.05rem;
+    font-family: Inter, system-ui; font-size: 0.74rem; direction: ltr;
+    border-top: 1px solid rgba(0,0,0,0.05);
+    display: grid; grid-template-columns: max-content 1fr; gap: 0.3rem 0.7rem;
+  }
+  .type-spec b { color: #222; }
+  .type-spec span { color: #555; }
+
+  /* ============================================
+     PALETTE 1: SPRUCE — deep pine + ember
+     Inspired by: Khan Academy elevated, Linear, modern fintech
+  =============================================*/
+  .p1 .surface { background: #FBFAF6; color: #0E1F1B; font-family: 'Plus Jakarta Sans', 'Heebo', sans-serif; }
+  .p1 .brand-mark { color: #0E5048; }
+  .p1 .brand-mark .dot { color: #E8945C; }
+  .p1 .pill { background: #FFF1E6; color: #B25719; }
+  .p1 .hero h1 { color: #0E1F1B; }
+  .p1 .hero h1 .acc { color: #0E5048; font-weight: 800; }
+  .p1 .hero p { color: #5F6B68; }
+  .p1 .mode { background: white; border: 1px solid #E5E7E2; }
+  .p1 .mode.primary { background: #0E5048; border-color: #0E5048; color: #FBFAF6; }
+  .p1 .mode.primary .icw { background: rgba(232,148,92,0.22); color: #FFE0C7; }
+  .p1 .mode.primary .sub { color: #B7CDC8; }
+  .p1 .mode .icw { background: #E8F0EE; color: #0E5048; }
+  .p1 .mode .sub { color: #5F6B68; }
+  .p1 .section-label { color: #0E5048; }
+  .p1 .section-meta { color: #8A9591; }
+  .p1 .topic-row { border-bottom: 1px solid #E5E7E2; }
+  .p1 .topic-row:last-child { border: 0; }
+  .p1 .topic-row .count { color: #8A9591; }
+  .p1 .bar { background: #E5E7E2; }
+  .p1 .bar > div { background: linear-gradient(90deg, #0E5048, #E8945C); }
+  .p1 .qcard { background: #0E5048; color: #FBFAF6; }
+  .p1 .qmeta { color: #FFCFA5; }
+  .p1 .qopt { background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.14); }
+
+  /* ============================================
+     PALETTE 2: SPROUT — confident green (Duolingo 2024-style)
+     Inspired by: Duolingo, Vercel, Stripe
+  =============================================*/
+  .p2 .surface { background: white; color: #0F1A14; font-family: 'Heebo', sans-serif; }
+  .p2 .brand-mark { color: #0F1A14; font-weight: 900; letter-spacing: -0.02em; }
+  .p2 .brand-mark .dot { color: #22C55E; }
+  .p2 .pill { background: #FEFCE8; color: #A16207; }
+  .p2 .pill.streak { background: #FEF2F2; color: #DC2626; }
+  .p2 .hero h1 { color: #0F1A14; font-weight: 900; }
+  .p2 .hero h1 .acc {
+    background: linear-gradient(90deg, #16A34A 0%, #22C55E 100%);
+    -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+  }
+  .p2 .hero p { color: #6B7280; }
+  .p2 .mode { background: #F9FAFB; border: 1px solid #E5E7EB; }
+  .p2 .mode.primary { background: #22C55E; border-color: #16A34A; color: white; box-shadow: 0 4px 0 #15803D; transform: translateY(-2px); }
+  .p2 .mode.primary .icw { background: rgba(255,255,255,0.22); color: white; }
+  .p2 .mode .icw { background: #DCFCE7; color: #16A34A; }
+  .p2 .mode .sub { color: #6B7280; }
+  .p2 .mode.primary .sub { color: rgba(255,255,255,0.9); }
+  .p2 .section-label { color: #16A34A; }
+  .p2 .section-meta { color: #9CA3AF; }
+  .p2 .topic-row { border-bottom: 1px solid #F3F4F6; }
+  .p2 .topic-row:last-child { border: 0; }
+  .p2 .topic-row .count { color: #9CA3AF; }
+  .p2 .bar { background: #F3F4F6; }
+  .p2 .bar > div { background: #22C55E; }
+  .p2 .qcard { background: #F0FDF4; border: 1px solid #BBF7D0; color: #0F1A14; }
+  .p2 .qmeta { color: #16A34A; }
+  .p2 .qopt { background: white; border: 1px solid #BBF7D0; }
+
+  /* ============================================
+     PALETTE 3: MIDNIGHT — dark mode with electric accents
+     Inspired by: Linear, Vercel dark, Arc browser
+  =============================================*/
+  .p3 .surface { background: #0A0C16; color: #E8EAF6; font-family: 'Assistant', sans-serif; }
+  .p3 .brand-mark {
+    font-family: 'Secular One'; font-size: 1.35rem;
+    background: linear-gradient(135deg, #8B7CFF 0%, #5EDFFF 100%);
+    -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+  }
+  .p3 .pill {
+    background: rgba(255,255,255,0.06); color: #F0C26B;
+    border: 1px solid rgba(255,255,255,0.08);
+  }
+  .p3 .hero h1 { color: #FFFFFF; font-family: 'Secular One'; font-weight: 400; }
+  .p3 .hero h1 .acc {
+    background: linear-gradient(120deg, #8B7CFF 0%, #FF7CB5 60%, #F0C26B 100%);
+    -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+  }
+  .p3 .hero p { color: #A0A3BD; }
+  .p3 .mode {
+    background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.07);
+    backdrop-filter: blur(10px);
+  }
+  .p3 .mode.primary {
+    background: linear-gradient(135deg, #6B5BFF 0%, #4F3DD9 100%);
+    border-color: transparent;
+    box-shadow: 0 10px 32px rgba(107, 91, 255, 0.4);
+  }
+  .p3 .mode.primary .icw { background: rgba(255,255,255,0.18); color: white; }
+  .p3 .mode .icw { background: rgba(139,124,255,0.12); color: #8B7CFF; }
+  .p3 .mode .sub { color: #A0A3BD; }
+  .p3 .mode.primary .sub { color: rgba(255,255,255,0.85); }
+  .p3 .section-label { color: #8B7CFF; }
+  .p3 .section-meta { color: #6F6F8A; }
+  .p3 .topic-row { border-bottom: 1px solid rgba(255,255,255,0.05); }
+  .p3 .topic-row:last-child { border: 0; }
+  .p3 .topic-row .count { color: #6F6F8A; }
+  .p3 .bar { background: rgba(255,255,255,0.06); }
+  .p3 .bar > div { background: linear-gradient(90deg, #8B7CFF, #5EDFFF); }
+  .p3 .qcard {
+    background: linear-gradient(140deg, rgba(107,91,255,0.18) 0%, rgba(255,124,181,0.10) 100%);
+    border: 1px solid rgba(139,124,255,0.25);
+  }
+  .p3 .qmeta { color: #F0C26B; font-family: 'Secular One'; font-weight: 400; }
+  .p3 .qopt { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); }
+
+  /* ============================================
+     PALETTE 4: EMBER — editorial cream + ink + ember
+     Inspired by: Brilliant, Substack, The New Yorker app, premium prep
+  =============================================*/
+  .p4 .surface { background: #F8F4EE; color: #16110A; font-family: 'Rubik', sans-serif; }
+  .p4 .brand-mark { font-family: 'Frank Ruhl Libre'; font-size: 1.5rem; font-weight: 900; color: #1B1410; letter-spacing: -0.01em; }
+  .p4 .brand-mark .dot { color: #D34823; }
+  .p4 .pill { background: white; color: #1B1410; border: 1px solid #E0D8C8; }
+  .p4 .hero h1 { font-family: 'Frank Ruhl Libre'; font-weight: 900; color: #1B1410; letter-spacing: -0.01em; line-height: 1.0; font-size: 2.2rem; }
+  .p4 .hero h1 .acc { color: #D34823; }
+  .p4 .hero p { color: #6E665A; }
+  .p4 .mode { background: white; border: 1px solid #E0D8C8; }
+  .p4 .mode.primary { background: #1B1410; border-color: #1B1410; color: #F8F4EE; }
+  .p4 .mode.primary .icw { background: rgba(211,72,35,0.25); color: #FFB893; }
+  .p4 .mode .icw { background: #FCEAE0; color: #D34823; }
+  .p4 .mode .sub { color: #6E665A; }
+  .p4 .mode.primary .sub { color: #C7BFB0; }
+  .p4 .section-label { font-family: 'Frank Ruhl Libre'; font-weight: 900; text-transform: none; letter-spacing: 0; color: #1B1410; font-size: 1.05rem; }
+  .p4 .section-meta { color: #8A8170; font-style: italic; font-family: 'Frank Ruhl Libre'; }
+  .p4 .topic-row { border-bottom: 1px solid #E0D8C8; }
+  .p4 .topic-row:last-child { border: 0; }
+  .p4 .topic-row .count { color: #8A8170; }
+  .p4 .bar { background: #E0D8C8; }
+  .p4 .bar > div { background: #D34823; }
+  .p4 .qcard { background: white; border: 1px solid #E0D8C8; }
+  .p4 .qmeta { color: #D34823; font-family: 'Frank Ruhl Libre'; font-weight: 700; }
+  .p4 .qopt { background: #FAF6EE; border: 1px solid #E0D8C8; }
+
+</style>
+
+<h2 class="brief">Pick a design direction — researched for tween educational apps</h2>
+<p class="subtitle">Each crafted from current best practices (Khan Academy, Duolingo 2024, Linear, Brilliant). Type pairings include Hebrew display fonts. Click to select, or describe what's missing.</p>
+
+<div class="v2-grid">
+
+  <!-- ========== PALETTE 1: SPRUCE ========== -->
+  <div class="option" data-choice="spruce" onclick="toggleSelect(this)" style="padding:0">
+    <div class="pal-card p1">
+      <div class="pal-header">
+        <div class="pal-name">1 · Spruce <small>Pine + Ember</small></div>
+        <div class="swatches">
+          <div class="sw" style="background:#FBFAF6" data-hex="#FBFAF6"></div>
+          <div class="sw" style="background:#0E5048" data-hex="#0E5048"></div>
+          <div class="sw" style="background:#E8945C" data-hex="#E8945C"></div>
+          <div class="sw" style="background:#0E1F1B" data-hex="#0E1F1B"></div>
+        </div>
+      </div>
+      <div class="surface">
+        <div class="topbar">
+          <div class="brand-mark">חשבונייה<span class="dot">.</span></div>
+          <div class="pill">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            47 כוכבים
+          </div>
+        </div>
+        <div class="hero">
+          <h1>שלום נועה.<br/><span class="acc">מה נתאמן היום?</span></h1>
+          <p>3 ניסיונות לכל שאלה, רמז ביניהם.</p>
+        </div>
+        <div class="mode-grid">
+          <div class="mode primary">
+            <div class="icw"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/></svg></div>
+            <div class="title">תרגול לפי נושא</div>
+            <div class="sub">בחרי תחום ותתאמני</div>
+          </div>
+          <div class="mode">
+            <div class="icw"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg></div>
+            <div class="title">מבחן לדוגמה</div>
+            <div class="sub">24 שאלות · ~60 ד׳</div>
+          </div>
+        </div>
+        <div class="label-row">
+          <div class="section-label">המשך מאיפה שעצרת</div>
+          <div class="section-meta">3 נושאים פתוחים</div>
+        </div>
+        <div class="topic-row">
+          <span class="name">שברים פשוטים</span>
+          <span class="count">14/33</span>
+          <div class="bar"><div style="width: 42%"></div></div>
+        </div>
+        <div class="topic-row">
+          <span class="name">חשיבה מרחבית</span>
+          <span class="count">9/18</span>
+          <div class="bar"><div style="width: 50%"></div></div>
+        </div>
+        <div class="qcard">
+          <div class="qmeta">שאלה לדוגמה — שברים פשוטים</div>
+          <div class="qbody">מה תוצאת התרגיל <span class="latex">⅗ × ⅖</span>?</div>
+          <div class="qopts">
+            <div class="qopt">⅙</div>
+            <div class="qopt">⅒</div>
+            <div class="qopt">⁶⁄₂₅</div>
+            <div class="qopt">⁵⁄₆</div>
+          </div>
+        </div>
+      </div>
+      <div class="type-spec">
+        <b>Display</b><span>Plus Jakarta Sans 800 — modern, slightly humanist</span>
+        <b>Body</b><span>Plus Jakarta Sans 500 / Heebo for Hebrew</span>
+        <b>Headings</b><span>tight, -1.5% letter-spacing</span>
+        <b>Math</b><span>KaTeX (Latin Modern)</span>
+        <b>Reference</b><span>Khan Academy elevated · Linear · Stripe docs</span>
+        <b>Vibe</b><span>Calm, serious, expensive prep tool — but not stuffy</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== PALETTE 2: SPROUT ========== -->
+  <div class="option" data-choice="sprout" onclick="toggleSelect(this)" style="padding:0">
+    <div class="pal-card p2">
+      <div class="pal-header">
+        <div class="pal-name">2 · Sprout <small>Confident Green</small></div>
+        <div class="swatches">
+          <div class="sw" style="background:#FFFFFF" data-hex="#FFFFFF"></div>
+          <div class="sw" style="background:#22C55E" data-hex="#22C55E"></div>
+          <div class="sw" style="background:#FEFCE8" data-hex="#FEFCE8"></div>
+          <div class="sw" style="background:#0F1A14" data-hex="#0F1A14"></div>
+        </div>
+      </div>
+      <div class="surface">
+        <div class="topbar">
+          <div class="brand-mark">חשבונייה<span class="dot">.</span></div>
+          <div class="pill streak">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg>
+            רצף 5 ימים
+          </div>
+        </div>
+        <div class="hero">
+          <h1>אהלן נועה!<br/><span class="acc">בואי נמשיך לבנות רצף.</span></h1>
+          <p>תרגלת 12 שאלות אתמול. היום נתחיל ב-10?</p>
+        </div>
+        <div class="mode-grid">
+          <div class="mode primary">
+            <div class="icw"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/></svg></div>
+            <div class="title">תרגול לפי נושא</div>
+            <div class="sub">3 ניסיונות + רמזים</div>
+          </div>
+          <div class="mode">
+            <div class="icw"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg></div>
+            <div class="title">מבחן לדוגמה</div>
+            <div class="sub">24 ש׳ · 60 ד׳</div>
+          </div>
+        </div>
+        <div class="label-row">
+          <div class="section-label">המשך מאיפה שעצרת</div>
+          <div class="section-meta">3 פתוחים</div>
+        </div>
+        <div class="topic-row">
+          <span class="name">שברים פשוטים</span>
+          <span class="count">14/33</span>
+          <div class="bar"><div style="width: 42%"></div></div>
+        </div>
+        <div class="topic-row">
+          <span class="name">חשיבה מרחבית</span>
+          <span class="count">9/18</span>
+          <div class="bar"><div style="width: 50%"></div></div>
+        </div>
+        <div class="qcard">
+          <div class="qmeta">דוגמית — שברים פשוטים</div>
+          <div class="qbody">מה תוצאת התרגיל <span class="latex">⅗ × ⅖</span>?</div>
+          <div class="qopts">
+            <div class="qopt">⅙</div>
+            <div class="qopt">⅒</div>
+            <div class="qopt">⁶⁄₂₅</div>
+            <div class="qopt">⁵⁄₆</div>
+          </div>
+        </div>
+      </div>
+      <div class="type-spec">
+        <b>Display</b><span>Heebo 900 — Hebrew workhorse, super-bold</span>
+        <b>Body</b><span>Heebo 400/500 — same family, tight system</span>
+        <b>Headings</b><span>-2% letter-spacing, gradient accent</span>
+        <b>Math</b><span>KaTeX (Latin Modern)</span>
+        <b>Reference</b><span>Duolingo 2024 redesign · Vercel · Stripe</span>
+        <b>Vibe</b><span>Confident, motivating, "I can do this" — proven for kids+education</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== PALETTE 3: MIDNIGHT ========== -->
+  <div class="option" data-choice="midnight" onclick="toggleSelect(this)" style="padding:0">
+    <div class="pal-card p3">
+      <div class="pal-header">
+        <div class="pal-name">3 · Midnight <small>Dark + Electric</small></div>
+        <div class="swatches">
+          <div class="sw" style="background:#0A0C16" data-hex="#0A0C16"></div>
+          <div class="sw" style="background:#6B5BFF" data-hex="#6B5BFF"></div>
+          <div class="sw" style="background:#5EDFFF" data-hex="#5EDFFF"></div>
+          <div class="sw" style="background:#F0C26B" data-hex="#F0C26B"></div>
+        </div>
+      </div>
+      <div class="surface">
+        <div class="topbar">
+          <div class="brand-mark">חשבונייה</div>
+          <div class="pill">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            47 כוכבים
+          </div>
+        </div>
+        <div class="hero">
+          <h1>שלום, נועה.<br/><span class="acc">היום הראש שלך זוהר.</span></h1>
+          <p>בחרי מה נתאמן היום.</p>
+        </div>
+        <div class="mode-grid">
+          <div class="mode primary">
+            <div class="icw"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/></svg></div>
+            <div class="title">תרגול לפי נושא</div>
+            <div class="sub">3 ניסיונות + רמזים</div>
+          </div>
+          <div class="mode">
+            <div class="icw"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg></div>
+            <div class="title">מבחן לדוגמה</div>
+            <div class="sub">24 ש׳ · 60 ד׳</div>
+          </div>
+        </div>
+        <div class="label-row">
+          <div class="section-label">המשך מאיפה שעצרת</div>
+          <div class="section-meta">3 פתוחים</div>
+        </div>
+        <div class="topic-row">
+          <span class="name">שברים פשוטים</span>
+          <span class="count">14/33</span>
+          <div class="bar"><div style="width: 42%"></div></div>
+        </div>
+        <div class="topic-row">
+          <span class="name">חשיבה מרחבית</span>
+          <span class="count">9/18</span>
+          <div class="bar"><div style="width: 50%"></div></div>
+        </div>
+        <div class="qcard">
+          <div class="qmeta">שאלה לדוגמה</div>
+          <div class="qbody">מה תוצאת התרגיל <span class="latex">⅗ × ⅖</span>?</div>
+          <div class="qopts">
+            <div class="qopt">⅙</div>
+            <div class="qopt">⅒</div>
+            <div class="qopt">⁶⁄₂₅</div>
+            <div class="qopt">⁵⁄₆</div>
+          </div>
+        </div>
+      </div>
+      <div class="type-spec">
+        <b>Display</b><span>Secular One — Hebrew display, distinctive</span>
+        <b>Body</b><span>Assistant — clean Hebrew sans</span>
+        <b>Headings</b><span>regular weight on Secular One is plenty bold</span>
+        <b>Math</b><span>KaTeX (Latin Modern — looks great on dark)</span>
+        <b>Reference</b><span>Linear · Arc · Vercel dark · Apollo</span>
+        <b>Vibe</b><span>Tweens-love-dark-mode (per UX research). Calm, focused, premium.</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== PALETTE 4: EMBER ========== -->
+  <div class="option" data-choice="ember" onclick="toggleSelect(this)" style="padding:0">
+    <div class="pal-card p4">
+      <div class="pal-header">
+        <div class="pal-name">4 · Ember <small>Cream + Ink + Spark</small></div>
+        <div class="swatches">
+          <div class="sw" style="background:#F8F4EE" data-hex="#F8F4EE"></div>
+          <div class="sw" style="background:#1B1410" data-hex="#1B1410"></div>
+          <div class="sw" style="background:#D34823" data-hex="#D34823"></div>
+          <div class="sw" style="background:#FCEAE0" data-hex="#FCEAE0"></div>
+        </div>
+      </div>
+      <div class="surface">
+        <div class="topbar">
+          <div class="brand-mark">חשבונייה<span class="dot">.</span></div>
+          <div class="pill">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#D34823" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            47 כוכבים
+          </div>
+        </div>
+        <div class="hero">
+          <h1>שלום נועה.<br/><span class="acc">מה נתרגל היום?</span></h1>
+          <p>3 ניסיונות לכל שאלה. בכל פעם — רמז קטן יותר.</p>
+        </div>
+        <div class="mode-grid">
+          <div class="mode primary">
+            <div class="icw"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/></svg></div>
+            <div class="title">תרגול לפי נושא</div>
+            <div class="sub">בחרי תחום ותתאמני</div>
+          </div>
+          <div class="mode">
+            <div class="icw"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg></div>
+            <div class="title">מבחן לדוגמה</div>
+            <div class="sub">24 ש׳ · ~60 ד׳</div>
+          </div>
+        </div>
+        <div class="label-row">
+          <div class="section-label">המשך מאיפה שעצרת</div>
+          <div class="section-meta">3 פתוחים</div>
+        </div>
+        <div class="topic-row">
+          <span class="name">שברים פשוטים</span>
+          <span class="count">14/33</span>
+          <div class="bar"><div style="width: 42%"></div></div>
+        </div>
+        <div class="topic-row">
+          <span class="name">חשיבה מרחבית</span>
+          <span class="count">9/18</span>
+          <div class="bar"><div style="width: 50%"></div></div>
+        </div>
+        <div class="qcard">
+          <div class="qmeta">שאלה לדוגמה — שברים פשוטים</div>
+          <div class="qbody">מה תוצאת התרגיל <span class="latex">⅗ × ⅖</span>?</div>
+          <div class="qopts">
+            <div class="qopt">⅙</div>
+            <div class="qopt">⅒</div>
+            <div class="qopt">⁶⁄₂₅</div>
+            <div class="qopt">⁵⁄₆</div>
+          </div>
+        </div>
+      </div>
+      <div class="type-spec">
+        <b>Display</b><span>Frank Ruhl Libre — Hebrew serif, editorial, premium</span>
+        <b>Body</b><span>Rubik — humanist sans, friendly counterpoint</span>
+        <b>Headings</b><span>serif, big and confident; -1% letter-spacing</span>
+        <b>Math</b><span>KaTeX (Latin Modern)</span>
+        <b>Reference</b><span>Brilliant.org · Substack · The Atlantic app</span>
+        <b>Vibe</b><span>Editorial, expensive, "this is serious prep" — premium prep-tool feel</span>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div style="margin-top: 1.5rem; padding: 1rem 1.25rem; background: #f7f9fc; border-radius: 10px; font-family: Inter, system-ui; font-size: 0.88rem; line-height: 1.5;">
+<b>Research notes shaping these:</b>
+<br/>· <a href="https://www.nngroup.com/articles/kids-cognition/">NN/G</a> and <a href="https://www.uxmatters.com/mt/archives/2011/12/effective-use-of-color-and-graphics-in-applications-for-children-part-ii-kids-7-to-14-years-of-age.php">UXmatters</a>: tweens 10–12 reject primary-color "kid" palettes; they want to look mature.
+<br/>· Color psychology: cool tones (blue/green) read as calming and focus-enhancing for educational contexts.
+<br/>· Duolingo brand uses both bright green (#58CC02 / #22C55E) and dodger blue (#1CB0F6) — proven combo for kids+learning.
+<br/>· <a href="https://prodesignschool.com/design/top-20-modern-color-combinations-must-use-in-2026/">2026 trends</a>: deep + warm-accent (Spruce), confident mono (Sprout), dark + vibrant accent (Midnight), editorial cream (Ember).
+</div>

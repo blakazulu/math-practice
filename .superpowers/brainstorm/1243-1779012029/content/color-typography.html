@@ -1,0 +1,456 @@
+<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;700;800&family=Frank+Ruhl+Libre:wght@500;700;900&family=Heebo:wght@300;400;500;600;700;800;900&family=Assistant:wght@300;400;500;600;700;800&family=Secular+One&display=swap" rel="stylesheet">
+
+<style>
+  .palette-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.25rem;
+    margin-top: 1rem;
+  }
+  @media (max-width: 1100px) { .palette-grid { grid-template-columns: 1fr; } }
+
+  .palette-card {
+    border-radius: 20px;
+    overflow: hidden;
+    border: 1px solid rgba(0,0,0,0.06);
+    background: white;
+    direction: rtl;
+    text-align: right;
+  }
+  .palette-header {
+    padding: 0.9rem 1.2rem;
+    border-bottom: 1px solid rgba(0,0,0,0.05);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: 'Inter', system-ui, sans-serif;
+    direction: ltr;
+    font-size: 0.85rem;
+  }
+  .palette-label {
+    font-weight: 700;
+  }
+  .swatches {
+    display: flex;
+    gap: 4px;
+  }
+  .swatch {
+    width: 18px; height: 18px; border-radius: 4px;
+    border: 1px solid rgba(0,0,0,0.08);
+  }
+
+  /* ===================================================
+     DIRECTION 1: "Atelier"  — Premium Cream
+     ===================================================*/
+  .dir-1 .surface { background: #FBF6EC; color: #1C1A17; padding: 1.5rem; min-height: 560px; font-family: 'Rubik', sans-serif; }
+  .dir-1 .topbar {
+    display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;
+  }
+  .dir-1 .brand {
+    font-family: 'Frank Ruhl Libre', serif;
+    font-weight: 900; font-size: 1.25rem; color: #C24A2A;
+    letter-spacing: -0.01em;
+  }
+  .dir-1 .stat-pill {
+    background: white; padding: 0.4rem 0.8rem; border-radius: 999px;
+    display: inline-flex; gap: 0.3rem; align-items: center;
+    font-weight: 600; font-size: 0.85rem; color: #1C1A17;
+    border: 1px solid #E8DDC9;
+  }
+  .dir-1 .hero h1 {
+    font-family: 'Frank Ruhl Libre', serif;
+    font-size: 2rem; line-height: 1.1; margin: 0 0 0.4rem; font-weight: 700;
+    color: #1C1A17;
+  }
+  .dir-1 .hero .accent { color: #C24A2A; }
+  .dir-1 .hero p {
+    margin: 0 0 1.5rem; color: #6B655A; font-size: 0.95rem;
+  }
+  .dir-1 .mode-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 0.85rem; margin-bottom: 1.5rem;
+  }
+  .dir-1 .mode {
+    padding: 1.1rem 1rem; border-radius: 16px; cursor: pointer;
+    border: 1px solid #E8DDC9;
+    background: white;
+    display: flex; flex-direction: column; gap: 0.4rem;
+  }
+  .dir-1 .mode.primary {
+    background: #1C1A17; color: #FBF6EC; border-color: #1C1A17;
+  }
+  .dir-1 .mode.primary .sub { color: #D8C9A8; }
+  .dir-1 .mode .title { font-weight: 700; font-size: 1.05rem; }
+  .dir-1 .mode .sub   { font-size: 0.82rem; color: #8E8475; }
+  .dir-1 .mode .icon-wrap {
+    width: 36px; height: 36px; border-radius: 10px;
+    background: #F3E9D3; color: #C24A2A;
+    display: inline-flex; align-items: center; justify-content: center;
+    margin-bottom: 0.25rem;
+  }
+  .dir-1 .mode.primary .icon-wrap {
+    background: rgba(255,255,255,0.1); color: #FBF6EC;
+  }
+  .dir-1 .topic-section .label {
+    font-family: 'Frank Ruhl Libre', serif;
+    font-size: 1rem; font-weight: 700; margin-bottom: 0.6rem; color: #1C1A17;
+  }
+  .dir-1 .topic-row {
+    display: flex; align-items: center; padding: 0.6rem 0;
+    border-bottom: 1px solid #E8DDC9;
+    cursor: pointer;
+  }
+  .dir-1 .topic-row:last-child { border: 0; }
+  .dir-1 .topic-row .name { flex: 1; font-weight: 500; }
+  .dir-1 .topic-row .count { color: #8E8475; font-size: 0.82rem; margin-left: 0.5rem; }
+  .dir-1 .bar { width: 60px; height: 4px; background: #E8DDC9; border-radius: 99px; overflow: hidden; margin-left: 0.7rem; }
+  .dir-1 .bar > div { height: 100%; background: #C24A2A; }
+  .dir-1 .sample {
+    background: white; border-radius: 14px; padding: 1rem 1.1rem; margin-top: 1.25rem;
+    border: 1px solid #E8DDC9;
+  }
+  .dir-1 .sample .qmeta { font-family: 'Frank Ruhl Libre', serif; font-weight: 700; color: #C24A2A; font-size: 0.85rem; margin-bottom: 0.3rem; }
+  .dir-1 .sample .qbody { font-size: 0.95rem; line-height: 1.5; }
+
+  /* ===================================================
+     DIRECTION 2: "Bauhaus" — Bold Indigo / Coral
+     ===================================================*/
+  .dir-2 .surface { background: white; color: #0A0A1B; padding: 1.5rem; min-height: 560px; font-family: 'Heebo', sans-serif; }
+  .dir-2 .topbar {
+    display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.75rem;
+  }
+  .dir-2 .brand {
+    font-weight: 800; font-size: 1.2rem; color: #0A0A1B; letter-spacing: -0.02em;
+  }
+  .dir-2 .brand .dot { color: #5046E5; }
+  .dir-2 .stat-pill {
+    display: inline-flex; align-items: center; gap: 0.35rem;
+    background: #FFF1F0; color: #B23939; padding: 0.4rem 0.8rem; border-radius: 8px;
+    font-weight: 700; font-size: 0.85rem;
+  }
+  .dir-2 .hero h1 {
+    font-size: 2.1rem; line-height: 1.05; margin: 0 0 0.4rem; font-weight: 900;
+    letter-spacing: -0.02em;
+  }
+  .dir-2 .hero .accent {
+    background: linear-gradient(90deg, #5046E5 0%, #FF6B6B 100%);
+    -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+  }
+  .dir-2 .hero p { margin: 0 0 1.5rem; color: #555; font-size: 0.95rem; }
+  .dir-2 .mode-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.9rem; margin-bottom: 1.5rem; }
+  .dir-2 .mode {
+    padding: 1.1rem; border-radius: 14px; cursor: pointer;
+    border: 2px solid #0A0A1B; background: white;
+    box-shadow: 4px 4px 0 #0A0A1B;
+    transition: transform 0.12s, box-shadow 0.12s;
+  }
+  .dir-2 .mode.primary {
+    background: #5046E5; color: white; border-color: #5046E5; box-shadow: 4px 4px 0 #0A0A1B;
+  }
+  .dir-2 .mode:hover { transform: translate(-1px, -1px); box-shadow: 5px 5px 0 #0A0A1B; }
+  .dir-2 .mode .title { font-weight: 800; font-size: 1.05rem; margin: 0.25rem 0; }
+  .dir-2 .mode .sub { font-size: 0.82rem; opacity: 0.75; }
+  .dir-2 .mode .icon-wrap {
+    width: 36px; height: 36px; border-radius: 8px;
+    background: #FFF1F0; color: #FF6B6B;
+    display: inline-flex; align-items: center; justify-content: center;
+  }
+  .dir-2 .mode.primary .icon-wrap { background: rgba(255,255,255,0.18); color: white; }
+  .dir-2 .topic-section .label {
+    font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.08em; color: #888; margin-bottom: 0.75rem;
+    font-weight: 600;
+  }
+  .dir-2 .topic-row {
+    display: flex; align-items: center; padding: 0.7rem 0;
+    border-bottom: 1px solid #F0F0F0;
+    cursor: pointer;
+  }
+  .dir-2 .topic-row:last-child { border: 0; }
+  .dir-2 .topic-row .name { flex: 1; font-weight: 500; }
+  .dir-2 .topic-row .count { color: #888; font-size: 0.82rem; margin-left: 0.5rem; }
+  .dir-2 .bar { width: 60px; height: 4px; background: #EEE; border-radius: 99px; overflow: hidden; margin-left: 0.7rem; }
+  .dir-2 .bar > div { height: 100%; background: #5046E5; }
+  .dir-2 .sample {
+    background: #5046E5; color: white; border-radius: 14px; padding: 1rem 1.1rem; margin-top: 1.25rem;
+    border: 2px solid #0A0A1B; box-shadow: 4px 4px 0 #0A0A1B;
+  }
+  .dir-2 .sample .qmeta { font-weight: 700; opacity: 0.8; font-size: 0.85rem; margin-bottom: 0.3rem; }
+  .dir-2 .sample .qbody { font-size: 0.95rem; line-height: 1.5; }
+
+  /* ===================================================
+     DIRECTION 3: "Aurora" — Dark + Vibrant
+     ===================================================*/
+  .dir-3 .surface { background: #0F1228; color: #F5F4FA; padding: 1.5rem; min-height: 560px; font-family: 'Assistant', sans-serif; }
+  .dir-3 .topbar {
+    display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;
+  }
+  .dir-3 .brand {
+    font-family: 'Secular One', sans-serif; font-size: 1.4rem; color: #F5F4FA;
+    letter-spacing: -0.01em;
+  }
+  .dir-3 .brand .grad {
+    background: linear-gradient(135deg, #7C5CFF 0%, #FF7CB5 100%);
+    -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+  }
+  .dir-3 .stat-pill {
+    display: inline-flex; align-items: center; gap: 0.35rem;
+    background: rgba(255,255,255,0.06); color: #F5F4FA;
+    padding: 0.4rem 0.85rem; border-radius: 999px;
+    font-weight: 600; font-size: 0.85rem;
+    border: 1px solid rgba(255,255,255,0.1);
+  }
+  .dir-3 .hero h1 {
+    font-family: 'Secular One', sans-serif;
+    font-size: 2.1rem; line-height: 1.1; margin: 0 0 0.4rem;
+    color: #F5F4FA;
+  }
+  .dir-3 .hero .accent {
+    background: linear-gradient(135deg, #7C5CFF 0%, #FF7CB5 50%, #FFC85C 100%);
+    -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+  }
+  .dir-3 .hero p { margin: 0 0 1.5rem; color: #9B97B8; font-size: 0.95rem; }
+  .dir-3 .mode-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.85rem; margin-bottom: 1.5rem; }
+  .dir-3 .mode {
+    padding: 1.15rem 1rem; border-radius: 16px; cursor: pointer;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+  }
+  .dir-3 .mode.primary {
+    background: linear-gradient(135deg, #7C5CFF 0%, #6041D8 100%);
+    border-color: transparent;
+    box-shadow: 0 8px 30px rgba(124, 92, 255, 0.35);
+  }
+  .dir-3 .mode .title { font-weight: 700; font-size: 1.05rem; margin: 0.25rem 0; }
+  .dir-3 .mode .sub { font-size: 0.82rem; color: #9B97B8; }
+  .dir-3 .mode.primary .sub { color: rgba(255,255,255,0.85); }
+  .dir-3 .mode .icon-wrap {
+    width: 36px; height: 36px; border-radius: 10px;
+    background: rgba(255,255,255,0.08); color: #FFC85C;
+    display: inline-flex; align-items: center; justify-content: center;
+  }
+  .dir-3 .mode.primary .icon-wrap { background: rgba(255,255,255,0.16); color: white; }
+  .dir-3 .topic-section .label {
+    font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.08em;
+    color: #6F6B8A; margin-bottom: 0.75rem; font-weight: 600;
+  }
+  .dir-3 .topic-row {
+    display: flex; align-items: center; padding: 0.7rem 0;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    cursor: pointer;
+  }
+  .dir-3 .topic-row:last-child { border: 0; }
+  .dir-3 .topic-row .name { flex: 1; font-weight: 500; }
+  .dir-3 .topic-row .count { color: #6F6B8A; font-size: 0.82rem; margin-left: 0.5rem; }
+  .dir-3 .bar { width: 60px; height: 4px; background: rgba(255,255,255,0.08); border-radius: 99px; overflow: hidden; margin-left: 0.7rem; }
+  .dir-3 .bar > div { height: 100%; background: linear-gradient(90deg, #7C5CFF, #FF7CB5); }
+  .dir-3 .sample {
+    background: linear-gradient(135deg, rgba(124,92,255,0.16), rgba(255,124,181,0.16));
+    border: 1px solid rgba(124,92,255,0.3);
+    border-radius: 14px; padding: 1rem 1.1rem; margin-top: 1.25rem;
+  }
+  .dir-3 .sample .qmeta { font-weight: 700; color: #FFC85C; font-size: 0.85rem; margin-bottom: 0.3rem; font-family: 'Secular One', sans-serif; letter-spacing: 0.02em;}
+  .dir-3 .sample .qbody { font-size: 0.95rem; line-height: 1.5; color: #E8E6F5; }
+
+  /* Type-spec table at the bottom of each card */
+  .type-spec {
+    background: #F8F8F8; padding: 0.75rem 1rem;
+    font-family: 'Inter', system-ui; font-size: 0.75rem; direction: ltr;
+    border-top: 1px solid rgba(0,0,0,0.05);
+    display: grid; grid-template-columns: max-content 1fr; gap: 0.25rem 0.75rem;
+  }
+  .type-spec b { color: #333; }
+  .type-spec span { color: #666; }
+  .dir-3 .type-spec { background: #0A0C20; }
+  .dir-3 .type-spec b { color: #F5F4FA; }
+  .dir-3 .type-spec span { color: #9B97B8; }
+</style>
+
+<h2>Pick a design direction — color palette + typography pairing</h2>
+<p class="subtitle">Three crafted directions for an 11-12 year old prepping for a competitive entrance exam. All RTL, all SVG icons, no emoji. Click to select.</p>
+
+<div class="palette-grid">
+
+  <!-- ===== DIRECTION 1: Atelier ===== -->
+  <div class="option" data-choice="atelier" onclick="toggleSelect(this)" style="padding:0">
+    <div class="palette-card dir-1">
+      <div class="palette-header">
+        <div class="palette-label">A · Atelier</div>
+        <div class="swatches">
+          <div class="swatch" style="background:#FBF6EC"></div>
+          <div class="swatch" style="background:#C24A2A"></div>
+          <div class="swatch" style="background:#E8B547"></div>
+          <div class="swatch" style="background:#1C1A17"></div>
+        </div>
+      </div>
+      <div class="surface">
+        <div class="topbar">
+          <div class="brand">חשבונייה</div>
+          <div class="stat-pill">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#C24A2A" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            47
+          </div>
+        </div>
+        <div class="hero">
+          <h1>שלום נועה, <span class="accent">בואי נתאמן.</span></h1>
+          <p>בחרי תרגול קצר, או צאי למבחן מלא.</p>
+        </div>
+        <div class="mode-grid">
+          <div class="mode primary">
+            <div class="icon-wrap"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/></svg></div>
+            <div class="title">תרגול לפי נושא</div>
+            <div class="sub">3 ניסיונות, רמז ביניהם</div>
+          </div>
+          <div class="mode">
+            <div class="icon-wrap"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg></div>
+            <div class="title">מבחן לדוגמה</div>
+            <div class="sub">24 שאלות · ~60 ד׳</div>
+          </div>
+        </div>
+        <div class="topic-section">
+          <div class="label">המשך מאיפה שעצרת</div>
+          <div class="topic-row">
+            <span class="name">שברים פשוטים</span>
+            <span class="count">14/33</span>
+            <div class="bar"><div style="width: 42%"></div></div>
+          </div>
+          <div class="topic-row">
+            <span class="name">אחוזים</span>
+            <span class="count">7/19</span>
+            <div class="bar"><div style="width: 37%"></div></div>
+          </div>
+        </div>
+      </div>
+      <div class="type-spec">
+        <b>Display</b><span>Frank Ruhl Libre — Hebrew serif, editorial</span>
+        <b>UI / Body</b><span>Rubik — humanist sans, friendly</span>
+        <b>Numbers</b><span>Rubik tabular figures</span>
+        <b>Math</b><span>KaTeX default (Latin Modern)</span>
+        <b>Mood</b><span>Brilliant.org meets a Tel Aviv café — warm, premium, focused</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== DIRECTION 2: Bauhaus ===== -->
+  <div class="option" data-choice="bauhaus" onclick="toggleSelect(this)" style="padding:0">
+    <div class="palette-card dir-2">
+      <div class="palette-header">
+        <div class="palette-label">B · Bauhaus</div>
+        <div class="swatches">
+          <div class="swatch" style="background:#FFFFFF"></div>
+          <div class="swatch" style="background:#5046E5"></div>
+          <div class="swatch" style="background:#FF6B6B"></div>
+          <div class="swatch" style="background:#0A0A1B"></div>
+        </div>
+      </div>
+      <div class="surface">
+        <div class="topbar">
+          <div class="brand">חשבונייה<span class="dot">.</span></div>
+          <div class="stat-pill">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#B23939" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg>
+            רצף 5
+          </div>
+        </div>
+        <div class="hero">
+          <h1>שלום נועה, <span class="accent">איך נתאמן היום?</span></h1>
+          <p>3 ניסיונות, רמז ביניהם, או יאללה מבחן מלא.</p>
+        </div>
+        <div class="mode-grid">
+          <div class="mode primary">
+            <div class="icon-wrap"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/></svg></div>
+            <div class="title">תרגול</div>
+            <div class="sub">לפי נושא</div>
+          </div>
+          <div class="mode">
+            <div class="icon-wrap"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg></div>
+            <div class="title">מבחן</div>
+            <div class="sub">24 ש׳ · 60 ד׳</div>
+          </div>
+        </div>
+        <div class="topic-section">
+          <div class="label">פופולרי השבוע</div>
+          <div class="topic-row">
+            <span class="name">שברים פשוטים</span>
+            <span class="count">14/33</span>
+            <div class="bar"><div style="width: 42%"></div></div>
+          </div>
+          <div class="topic-row">
+            <span class="name">אחוזים</span>
+            <span class="count">7/19</span>
+            <div class="bar"><div style="width: 37%"></div></div>
+          </div>
+        </div>
+      </div>
+      <div class="type-spec">
+        <b>Display</b><span>Heebo Extra-Bold — geometric, confident</span>
+        <b>UI / Body</b><span>Heebo Regular/Medium — same family, tight system</span>
+        <b>Numbers</b><span>Heebo tabular</span>
+        <b>Math</b><span>KaTeX default</span>
+        <b>Mood</b><span>Linear-app meets a clever indie game — punchy, neo-brutalist accents</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== DIRECTION 3: Aurora ===== -->
+  <div class="option" data-choice="aurora" onclick="toggleSelect(this)" style="padding:0">
+    <div class="palette-card dir-3">
+      <div class="palette-header">
+        <div class="palette-label">C · Aurora</div>
+        <div class="swatches">
+          <div class="swatch" style="background:#0F1228"></div>
+          <div class="swatch" style="background:#7C5CFF"></div>
+          <div class="swatch" style="background:#FF7CB5"></div>
+          <div class="swatch" style="background:#FFC85C"></div>
+        </div>
+      </div>
+      <div class="surface">
+        <div class="topbar">
+          <div class="brand"><span class="grad">חשבונייה</span></div>
+          <div class="stat-pill">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#FFC85C" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            47 כוכבים
+          </div>
+        </div>
+        <div class="hero">
+          <h1>שלום נועה,<br/><span class="accent">המוח שלך זוהר.</span></h1>
+          <p>בחרי איך לתרגל היום.</p>
+        </div>
+        <div class="mode-grid">
+          <div class="mode primary">
+            <div class="icon-wrap"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/></svg></div>
+            <div class="title">תרגול לפי נושא</div>
+            <div class="sub">3 ניסיונות + רמזים</div>
+          </div>
+          <div class="mode">
+            <div class="icon-wrap"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg></div>
+            <div class="title">מבחן לדוגמה</div>
+            <div class="sub">24 ש׳ · 60 ד׳</div>
+          </div>
+        </div>
+        <div class="topic-section">
+          <div class="label">המשך מאיפה שעצרת</div>
+          <div class="topic-row">
+            <span class="name">שברים פשוטים</span>
+            <span class="count">14/33</span>
+            <div class="bar"><div style="width: 42%"></div></div>
+          </div>
+          <div class="topic-row">
+            <span class="name">אחוזים</span>
+            <span class="count">7/19</span>
+            <div class="bar"><div style="width: 37%"></div></div>
+          </div>
+        </div>
+      </div>
+      <div class="type-spec">
+        <b>Display</b><span>Secular One — distinctive Hebrew display</span>
+        <b>UI / Body</b><span>Assistant — clean Hebrew sans</span>
+        <b>Numbers</b><span>Assistant tabular</span>
+        <b>Math</b><span>KaTeX default</span>
+        <b>Mood</b><span>Linear meets late-night study session — focused, dramatic, premium</span>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<p style="margin-top: 1.5rem; padding: 1rem; background: #f7f9fc; border-radius: 8px; font-size: 0.9rem;">
+<b>Brand name placeholder.</b> I used <span style="font-family: 'Frank Ruhl Libre'; font-size: 1.05rem;">חשבונייה</span> in the mockups — Hebrew for "calculator-ish" with a playful diminutive ending. You can swap this. Some alternatives: <b>מתמטיקלי</b>, <b>שאלמדוף</b>, <b>חכמ-7</b>, <b>הקבלה</b>, <b>סקרנים</b>, or just keep it functional.
+</p>
