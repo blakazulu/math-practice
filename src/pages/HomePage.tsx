@@ -6,6 +6,8 @@ import { selectActiveUser, selectReviewQueueSize, useStore } from "@/store";
 import { topicIdFor, urlFromTopicId } from "@/data/types";
 import type { TopicProgress } from "@/data/types";
 import { StatPill } from "@/components/StatPill";
+import { DownloadTestsButton } from "@/components/DownloadTestsButton";
+import { DownloadTestsModal } from "@/components/DownloadTestsModal";
 import { Logo } from "@/components/Logo";
 import { HeroBackdrop } from "@/components/HeroBackdrop";
 import { Ornament } from "@/components/Ornament";
@@ -111,6 +113,7 @@ export function HomePage() {
   const [typed, setTyped] = useState(fullName);
   const [confettiTrigger, setConfettiTrigger] = useState(0);
   const [openCategoryId, setOpenCategoryId] = useState<string | null>(null);
+  const [downloadsOpen, setDownloadsOpen] = useState(false);
   const lastStreakRef = useRef(0);
 
   useEffect(() => {
@@ -155,6 +158,7 @@ export function HomePage() {
               <StatPill variant="streak" value={stats.currentStreakDays} />
             )}
             {stats.todayCount > 0 && <StatPill variant="today" value={stats.todayCount} />}
+            <DownloadTestsButton onClick={() => setDownloadsOpen(true)} />
             <Link
               to="/dashboard"
               aria-label="לוח התקדמות"
@@ -218,6 +222,8 @@ export function HomePage() {
       </div>
 
       <Confetti trigger={confettiTrigger} />
+
+      <DownloadTestsModal open={downloadsOpen} onClose={() => setDownloadsOpen(false)} />
 
       <CategoryModal
         category={openCategory}
