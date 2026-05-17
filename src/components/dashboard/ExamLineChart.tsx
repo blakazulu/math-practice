@@ -43,8 +43,8 @@ export function ExamLineChart({ points }: Props) {
         {/* Y gridlines at 50% and 100% */}
         <line x1={pad} y1={H - pad - ((50 / 100) * (H - 2 * pad))} x2={W - pad} y2={H - pad - ((50 / 100) * (H - 2 * pad))} stroke="#F3F4F6" />
         <line x1={pad} y1={pad} x2={W - pad} y2={pad} stroke="#F3F4F6" />
-        <text x={pad} y={pad - 4} fontSize="12" fill="#6B7280">100%</text>
-        <text x={pad} y={H - pad - ((50 / 100) * (H - 2 * pad)) - 4} fontSize="12" fill="#6B7280">50%</text>
+        <text x={pad} y={pad - 4} fontSize="14" fill="#6B7280">100%</text>
+        <text x={pad} y={H - pad - ((50 / 100) * (H - 2 * pad)) - 4} fontSize="14" fill="#6B7280">50%</text>
 
         <path d={path} fill="none" stroke="#22C55E" strokeWidth="2" strokeLinejoin="round" strokeLinecap="round" />
         {xy.map(({ x, y, p }, i) => (

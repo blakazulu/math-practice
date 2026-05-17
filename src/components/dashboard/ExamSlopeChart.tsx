@@ -39,8 +39,8 @@ export function ExamSlopeChart({ slopes }: Props) {
         {/* axes */}
         <line x1={leftX} y1={padTop} x2={leftX} y2={H - padBottom} stroke="#E5E7EB" />
         <line x1={rightX} y1={padTop} x2={rightX} y2={H - padBottom} stroke="#E5E7EB" />
-        <text x={leftX} y={padTop - 6} fontSize="12" fill="#6B7280" textAnchor="middle">ראשון</text>
-        <text x={rightX} y={padTop - 6} fontSize="12" fill="#6B7280" textAnchor="middle">אחרון</text>
+        <text x={leftX} y={padTop - 6} fontSize="14" fill="#6B7280" textAnchor="middle">ראשון</text>
+        <text x={rightX} y={padTop - 6} fontSize="14" fill="#6B7280" textAnchor="middle">אחרון</text>
 
         {slopes.map((s) => {
           const yFirst = y(s.first.scorePct);
@@ -52,13 +52,13 @@ export function ExamSlopeChart({ slopes }: Props) {
               <line x1={leftX} y1={yFirst} x2={rightX} y2={yLatest} stroke={stroke} strokeWidth="2" />
               <circle cx={leftX} cy={yFirst} r="3.5" fill={stroke} />
               <circle cx={rightX} cy={yLatest} r="3.5" fill={stroke} />
-              <text x={leftX - 6} y={yFirst + 4} fontSize="12" fill="#0F172A" textAnchor="end">
+              <text x={leftX - 6} y={yFirst + 4} fontSize="14" fill="#0F172A" textAnchor="end">
                 {s.first.scorePct}%
               </text>
-              <text x={rightX + 6} y={yLatest + 4} fontSize="12" fill="#0F172A">
+              <text x={rightX + 6} y={yLatest + 4} fontSize="14" fill="#0F172A">
                 {s.latest.scorePct}%
               </text>
-              <text x={W / 2} y={(yFirst + yLatest) / 2 - 4} fontSize="12" fill="#0F172A" textAnchor="middle">
+              <text x={W / 2} y={(yFirst + yLatest) / 2 - 4} fontSize="14" fill="#0F172A" textAnchor="middle">
                 {s.examName}
               </text>
             </g>
