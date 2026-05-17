@@ -1,10 +1,15 @@
-import { useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Link, useParams } from "react-router-dom";
+import { motion } from "framer-motion";
 import { Trophy } from "lucide-react";
 import { selectActiveUser, useStore } from "@/store";
 import { PageHeader } from "@/components/PageHeader";
 import { QuestionCard } from "@/components/QuestionCard";
 import { ExplanationCard } from "@/components/ExplanationCard";
+import { CountUp } from "@/components/CountUp";
+import { Confetti } from "@/components/Confetti";
+import { HeroBackdrop } from "@/components/HeroBackdrop";
+import { springStamp, useMotionVariants } from "@/lib/motion";
 import { topicIdFromUrl } from "@/data/types";
 
 export function ExamResultsPage() {
@@ -12,11 +17,22 @@ export function ExamResultsPage() {
   const examId = topicIdFromUrl(params.cat ?? "", params.topic ?? "") ?? "";
   const user = useStore(selectActiveUser);
   const getQuestion = useStore((s) => s.getQuestion);
+  const stamp = useMotionVariants(springStamp);
+  const [confetti, setConfetti] = useState(0);
 
   const attempt = useMemo(() => {
     if (!user) return null;
     return [...user.progress.exams].filter((a) => a.examId === examId).pop() ?? null;
   }, [user, examId]);
+
+  const pct = attempt ? Math.round((attempt.score / attempt.total) * 100) : 0;
+
+  useEffect(() => {
+    if (pct >= 80) {
+      const t = window.setTimeout(() => setConfetti(1), 400);
+      return () => window.clearTimeout(t);
+    }
+  }, [pct]);
 
   if (!user) return null;
   if (!attempt) {
@@ -28,18 +44,20 @@ export function ExamResultsPage() {
     );
   }
 
-  const pct = Math.round((attempt.score / attempt.total) * 100);
   const mm = Math.floor(attempt.durationSec / 60);
   const ss = attempt.durationSec % 60;
 
   return (
-    <main className="min-h-screen bg-white">
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-10 py-6 lg:py-10">
+    <main className="relative min-h-screen bg-white overflow-hidden">
+      <HeroBackdrop position="top-right" />
+      <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-10 py-6 lg:py-10">
         <PageHeader backTo="/home" title="תוצאות מבחן" />
         <section className="card p-6 mb-6 text-center">
-          <Trophy size={36} className="text-brand-500 mx-auto mb-2" />
+          <motion.div initial="hidden" animate="show" variants={stamp} className="inline-block">
+            <Trophy size={48} className="text-brand-500 mx-auto mb-2" />
+          </motion.div>
           <div className="text-5xl font-black tabular-nums">
-            {attempt.score}/{attempt.total}
+            <CountUp value={attempt.score} />/{attempt.total}
           </div>
           <div className="text-muted mt-1">{pct}% נכון</div>
           <div className="text-sm text-faint mt-3 tabular-nums">
@@ -52,7 +70,12 @@ export function ExamResultsPage() {
           const q = getQuestion(qid);
           if (!q) return null;
           return (
-            <details key={qid} className="card p-4 mb-3 group">
+            <details
+              key={qid}
+              className={`card p-4 mb-3 group border-r-4 ${
+                rec.correct ? "border-r-brand-500" : "border-r-danger-600"
+              }`}
+            >
               <summary className="cursor-pointer flex items-center justify-between">
                 <span className="font-semibold">שאלה {q.number}</span>
                 <span
@@ -84,6 +107,7 @@ export function ExamResultsPage() {
           </Link>
         </div>
       </div>
+      <Confetti trigger={confetti} />
     </main>
   );
 }
