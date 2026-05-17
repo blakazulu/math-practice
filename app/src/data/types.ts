@@ -67,6 +67,29 @@ export interface ImageDependencyIndex {
   questions: ImageDependencyEntry[];
 }
 
+/** Format of `docs/images/mapping.json` synced into `public/data/image_mapping.json`. */
+export interface ImageMappingEntry {
+  q_id: QuestionId;
+  q_num: number;
+  topic: string;
+  file: string;
+  question_excerpt: string;
+  /** Path like "docs/images/<file>.png" — we'll resolve to /data/images/<basename> at render time. */
+  image_file: string | null;
+  source_q_num: number | null;
+  note: string;
+}
+
+export interface ImageMapping {
+  description?: string;
+  images_dir?: string;
+  total_questions?: number;
+  questions_with_direct_images?: number;
+  questions_with_inherited_images?: number;
+  questions_without_images?: number;
+  mapping: ImageMappingEntry[];
+}
+
 // ============================================================
 // Per-user persisted state
 // ============================================================

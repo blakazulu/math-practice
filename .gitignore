@@ -5,6 +5,14 @@ node_modules/
 # Build outputs
 app/dist/
 app/.vite/
+app/**/*.tsbuildinfo
+
+# Avoid committing tsc emit alongside src (Vite is the bundler)
+app/src/**/*.js
+app/src/**/*.d.ts
+app/tests/**/*.js
+app/tests/**/*.d.ts
+!app/src/vite-env.d.ts
 
 # OS
 .DS_Store

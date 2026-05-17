@@ -1,0 +1,743 @@
+{
+  "description": "Mapping of image-dependent questions to their image files in docs/images/",
+  "images_dir": "docs/images/",
+  "total_questions": 73,
+  "questions_with_direct_images": 32,
+  "questions_with_inherited_images": 35,
+  "questions_without_images": 6,
+  "mapping": [
+    {
+      "q_id": "01_ידע_מתמטי/גאומטריה/30",
+      "file": "docs/db/01_ידע_מתמטי/05_גאומטריה.md",
+      "q_num": 30,
+      "topic": "גאומטריה",
+      "question_excerpt": "למדינת מצולעניה יש דגל בצורת מלבן שאורך הצלע הקצרה שלו היא 10 ס\"מ. בדגל יש שלושה...",
+      "image_file": "docs/images/01_ידע_מתמטי_05_גאומטריה_q30_img2.png",
+      "source_q_num": 30,
+      "note": "Direct image"
+    },
+    {
+      "q_id": "01_ידע_מתמטי/חקר_נתונים/1",
+      "file": "docs/db/01_ידע_מתמטי/06_חקר_נתונים.md",
+      "q_num": 1,
+      "topic": "חקר נתונים",
+      "question_excerpt": "הפיצרייה השכונתית הסכימה לשלם מחיר כפול עבור פרסומת שתשודר בדיוק ברגע השיא של הצ...",
+      "image_file": "docs/images/01_ידע_מתמטי_06_חקר_נתונים_q01_img2.png",
+      "source_q_num": 1,
+      "note": "Direct image"
+    },
+    {
+      "q_id": "01_ידע_מתמטי/חקר_נתונים/2",
+      "file": "docs/db/01_ידע_מתמטי/06_חקר_נתונים.md",
+      "q_num": 2,
+      "topic": "חקר נתונים",
+      "question_excerpt": "----------------שאלת המשך-----------------חברת השרתים גובה תשלום נוסף לפי \"טווח ...",
+      "image_file": "docs/images/01_ידע_מתמטי_06_חקר_נתונים_q01_img2.png",
+      "source_q_num": 1,
+      "note": "Follow-up question; shares image with q1"
+    },
+    {
+      "q_id": "01_ידע_מתמטי/חקר_נתונים/3",
+      "file": "docs/db/01_ידע_מתמטי/06_חקר_נתונים.md",
+      "q_num": 3,
+      "topic": "חקר נתונים",
+      "question_excerpt": "----------------שאלת המשך-----------------נועה רוצה לדעת מתי קרה האירוע המותח בי...",
+      "image_file": "docs/images/01_ידע_מתמטי_06_חקר_נתונים_q01_img2.png",
+      "source_q_num": 1,
+      "note": "Follow-up question; shares image with q1"
+    },
+    {
+      "q_id": "01_ידע_מתמטי/חקר_נתונים/4",
+      "file": "docs/db/01_ידע_מתמטי/06_חקר_נתונים.md",
+      "q_num": 4,
+      "topic": "חקר נתונים",
+      "question_excerpt": "הטבלה שלפניכם מציגה את צריכת החשמל (בקוט\"ש) של משפחת ישראלי בחמישה חודשים בחורף ...",
+      "image_file": "docs/images/01_ידע_מתמטי_06_חקר_נתונים_q04_img2.png",
+      "source_q_num": 4,
+      "note": "Direct image"
+    },
+    {
+      "q_id": "01_ידע_מתמטי/חקר_נתונים/5",
+      "file": "docs/db/01_ידע_מתמטי/06_חקר_נתונים.md",
+      "q_num": 5,
+      "topic": "חקר נתונים",
+      "question_excerpt": "שאלת המשך:מהו ההפרש (הפער) בין החודש שבו הצריכה הייתה הגבוהה ביותר, לחודש שבו הצ...",
+      "image_file": "docs/images/01_ידע_מתמטי_06_חקר_נתונים_q04_img2.png",
+      "source_q_num": 4,
+      "note": "Follow-up question; shares image with q4"
+    },
+    {
+      "q_id": "01_ידע_מתמטי/חקר_נתונים/6",
+      "file": "docs/db/01_ידע_מתמטי/06_חקר_נתונים.md",
+      "q_num": 6,
+      "topic": "חקר נתונים",
+      "question_excerpt": "שאלת המשך:בחודש יוני (שאינו מופיע בטבלה), צריכת החשמל עלתה ב-10% לעומת חודש מאי....",
+      "image_file": "docs/images/01_ידע_מתמטי_06_חקר_נתונים_q04_img2.png",
+      "source_q_num": 4,
+      "note": "Follow-up question; shares image with q4"
+    },
+    {
+      "q_id": "01_ידע_מתמטי/חקר_נתונים/7",
+      "file": "docs/db/01_ידע_מתמטי/06_חקר_נתונים.md",
+      "q_num": 7,
+      "topic": "חקר נתונים",
+      "question_excerpt": "חמש כיתות (א'-ה') התחרו ביניהן באיסוף נייר למיחזור. התוצאות בקילוגרמים מוצגות בג...",
+      "image_file": "docs/images/01_ידע_מתמטי_06_חקר_נתונים_q07_img2.png",
+      "source_q_num": 7,
+      "note": "Direct image"
+    },
+    {
+      "q_id": "01_ידע_מתמטי/חקר_נתונים/8",
+      "file": "docs/db/01_ידע_מתמטי/06_חקר_נתונים.md",
+      "q_num": 8,
+      "topic": "חקר נתונים",
+      "question_excerpt": "-----------------שאלת המשך---------------בכמה אחוזים גדולה הכמות שאספה כיתה א' מ...",
+      "image_file": "docs/images/01_ידע_מתמטי_06_חקר_נתונים_q07_img2.png",
+      "source_q_num": 7,
+      "note": "Follow-up question; shares image with q7"
+    },
+    {
+      "q_id": "01_ידע_מתמטי/חקר_נתונים/9",
+      "file": "docs/db/01_ידע_מתמטי/06_חקר_נתונים.md",
+      "q_num": 9,
+      "topic": "חקר נתונים",
+      "question_excerpt": "-----------------שאלת המשך---------------ידוע שכיתה ג' עבדה במשך 4 ימים כדי לאסו...",
+      "image_file": "docs/images/01_ידע_מתמטי_06_חקר_נתונים_q07_img2.png",
+      "source_q_num": 7,
+      "note": "Follow-up question; shares image with q7"
+    },
+    {
+      "q_id": "01_ידע_מתמטי/חקר_נתונים/10",
+      "file": "docs/db/01_ידע_מתמטי/06_חקר_נתונים.md",
+      "q_num": 10,
+      "topic": "חקר נתונים",
+      "question_excerpt": "מועצת התלמידים מפעילה קיוסק בהפסקות כדי לגייס כסף למסיבת הסיום. בטבלה מוצגים הנת...",
+      "image_file": "docs/images/01_ידע_מתמטי_06_חקר_נתונים_q07_img2.png",
+      "source_q_num": 7,
+      "note": "Follow-up question; shares image with q7"
+    },
+    {
+      "q_id": "01_ידע_מתמטי/חקר_נתונים/11",
+      "file": "docs/db/01_ידע_מתמטי/06_חקר_נתונים.md",
+      "q_num": 11,
+      "topic": "חקר נתונים",
+      "question_excerpt": "------------------שאלת המשך--------------על איזה מוצר מרוויחה המועצה את הסכום הג...",
+      "image_file": "docs/images/01_ידע_מתמטי_06_חקר_נתונים_q07_img2.png",
+      "source_q_num": 7,
+      "note": "Follow-up question; shares image with q7"
+    },
+    {
+      "q_id": "01_ידע_מתמטי/חקר_נתונים/12",
+      "file": "docs/db/01_ידע_מתמטי/06_חקר_נתונים.md",
+      "q_num": 12,
+      "topic": "חקר נתונים",
+      "question_excerpt": "-------------שאלת המשך-----------------איזה מוצר הכניס לקופה את הרווח הכולל הגדו...",
+      "image_file": "docs/images/01_ידע_מתמטי_06_חקר_נתונים_q07_img2.png",
+      "source_q_num": 7,
+      "note": "Follow-up question; shares image with q7"
+    },
+    {
+      "q_id": "01_ידע_מתמטי/חקר_נתונים/14",
+      "file": "docs/db/01_ידע_מתמטי/06_חקר_נתונים.md",
+      "q_num": 14,
+      "topic": "חקר נתונים",
+      "question_excerpt": "------------------שאלת המשך---------------באיזה חוג קיים הפער (ההפרש) הגדול ביות...",
+      "image_file": "docs/images/01_ידע_מתמטי_06_חקר_נתונים_q13_img2.png",
+      "source_q_num": 13,
+      "note": "Follow-up question; shares image with q13"
+    },
+    {
+      "q_id": "01_ידע_מתמטי/חקר_נתונים/15",
+      "file": "docs/db/01_ידע_מתמטי/06_חקר_נתונים.md",
+      "q_num": 15,
+      "topic": "חקר נתונים",
+      "question_excerpt": "------------------שאלת המשך---------------אם 20% מהבנות שבחרו ב\"בישול\" יחליטו לע...",
+      "image_file": "docs/images/01_ידע_מתמטי_06_חקר_נתונים_q13_img2.png",
+      "source_q_num": 13,
+      "note": "Follow-up question; shares image with q13"
+    },
+    {
+      "q_id": "01_ידע_מתמטי/חקר_נתונים/17",
+      "file": "docs/db/01_ידע_מתמטי/06_חקר_נתונים.md",
+      "q_num": 17,
+      "topic": "חקר נתונים",
+      "question_excerpt": "------------------שאלת המשך----------------מי מהשליחים קיבל את הטיפ הגבוה ביותר ...",
+      "image_file": "docs/images/01_ידע_מתמטי_06_חקר_נתונים_q16_img2.png",
+      "source_q_num": 16,
+      "note": "Follow-up question; shares image with q16"
+    },
+    {
+      "q_id": "01_ידע_מתמטי/חקר_נתונים/18",
+      "file": "docs/db/01_ידע_מתמטי/06_חקר_נתונים.md",
+      "q_num": 18,
+      "topic": "חקר נתונים",
+      "question_excerpt": "------------------שאלת המשך----------------המנהל רוצה לדעת מי עובד בקצב האיטי בי...",
+      "image_file": "docs/images/01_ידע_מתמטי_06_חקר_נתונים_q16_img2.png",
+      "source_q_num": 16,
+      "note": "Follow-up question; shares image with q16"
+    },
+    {
+      "q_id": "01_ידע_מתמטי/חקר_נתונים/19",
+      "file": "docs/db/01_ידע_מתמטי/06_חקר_נתונים.md",
+      "q_num": 19,
+      "topic": "חקר נתונים",
+      "question_excerpt": "------------------שאלת המשך----------------בעל הפיצרייה הכריז על \"בונוס מצטיינים...",
+      "image_file": "docs/images/01_ידע_מתמטי_06_חקר_נתונים_q16_img2.png",
+      "source_q_num": 16,
+      "note": "Follow-up question; shares image with q16"
+    },
+    {
+      "q_id": "01_ידע_מתמטי/חקר_נתונים/20",
+      "file": "docs/db/01_ידע_מתמטי/06_חקר_נתונים.md",
+      "q_num": 20,
+      "topic": "חקר נתונים",
+      "question_excerpt": "במעבדה הכינו 4 קנקנים של מיץ בטעמים שונים. כל קנקן מכיל כמות שונה של תרכיז פירות...",
+      "image_file": "docs/images/01_ידע_מתמטי_06_חקר_נתונים_q20_img2.png",
+      "source_q_num": 20,
+      "note": "Direct image"
+    },
+    {
+      "q_id": "01_ידע_מתמטי/חקר_נתונים/21",
+      "file": "docs/db/01_ידע_מתמטי/06_חקר_נתונים.md",
+      "q_num": 21,
+      "topic": "חקר נתונים",
+      "question_excerpt": "------------------שאלת המשך----------------מהו היחס בין התרכיז למים במשקה הלימון...",
+      "image_file": "docs/images/01_ידע_מתמטי_06_חקר_נתונים_q20_img2.png",
+      "source_q_num": 20,
+      "note": "Follow-up question; shares image with q20"
+    },
+    {
+      "q_id": "01_ידע_מתמטי/חקר_נתונים/22",
+      "file": "docs/db/01_ידע_מתמטי/06_חקר_נתונים.md",
+      "q_num": 22,
+      "topic": "חקר נתונים",
+      "question_excerpt": "------------------שאלת המשך----------------איזה משקה הוא ה\"מרוכז\" ביותר (הכי מתו...",
+      "image_file": "docs/images/01_ידע_מתמטי_06_חקר_נתונים_q20_img2.png",
+      "source_q_num": 20,
+      "note": "Follow-up question; shares image with q20"
+    },
+    {
+      "q_id": "01_ידע_מתמטי/חקר_נתונים/23",
+      "file": "docs/db/01_ידע_מתמטי/06_חקר_נתונים.md",
+      "q_num": 23,
+      "topic": "חקר נתונים",
+      "question_excerpt": "------------------שאלת המשך----------------דני שפך את קנקן הלימון ואת קנקן הענבי...",
+      "image_file": "docs/images/01_ידע_מתמטי_06_חקר_נתונים_q20_img2.png",
+      "source_q_num": 20,
+      "note": "Follow-up question; shares image with q20"
+    },
+    {
+      "q_id": "02_חשיבה_והגיון/קומבינטוריקה/10",
+      "file": "docs/db/02_חשיבה_והגיון/06_קומבינטוריקה.md",
+      "q_num": 10,
+      "topic": "קומבינטוריקה",
+      "question_excerpt": "דנה רוצה לצבוע דגל של מדינה דמיונית. בדגל יש 3 פסים (עליון, אמצעי ותחתון). יש לד...",
+      "image_file": null,
+      "source_q_num": null,
+      "note": "No image - question is self-contained or uses embedded text"
+    },
+    {
+      "q_id": "02_חשיבה_והגיון/חשיבה_מרחבית/8",
+      "file": "docs/db/02_חשיבה_והגיון/07_חשיבה_מרחבית.md",
+      "q_num": 8,
+      "topic": "חשיבה מרחבית",
+      "question_excerpt": "ארבעה אסטרונאוטים (אלון, בלה, גלי ודן) עורכים תצפית על ארבעה כוכבים: וגה, ריגל, ...",
+      "image_file": null,
+      "source_q_num": null,
+      "note": "No image found for this question or its parent"
+    },
+    {
+      "q_id": "02_חשיבה_והגיון/חשיבה_מרחבית/9",
+      "file": "docs/db/02_חשיבה_והגיון/07_חשיבה_מרחבית.md",
+      "q_num": 9,
+      "topic": "חשיבה מרחבית",
+      "question_excerpt": "שאלת המשךמהו הכיוון שאליו צופה האסטרונאוט שאחראי על כוכב דנב?",
+      "image_file": null,
+      "source_q_num": null,
+      "note": "No image found for this question or its parent"
+    },
+    {
+      "q_id": "02_חשיבה_והגיון/חשיבה_מרחבית/11",
+      "file": "docs/db/02_חשיבה_והגיון/07_חשיבה_מרחבית.md",
+      "q_num": 11,
+      "topic": "חשיבה מרחבית",
+      "question_excerpt": "----------------שאלת המשך------------------ כמה רוכבים אחרים הגיעו בין בר לדנה?",
+      "image_file": null,
+      "source_q_num": null,
+      "note": "No image found for this question or its parent"
+    },
+    {
+      "q_id": "02_חשיבה_והגיון/חשיבה_מרחבית/18",
+      "file": "docs/db/02_חשיבה_והגיון/07_חשיבה_מרחבית.md",
+      "q_num": 18,
+      "topic": "חשיבה מרחבית",
+      "question_excerpt": "ארבעה חברים (אדם, בר, גיא ודנה) מנסים לפצח קוד סודי בן ארבע ספרות הפותח תיבה נעו...",
+      "image_file": "docs/images/02_חשיבה_והגיון_07_חשיבה_מרחבית_q18_img2.png",
+      "source_q_num": 18,
+      "note": "Direct image"
+    },
+    {
+      "q_id": "03_מבחנים_לדוגמה/מבחן_לדוגמה_1/8",
+      "file": "docs/db/03_מבחנים_לדוגמה/01_מבחן_לדוגמה_1.md",
+      "q_num": 8,
+      "topic": "מבחן לדוגמה מספר 1",
+      "question_excerpt": "במדינת \"מלבינה\", תופרים דגל בצורת מלבן מבד חלק ובד מקווקו. הקטעים שתוחמים את הצו...",
+      "image_file": "docs/images/03_מבחנים_01_מבחן_1_q08_img2.png",
+      "source_q_num": 8,
+      "note": "Direct image"
+    },
+    {
+      "q_id": "03_מבחנים_לדוגמה/מבחן_לדוגמה_1/9",
+      "file": "docs/db/03_מבחנים_לדוגמה/01_מבחן_לדוגמה_1.md",
+      "q_num": 9,
+      "topic": "מבחן לדוגמה מספר 1",
+      "question_excerpt": "השאלות הבאות מתייחסות לנתוני הגרף המתאר יצוא שנתי של תפוזים במדינת פטגוניה.יצוא ...",
+      "image_file": "docs/images/03_מבחנים_01_מבחן_1_q09_img2.png",
+      "source_q_num": 9,
+      "note": "Direct image"
+    },
+    {
+      "q_id": "03_מבחנים_לדוגמה/מבחן_לדוגמה_1/10",
+      "file": "docs/db/03_מבחנים_לדוגמה/01_מבחן_לדוגמה_1.md",
+      "q_num": 10,
+      "topic": "מבחן לדוגמה מספר 1",
+      "question_excerpt": "שאלת המשך באיזו תקופה היה השינוי הכי גדול ביצוא התפוזים השנתי ?",
+      "image_file": "docs/images/03_מבחנים_01_מבחן_1_q09_img2.png",
+      "source_q_num": 9,
+      "note": "Follow-up question; shares image with q9"
+    },
+    {
+      "q_id": "03_מבחנים_לדוגמה/מבחן_לדוגמה_1/11",
+      "file": "docs/db/03_מבחנים_לדוגמה/01_מבחן_לדוגמה_1.md",
+      "q_num": 11,
+      "topic": "מבחן לדוגמה מספר 1",
+      "question_excerpt": "שאלת המשך בהנחה שהגידול השנתי ביצוא משנת 2002 לשנת 2003 ומשנת 2003 לשנת 2004 נשא...",
+      "image_file": "docs/images/03_מבחנים_01_מבחן_1_q09_img2.png",
+      "source_q_num": 9,
+      "note": "Follow-up question; shares image with q9"
+    },
+    {
+      "q_id": "03_מבחנים_לדוגמה/מבחן_לדוגמה_1/12",
+      "file": "docs/db/03_מבחנים_לדוגמה/01_מבחן_לדוגמה_1.md",
+      "q_num": 12,
+      "topic": "מבחן לדוגמה מספר 1",
+      "question_excerpt": "גבי בנתה מגדל מקוביות זהות, כפי שמתואר בשרטוט. כל קוביה שאינה בקומה הראשונה של ה...",
+      "image_file": "docs/images/03_מבחנים_01_מבחן_1_q12_img2.png",
+      "source_q_num": 12,
+      "note": "Direct image"
+    },
+    {
+      "q_id": "03_מבחנים_לדוגמה/מבחן_לדוגמה_2/4",
+      "file": "docs/db/03_מבחנים_לדוגמה/02_מבחן_לדוגמה_2.md",
+      "q_num": 4,
+      "topic": "מבחן לדוגמה מספר 2",
+      "question_excerpt": "שתי השאלות הבאות מתייחסות לנתונים הבאים: משכורתו של אברהם 5,000 שקלים בחודש, משכ...",
+      "image_file": null,
+      "source_q_num": null,
+      "note": "No image found for this question or its parent"
+    },
+    {
+      "q_id": "03_מבחנים_לדוגמה/מבחן_לדוגמה_2/5",
+      "file": "docs/db/03_מבחנים_לדוגמה/02_מבחן_לדוגמה_2.md",
+      "q_num": 5,
+      "topic": "מבחן לדוגמה מספר 2",
+      "question_excerpt": "-------------------שאלת המשך---------------אם המשכורת של יעקב תפחת ב-10 אחוזים, ...",
+      "image_file": null,
+      "source_q_num": null,
+      "note": "No image found for this question or its parent"
+    },
+    {
+      "q_id": "03_מבחנים_לדוגמה/מבחן_לדוגמה_2/6",
+      "file": "docs/db/03_מבחנים_לדוגמה/02_מבחן_לדוגמה_2.md",
+      "q_num": 6,
+      "topic": "מבחן לדוגמה מספר 2",
+      "question_excerpt": "השאלות הבאות מתייחסות לנתונים בגרףבגרף שלפניכם מוצגת כמות המשקעים הממוצעת בישראל...",
+      "image_file": "docs/images/03_מבחנים_02_מבחן_2_q06_img2.png",
+      "source_q_num": 6,
+      "note": "Direct image"
+    },
+    {
+      "q_id": "03_מבחנים_לדוגמה/מבחן_לדוגמה_2/7",
+      "file": "docs/db/03_מבחנים_לדוגמה/02_מבחן_לדוגמה_2.md",
+      "q_num": 7,
+      "topic": "מבחן לדוגמה מספר 2",
+      "question_excerpt": "שאלת המשך דנה חישבה את ממוצע המשקעים מחודש ינואר עד חודש מרץ (כולל) ואילו יעל חי...",
+      "image_file": "docs/images/03_מבחנים_02_מבחן_2_q06_img2.png",
+      "source_q_num": 6,
+      "note": "Follow-up question; shares image with q6"
+    },
+    {
+      "q_id": "03_מבחנים_לדוגמה/מבחן_לדוגמה_2/8",
+      "file": "docs/db/03_מבחנים_לדוגמה/02_מבחן_לדוגמה_2.md",
+      "q_num": 8,
+      "topic": "מבחן לדוגמה מספר 2",
+      "question_excerpt": "שאלת המשך נפלה טעות בגרף והתברר שכמות המשקעים בחודש מאי הייתה צריכה להיות כמו כמ...",
+      "image_file": "docs/images/03_מבחנים_02_מבחן_2_q06_img2.png",
+      "source_q_num": 6,
+      "note": "Follow-up question; shares image with q6"
+    },
+    {
+      "q_id": "03_מבחנים_לדוגמה/מבחן_לדוגמה_2/9",
+      "file": "docs/db/03_מבחנים_לדוגמה/02_מבחן_לדוגמה_2.md",
+      "q_num": 9,
+      "topic": "מבחן לדוגמה מספר 2",
+      "question_excerpt": "שאלת המשך באיזה חודש כמות המשקעים היתה גבוהה ב-25% בהשוואה לחודש שלפניו?",
+      "image_file": "docs/images/03_מבחנים_02_מבחן_2_q06_img2.png",
+      "source_q_num": 6,
+      "note": "Follow-up question; shares image with q6"
+    },
+    {
+      "q_id": "03_מבחנים_לדוגמה/מבחן_לדוגמה_2/14",
+      "file": "docs/db/03_מבחנים_לדוגמה/02_מבחן_לדוגמה_2.md",
+      "q_num": 14,
+      "topic": "מבחן לדוגמה מספר 2",
+      "question_excerpt": "בניה לקח ריבוע ששטחו 36 מ\"ר וקיצר שתיים מצלעותיו כמתואר בשרטוט. כיצד ישתנה היקף ...",
+      "image_file": "docs/images/03_מבחנים_02_מבחן_2_q14_img2.png",
+      "source_q_num": 14,
+      "note": "Direct image"
+    },
+    {
+      "q_id": "03_מבחנים_לדוגמה/מבחן_לדוגמה_2/24",
+      "file": "docs/db/03_מבחנים_לדוגמה/02_מבחן_לדוגמה_2.md",
+      "q_num": 24,
+      "topic": "מבחן לדוגמה מספר 2",
+      "question_excerpt": "רועי בנה מגדל מקוביות על הרצפה. הוא צבע את הפאות החיצוניות של המגדל (ללא הפאות ש...",
+      "image_file": "docs/images/03_מבחנים_02_מבחן_2_q24_img2.png",
+      "source_q_num": 24,
+      "note": "Direct image"
+    },
+    {
+      "q_id": "03_מבחנים_לדוגמה/מבחן_לדוגמה_3/1",
+      "file": "docs/db/03_מבחנים_לדוגמה/03_מבחן_לדוגמה_3.md",
+      "q_num": 1,
+      "topic": "מבחן לדוגמה מספר 3",
+      "question_excerpt": "פרק א' - ידע מתמטי השאלות הבאות מתייחסות לגרף שלפניכם.יואב משתתף בטורניר של משחק...",
+      "image_file": "docs/images/03_מבחנים_03_מבחן_3_q01_img2.png",
+      "source_q_num": 1,
+      "note": "Direct image"
+    },
+    {
+      "q_id": "03_מבחנים_לדוגמה/מבחן_לדוגמה_3/2",
+      "file": "docs/db/03_מבחנים_לדוגמה/03_מבחן_לדוגמה_3.md",
+      "q_num": 2,
+      "topic": "מבחן לדוגמה מספר 3",
+      "question_excerpt": "שאלת המשךמהו אחוז ההפסדים של יואב בטורניר?",
+      "image_file": "docs/images/03_מבחנים_03_מבחן_3_q01_img2.png",
+      "source_q_num": 1,
+      "note": "Follow-up question; shares image with q1"
+    },
+    {
+      "q_id": "03_מבחנים_לדוגמה/מבחן_לדוגמה_3/3",
+      "file": "docs/db/03_מבחנים_לדוגמה/03_מבחן_לדוגמה_3.md",
+      "q_num": 3,
+      "topic": "מבחן לדוגמה מספר 3",
+      "question_excerpt": "שאלת המשךבמסגרת הטורניר, תוצאת ניצחון שווה 3 נקודות, תיקו שווה נקודה והפסד אפס נ...",
+      "image_file": "docs/images/03_מבחנים_03_מבחן_3_q01_img2.png",
+      "source_q_num": 1,
+      "note": "Follow-up question; shares image with q1"
+    },
+    {
+      "q_id": "03_מבחנים_לדוגמה/מבחן_לדוגמה_3/4",
+      "file": "docs/db/03_מבחנים_לדוגמה/03_מבחן_לדוגמה_3.md",
+      "q_num": 4,
+      "topic": "מבחן לדוגמה מספר 3",
+      "question_excerpt": "שאלת המשךמה היחס בין הניצחונות להפסדים של יואב במהלך כל הטורניר?",
+      "image_file": "docs/images/03_מבחנים_03_מבחן_3_q01_img2.png",
+      "source_q_num": 1,
+      "note": "Follow-up question; shares image with q1"
+    },
+    {
+      "q_id": "03_מבחנים_לדוגמה/מבחן_לדוגמה_3/7",
+      "file": "docs/db/03_מבחנים_לדוגמה/03_מבחן_לדוגמה_3.md",
+      "q_num": 7,
+      "topic": "מבחן לדוגמה מספר 3",
+      "question_excerpt": "לפניכם שרטוט של מתחם גן הילדים \"האירוס\". שטח A הוא גינה בצורת ריבוע ששטחה 16 מ\"ר...",
+      "image_file": "docs/images/03_מבחנים_03_מבחן_3_q07_img2.png",
+      "source_q_num": 7,
+      "note": "Direct image"
+    },
+    {
+      "q_id": "03_מבחנים_לדוגמה/מבחן_לדוגמה_3/8",
+      "file": "docs/db/03_מבחנים_לדוגמה/03_מבחן_לדוגמה_3.md",
+      "q_num": 8,
+      "topic": "מבחן לדוגמה מספר 3",
+      "question_excerpt": "שאלת המשך הגננת רצתה להקיף את הגן במסלול שאורכו הכולל גדול מ-150 מטר אך קטן מ-20...",
+      "image_file": "docs/images/03_מבחנים_03_מבחן_3_q07_img2.png",
+      "source_q_num": 7,
+      "note": "Follow-up question; shares image with q7"
+    },
+    {
+      "q_id": "03_מבחנים_לדוגמה/מבחן_לדוגמה_3/17",
+      "file": "docs/db/03_מבחנים_לדוגמה/03_מבחן_לדוגמה_3.md",
+      "q_num": 17,
+      "topic": "מבחן לדוגמה מספר 3",
+      "question_excerpt": "פרק ב' - חשיבה והגיון בכוכב הלכת תלתניון משתמשים בשיטת ספירה חדשה, שבה קיימות רק...",
+      "image_file": "docs/images/03_מבחנים_03_מבחן_3_q07_img2.png",
+      "source_q_num": 7,
+      "note": "Follow-up question; shares image with q7"
+    },
+    {
+      "q_id": "03_מבחנים_לדוגמה/מבחן_לדוגמה_3/18",
+      "file": "docs/db/03_מבחנים_לדוגמה/03_מבחן_לדוגמה_3.md",
+      "q_num": 18,
+      "topic": "מבחן לדוגמה מספר 3",
+      "question_excerpt": "במלבן שאורך צלעו הגדולה הוא 12 ס\"מ, חסומים שני מעגלים בעלי רדיוס זהה. מהו השטח ש...",
+      "image_file": "docs/images/03_מבחנים_03_מבחן_3_q18_img2.png",
+      "source_q_num": 18,
+      "note": "Direct image"
+    },
+    {
+      "q_id": "03_מבחנים_לדוגמה/מבחן_לדוגמה_3/20",
+      "file": "docs/db/03_מבחנים_לדוגמה/03_מבחן_לדוגמה_3.md",
+      "q_num": 20,
+      "topic": "מבחן לדוגמה מספר 3",
+      "question_excerpt": "לפניכם צורה המורכבת מקוביות השוות בגודלן. מאחורי הקוביות המוצגות לא מוסתרת אף קו...",
+      "image_file": "docs/images/03_מבחנים_03_מבחן_3_q20_img2.png",
+      "source_q_num": 20,
+      "note": "Direct image"
+    },
+    {
+      "q_id": "03_מבחנים_לדוגמה/מבחן_לדוגמה_4/2",
+      "file": "docs/db/03_מבחנים_לדוגמה/04_מבחן_לדוגמה_4.md",
+      "q_num": 2,
+      "topic": "מבחן לדוגמה מספר 4",
+      "question_excerpt": "רועי החליט להקים ערוץ YouTube, אליו הוא מקפיד להעלות סרטונים בתחומי עניין שונים....",
+      "image_file": "docs/images/03_מבחנים_04_מבחן_4_q02_img2.png",
+      "source_q_num": 2,
+      "note": "Direct image"
+    },
+    {
+      "q_id": "03_מבחנים_לדוגמה/מבחן_לדוגמה_4/3",
+      "file": "docs/db/03_מבחנים_לדוגמה/04_מבחן_לדוגמה_4.md",
+      "q_num": 3,
+      "topic": "מבחן לדוגמה מספר 4",
+      "question_excerpt": "כמה שעות בממוצע השקיע רועי בכל שבוע?",
+      "image_file": "docs/images/03_מבחנים_04_מבחן_4_q02_img2.png",
+      "source_q_num": 2,
+      "note": "Follow-up question; shares image with q2"
+    },
+    {
+      "q_id": "03_מבחנים_לדוגמה/מבחן_לדוגמה_4/8",
+      "file": "docs/db/03_מבחנים_לדוגמה/04_מבחן_לדוגמה_4.md",
+      "q_num": 8,
+      "topic": "מבחן לדוגמה מספר 4",
+      "question_excerpt": "בילבי בנתה מגדל מקוביות זהות, כפי שמתואר בשרטוט. כל קוביה שאינה בקומה הראשונה של...",
+      "image_file": "docs/images/03_מבחנים_04_מבחן_4_q08_img2.png",
+      "source_q_num": 8,
+      "note": "Direct image"
+    },
+    {
+      "q_id": "03_מבחנים_לדוגמה/מבחן_לדוגמה_4/20",
+      "file": "docs/db/03_מבחנים_לדוגמה/04_מבחן_לדוגמה_4.md",
+      "q_num": 20,
+      "topic": "מבחן לדוגמה מספר 4",
+      "question_excerpt": "לפניכם סדרת צורות, בעלות חוקיות מסויימת. אלו מבין הצורות יכולה להחליף את סימן הש...",
+      "image_file": "docs/images/03_מבחנים_04_מבחן_4_q08_img2.png",
+      "source_q_num": 8,
+      "note": "Follow-up question; shares image with q8"
+    },
+    {
+      "q_id": "03_מבחנים_לדוגמה/מבחן_לדוגמה_4/24",
+      "file": "docs/db/03_מבחנים_לדוגמה/04_מבחן_לדוגמה_4.md",
+      "q_num": 24,
+      "topic": "מבחן לדוגמה מספר 4",
+      "question_excerpt": "נתון מעגל שאורך הרדיוס שלו הוא 3 ס\"מ. מרכז המעגל הוא נקודת המפגש של שלושה משולשי...",
+      "image_file": "docs/images/03_מבחנים_04_מבחן_4_q24_img2.png",
+      "source_q_num": 24,
+      "note": "Direct image"
+    },
+    {
+      "q_id": "03_מבחנים_לדוגמה/מבחן_לדוגמה_5/2",
+      "file": "docs/db/03_מבחנים_לדוגמה/05_מבחן_לדוגמה_5.md",
+      "q_num": 2,
+      "topic": "מבחן לדוגמה מספר 5",
+      "question_excerpt": "רועי התחיל לעבוד כשליח בחברת \"עד הבית\". הגרף המצורף מתאר את מרחקי הנסיעות שעבר ר...",
+      "image_file": "docs/images/03_מבחנים_05_מבחן_5_q02_img2.png",
+      "source_q_num": 2,
+      "note": "Direct image"
+    },
+    {
+      "q_id": "03_מבחנים_לדוגמה/מבחן_לדוגמה_5/3",
+      "file": "docs/db/03_מבחנים_לדוגמה/05_מבחן_לדוגמה_5.md",
+      "q_num": 3,
+      "topic": "מבחן לדוגמה מספר 5",
+      "question_excerpt": "כמה חבילות בממוצע מסר רועי בכל יום?",
+      "image_file": "docs/images/03_מבחנים_05_מבחן_5_q02_img2.png",
+      "source_q_num": 2,
+      "note": "Follow-up question; shares image with q2"
+    },
+    {
+      "q_id": "03_מבחנים_לדוגמה/מבחן_לדוגמה_5/9",
+      "file": "docs/db/03_מבחנים_לדוגמה/05_מבחן_לדוגמה_5.md",
+      "q_num": 9,
+      "topic": "מבחן לדוגמה מספר 5",
+      "question_excerpt": "בוב בנה מגדל קומות מקוביות זהות, כפי שמתואר בשרטוט. כל קובייה שאינה בקומה הראשונ...",
+      "image_file": "docs/images/03_מבחנים_05_מבחן_5_q09_img2.png",
+      "source_q_num": 9,
+      "note": "Direct image"
+    },
+    {
+      "q_id": "03_מבחנים_לדוגמה/מבחן_לדוגמה_5/21",
+      "file": "docs/db/03_מבחנים_לדוגמה/05_מבחן_לדוגמה_5.md",
+      "q_num": 21,
+      "topic": "מבחן לדוגמה מספר 5",
+      "question_excerpt": "לפניכם סדרת צורות בעלות חוקיות מסוימת. איזו צורה יכולה להחליף את סימן השאלה?",
+      "image_file": [
+        "docs/images/03_מבחנים_05_מבחן_5_q21_img6.png",
+        "docs/images/03_מבחנים_05_מבחן_5_q21_img7.png"
+      ],
+      "source_q_num": 21,
+      "note": "Direct image"
+    },
+    {
+      "q_id": "03_מבחנים_לדוגמה/מבחן_לדוגמה_5/22",
+      "file": "docs/db/03_מבחנים_לדוגמה/05_מבחן_לדוגמה_5.md",
+      "q_num": 22,
+      "topic": "מבחן לדוגמה מספר 5",
+      "question_excerpt": "נתון מעגל שאורך הרדיוס שלו 3 ס''מ. מרכז המעגל הוא נקודת המפגש של שלושה משולשים ש...",
+      "image_file": "docs/images/03_מבחנים_05_מבחן_5_q22_img2.png",
+      "source_q_num": 22,
+      "note": "Direct image"
+    },
+    {
+      "q_id": "03_מבחנים_לדוגמה/מבחן_לדוגמה_6/7",
+      "file": "docs/db/03_מבחנים_לדוגמה/06_מבחן_לדוגמה_6.md",
+      "q_num": 7,
+      "topic": "מבחן לדוגמה מספר 6",
+      "question_excerpt": "הגרף שלפניכם מתאר את הטמפרטורה והמשקעים שנמדדו ב\"ממלכת פנטזיה\" בששת החודשים הראש...",
+      "image_file": "docs/images/03_מבחנים_06_מבחן_6_q07_img2.png",
+      "source_q_num": 7,
+      "note": "Direct image"
+    },
+    {
+      "q_id": "03_מבחנים_לדוגמה/מבחן_לדוגמה_6/8",
+      "file": "docs/db/03_מבחנים_לדוגמה/06_מבחן_לדוגמה_6.md",
+      "q_num": 8,
+      "topic": "מבחן לדוגמה מספר 6",
+      "question_excerpt": "שאלת המשך מהו ממוצע כמות המשקעים החודשית במהלך התקופה שמתוארת בגרף?",
+      "image_file": "docs/images/03_מבחנים_06_מבחן_6_q07_img2.png",
+      "source_q_num": 7,
+      "note": "Follow-up question; shares image with q7"
+    },
+    {
+      "q_id": "03_מבחנים_לדוגמה/מבחן_לדוגמה_6/9",
+      "file": "docs/db/03_מבחנים_לדוגמה/06_מבחן_לדוגמה_6.md",
+      "q_num": 9,
+      "topic": "מבחן לדוגמה מספר 6",
+      "question_excerpt": "שאלת המשך גיא הביט בגרף ואמר: \"החודש הקר ביותר בתקופה שבגרף הוא גם החודש שבו ירד...",
+      "image_file": "docs/images/03_מבחנים_06_מבחן_6_q07_img2.png",
+      "source_q_num": 7,
+      "note": "Follow-up question; shares image with q7"
+    },
+    {
+      "q_id": "03_מבחנים_לדוגמה/מבחן_לדוגמה_6/10",
+      "file": "docs/db/03_מבחנים_לדוגמה/06_מבחן_לדוגמה_6.md",
+      "q_num": 10,
+      "topic": "מבחן לדוגמה מספר 6",
+      "question_excerpt": "שאלת המשך מדד סבסטיאן מתאר את הקשר שבין כמות המשקעים לבין הטמפרטורה הממוצעת. המד...",
+      "image_file": "docs/images/03_מבחנים_06_מבחן_6_q07_img2.png",
+      "source_q_num": 7,
+      "note": "Follow-up question; shares image with q7"
+    },
+    {
+      "q_id": "03_מבחנים_לדוגמה/מבחן_לדוגמה_6/11",
+      "file": "docs/db/03_מבחנים_לדוגמה/06_מבחן_לדוגמה_6.md",
+      "q_num": 11,
+      "topic": "מבחן לדוגמה מספר 6",
+      "question_excerpt": "נתון מעגל שאורך הרדיוס שלו הוא 4 ס\"מ. במרכז המעגל עוברים שני ישרים המחלקים את הע...",
+      "image_file": "docs/images/03_מבחנים_06_מבחן_6_q11_img2.png",
+      "source_q_num": 11,
+      "note": "Direct image"
+    },
+    {
+      "q_id": "03_מבחנים_לדוגמה/מבחן_לדוגמה_6/12",
+      "file": "docs/db/03_מבחנים_לדוגמה/06_מבחן_לדוגמה_6.md",
+      "q_num": 12,
+      "topic": "מבחן לדוגמה מספר 6",
+      "question_excerpt": "גילה קנתה במתנה לאחותה שתי קוביות הונגריות. נפח כל קובייה 125 סמ\"ק. כדי שתוכל לע...",
+      "image_file": "docs/images/03_מבחנים_06_מבחן_6_q12_img2.png",
+      "source_q_num": 12,
+      "note": "Direct image"
+    },
+    {
+      "q_id": "03_מבחנים_לדוגמה/מבחן_לדוגמה_6/24",
+      "file": "docs/db/03_מבחנים_לדוגמה/06_מבחן_לדוגמה_6.md",
+      "q_num": 24,
+      "topic": "מבחן לדוגמה מספר 6",
+      "question_excerpt": "נתונה טבלת הצורות הבאה: איזו מבין הצורות הבאות משלימה את הטבלה?",
+      "image_file": "docs/images/03_מבחנים_06_מבחן_6_q24_img2.png",
+      "source_q_num": 24,
+      "note": "Direct image"
+    },
+    {
+      "q_id": "03_מבחנים_לדוגמה/מבחן_לדוגמה_7/5",
+      "file": "docs/db/03_מבחנים_לדוגמה/07_מבחן_לדוגמה_7.md",
+      "q_num": 5,
+      "topic": "מבחן לדוגמה מספר 7",
+      "question_excerpt": "בשרטוט הבא נתונים 6 משולשים שווי שוקיים וישרי זווית זהים, 2 מתוכם צבועים ויוצרים...",
+      "image_file": "docs/images/03_מבחנים_07_מבחן_7_q05_img2.png",
+      "source_q_num": 5,
+      "note": "Direct image"
+    },
+    {
+      "q_id": "03_מבחנים_לדוגמה/מבחן_לדוגמה_7/7",
+      "file": "docs/db/03_מבחנים_לדוגמה/07_מבחן_לדוגמה_7.md",
+      "q_num": 7,
+      "topic": "מבחן לדוגמה מספר 7",
+      "question_excerpt": "מזכירות היישוב \"בארותיים\" מדדה את צריכת המים החודשית של גני הילדים השונים ביישוב...",
+      "image_file": "docs/images/03_מבחנים_07_מבחן_7_q07_img2.png",
+      "source_q_num": 7,
+      "note": "Direct image"
+    },
+    {
+      "q_id": "03_מבחנים_לדוגמה/מבחן_לדוגמה_7/14",
+      "file": "docs/db/03_מבחנים_לדוגמה/07_מבחן_לדוגמה_7.md",
+      "q_num": 14,
+      "topic": "מבחן לדוגמה מספר 7",
+      "question_excerpt": "כמה מלבנים יש בציור הבא?",
+      "image_file": "docs/images/03_מבחנים_07_מבחן_7_q14_img2.png",
+      "source_q_num": 14,
+      "note": "Direct image"
+    },
+    {
+      "q_id": "03_מבחנים_לדוגמה/מבחן_לדוגמה_7/19",
+      "file": "docs/db/03_מבחנים_לדוגמה/07_מבחן_לדוגמה_7.md",
+      "q_num": 19,
+      "topic": "מבחן לדוגמה מספר 7",
+      "question_excerpt": "המורה מירי קובעת את ציון התלמידים בבחינה לפי חלק התשובות הנכונות מתוך כלל השאלות...",
+      "image_file": "docs/images/03_מבחנים_07_מבחן_7_q19_img2.png",
+      "source_q_num": 19,
+      "note": "Direct image"
+    },
+    {
+      "q_id": "03_מבחנים_לדוגמה/מבחן_לדוגמה_7/22",
+      "file": "docs/db/03_מבחנים_לדוגמה/07_מבחן_לדוגמה_7.md",
+      "q_num": 22,
+      "topic": "מבחן לדוגמה מספר 7",
+      "question_excerpt": "רשת הבגדים \"כל בגד\" החליטה לעקוב אחר מצב המכירות בשניים מן הסניפים שלה. במשך יום...",
+      "image_file": "docs/images/03_מבחנים_07_מבחן_7_q22_img2.png",
+      "source_q_num": 22,
+      "note": "Direct image"
+    },
+    {
+      "q_id": "03_מבחנים_לדוגמה/מבחן_לדוגמה_7/23",
+      "file": "docs/db/03_מבחנים_לדוגמה/07_מבחן_לדוגמה_7.md",
+      "q_num": 23,
+      "topic": "מבחן לדוגמה מספר 7",
+      "question_excerpt": "מהו פרק הזמן בו הרוויח הסניף בז'בוטינסקי את סכום הכסף הגדול ביותר?",
+      "image_file": "docs/images/03_מבחנים_07_מבחן_7_q22_img2.png",
+      "source_q_num": 22,
+      "note": "Follow-up question; shares image with q22"
+    },
+    {
+      "q_id": "03_מבחנים_לדוגמה/מבחן_לדוגמה_7/24",
+      "file": "docs/db/03_מבחנים_לדוגמה/07_מבחן_לדוגמה_7.md",
+      "q_num": 24,
+      "topic": "מבחן לדוגמה מספר 7",
+      "question_excerpt": "סמן את הטענה הנכונה:",
+      "image_file": "docs/images/03_מבחנים_07_מבחן_7_q22_img2.png",
+      "source_q_num": 22,
+      "note": "Follow-up question; shares image with q22"
+    }
+  ]
+}
