@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { motion } from "framer-motion";
-import { Trophy } from "lucide-react";
+import { Target, Trophy } from "lucide-react";
 import { selectActiveUser, useStore } from "@/store";
 import { PageHeader } from "@/components/PageHeader";
 import { QuestionCard } from "@/components/QuestionCard";
@@ -52,6 +52,17 @@ export function ExamResultsPage() {
       <HeroBackdrop position="top-right" />
       <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-10 py-6 lg:py-10">
         <PageHeader backTo="/home" title="תוצאות מבחן" />
+        {attempt.total - attempt.score > 0 && (
+          <div className="card flex items-center gap-3 p-4 mb-4 bg-warn-50 border-warn-200 text-warn-700">
+            <Target size={18} className="shrink-0" />
+            <span className="font-semibold">
+              {attempt.total - attempt.score} שאלות נוספו לחזרה
+            </span>
+            <Link to="/review" className="mr-auto text-brand-700 font-bold">
+              חזרה ←
+            </Link>
+          </div>
+        )}
         <section className="card p-6 mb-6 text-center">
           <motion.div initial="hidden" animate="show" variants={stamp} className="inline-block">
             <Trophy size={48} className="text-brand-500 mx-auto mb-2" />
