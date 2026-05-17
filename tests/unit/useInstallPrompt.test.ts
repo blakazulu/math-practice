@@ -238,6 +238,21 @@ describe("useInstallPrompt — appinstalled listener", () => {
     const parsed = JSON.parse(localStorage.getItem(INSTALL_PROMPT_KEY)!);
     expect(parsed.installed).toBe(true);
   });
+
+  it("does not show if appinstalled fires before the arm timer", () => {
+    setEnv({});
+    const { result } = renderHook(() => useInstallPrompt());
+    act(() => {
+      fireBeforeInstallPrompt();
+    });
+    act(() => {
+      window.dispatchEvent(new Event("appinstalled"));
+    });
+    act(() => vi.advanceTimersByTime(5000));
+    expect(result.current.shouldShow).toBe(false);
+    const parsed = JSON.parse(localStorage.getItem(INSTALL_PROMPT_KEY)!);
+    expect(parsed.installed).toBe(true);
+  });
 });
 
 export {};
