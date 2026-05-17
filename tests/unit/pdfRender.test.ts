@@ -128,7 +128,7 @@ describe("renderTopicHtml", () => {
           },
         ],
       },
-      imagesDir: "/abs/docs/images",
+      imagesBaseUrl: "file:///abs/docs/images",
     });
     expect(html).toContain('<img src="file:///abs/docs/images/example.png"');
   });
@@ -151,7 +151,39 @@ describe("renderTopicHtml", () => {
           },
         ],
       },
-      imagesDir: "/abs/docs/images",
+      imagesBaseUrl: "file:///abs/docs/images",
+    });
+    expect(html).not.toContain("<img");
+  });
+
+  it("renders multiple <img>s when image_file is an array", () => {
+    const html = renderTopicHtml({
+      title: "T",
+      questions: [baseQ],
+      mapping: {
+        mapping: [
+          {
+            q_id: "x/1",
+            q_num: 1,
+            topic: "x",
+            file: "x.md",
+            question_excerpt: "",
+            image_file: ["docs/images/a.png", "docs/images/b.png"],
+            source_q_num: null,
+            note: "",
+          },
+        ],
+      },
+      imagesBaseUrl: "file:///abs/docs/images",
+    });
+    expect(html).toContain('src="file:///abs/docs/images/a.png"');
+    expect(html).toContain('src="file:///abs/docs/images/b.png"');
+  });
+
+  it("renders without images when mapping is omitted", () => {
+    const html = renderTopicHtml({
+      title: "T",
+      questions: [baseQ],
     });
     expect(html).not.toContain("<img");
   });

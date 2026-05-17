@@ -45,21 +45,23 @@ function renderInline(text) {
     .join("");
 }
 
-function findImage(qId, mapping) {
-  if (!mapping || !Array.isArray(mapping.mapping)) return null;
+function findImages(qId, mapping) {
+  if (!mapping || !Array.isArray(mapping.mapping)) return [];
   const hit = mapping.mapping.find((m) => m.q_id === qId);
-  if (!hit || !hit.image_file) return null;
-  const basename = hit.image_file.split("/").pop();
-  return basename || null;
+  if (!hit || !hit.image_file) return [];
+  const raw = Array.isArray(hit.image_file) ? hit.image_file : [hit.image_file];
+  return raw
+    .map((p) => (typeof p === "string" ? p.split("/").pop() : null))
+    .filter((s) => typeof s === "string" && s.length > 0);
 }
 
-function renderQuestion(q, mapping, imagesDir) {
+function renderQuestion(q, mapping, imagesBaseUrl) {
   const letters = ["א", "ב", "ג", "ד"];
   const isVisualOnly = (q.flags || []).includes("visual-only");
-  const imageBase = findImage(q.id, mapping);
+  const imageBases = findImages(q.id, mapping);
   const imageHtml =
-    imageBase && imagesDir
-      ? `<div class="image"><img src="file://${imagesDir}/${esc(imageBase)}" alt=""/></div>`
+    imageBases.length > 0 && imagesBaseUrl
+      ? `<div class="image">${imageBases.map((b) => `<img src="${imagesBaseUrl}/${esc(b)}" alt=""/>`).join("")}</div>`
       : "";
   const optionsHtml = letters
     .map((L) => {
@@ -71,8 +73,7 @@ function renderQuestion(q, mapping, imagesDir) {
   return `
 <section class="question">
   <span class="num">שאלה ${q.number}</span>
-  <div class="text">${renderInline(q.question)}</div>
-  ${imageHtml}
+  <div class="text">${renderInline(q.question)}</div>${imageHtml ? `\n  ${imageHtml}` : ""}
   <ul class="options">${optionsHtml}</ul>
 </section>`;
 }
@@ -93,9 +94,10 @@ function renderAnswerEntry(q) {
  * @param {object} opts
  * @param {string} opts.title              Title shown on the cover.
  * @param {Array}  opts.questions          Raw question objects (RawQuestion shape).
- * @param {object} opts.mapping            Parsed mapping.json contents.
- * @param {string} [opts.imagesDir]        Absolute filesystem path to docs/images/
- *                                         (omit in unit tests).
+ * @param {object} [opts.mapping]          Parsed mapping.json contents.
+ * @param {string} [opts.imagesBaseUrl]    Absolute URL base for docs/images/, e.g.
+ *                                         `file:///D:/Code/My%20Stuff/math-practice/docs/images`
+ *                                         (omit in unit tests or when no images are needed).
  * @param {string} [opts.cssHref="print.css"]
  * @param {string} [opts.katexHref="katex.min.css"]
  */
@@ -103,7 +105,7 @@ export function renderTopicHtml({
   title,
   questions,
   mapping,
-  imagesDir,
+  imagesBaseUrl,
   cssHref = "print.css",
   katexHref = "katex.min.css",
 }) {
@@ -121,7 +123,7 @@ export function renderTopicHtml({
   <div class="footer">Math Practice · הורדת תרגול</div>
 </section>`;
 
-  const qBlocks = questions.map((q) => renderQuestion(q, mapping, imagesDir)).join("");
+  const qBlocks = questions.map((q) => renderQuestion(q, mapping, imagesBaseUrl)).join("");
 
   const answerKey = `
 <section class="answer-key">
