@@ -1,20 +1,24 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import { ArrowLeft, BookOpen, Calendar, Lightbulb, Target } from "lucide-react";
+import { motion } from "framer-motion";
 import { useStore } from "@/store";
 import { Logo } from "@/components/Logo";
+import { HeroBackdrop } from "@/components/HeroBackdrop";
+import { Ornament } from "@/components/Ornament";
+import { pageEnter, riseIn, useMotionVariants } from "@/lib/motion";
 
 export function LandingPage() {
   const navigate = useNavigate();
   const activeUserId = useStore((s) => s.activeUserId);
   const loadBank = useStore((s) => s.loadBank);
   const bank = useStore((s) => s.bank);
+  const child = useMotionVariants(riseIn);
 
   useEffect(() => {
     loadBank();
   }, [loadBank]);
 
-  // Returning users skip the landing.
   useEffect(() => {
     if (activeUserId) navigate("/home", { replace: true });
   }, [activeUserId, navigate]);
@@ -25,9 +29,9 @@ export function LandingPage() {
     bank?.categories.find((c) => c.id === "sample-exams")?.topic_count ?? 7;
 
   return (
-    <main className="min-h-screen bg-white">
+    <main className="min-h-screen bg-white relative">
       {/* Top bar */}
-      <header className="border-b border-hair">
+      <header className="border-b border-hair relative z-10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 py-5 flex items-center justify-between">
           <Logo />
           <Link to="/welcome" className="btn-secondary">
@@ -38,8 +42,27 @@ export function LandingPage() {
       </header>
 
       {/* Hero */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 pt-12 sm:pt-20 pb-12 sm:pb-16">
-        <div className="grid grid-cols-1 lg:grid-cols-[1.2fr_1fr] gap-10 lg:gap-16 items-center">
+      <section className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 pt-12 sm:pt-20 pb-12 sm:pb-16 overflow-hidden">
+        <HeroBackdrop position="top-right" />
+        {/* drifting leaves */}
+        <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden">
+          {[0, 1, 2, 3, 4, 5].map((i) => (
+            <span
+              key={i}
+              className="absolute text-brand-200 animate-bob"
+              style={{
+                top: `${10 + i * 12}%`,
+                right: `${5 + (i % 3) * 18}%`,
+                animationDelay: `${i * 0.4}s`,
+                opacity: 0.5,
+              }}
+            >
+              <Ornament name="leaf-cluster" size={28 + (i % 3) * 6} />
+            </span>
+          ))}
+        </div>
+
+        <div className="relative z-10 grid grid-cols-1 lg:grid-cols-[1.2fr_1fr] gap-10 lg:gap-16 items-center">
           <div>
             <p className="section-label mb-4">תוכנית לנוער מוכשר במתמטיקה</p>
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tightest leading-[1.05] text-ink">
@@ -62,13 +85,13 @@ export function LandingPage() {
             </div>
           </div>
 
-          <div className="bg-brand-50 border border-brand-200 rounded-3xl p-6 sm:p-8 lg:p-10">
+          <div className="bg-brand-50 border border-brand-200 rounded-3xl p-6 sm:p-8 lg:p-10 transform -rotate-2 hover:rotate-0 transition-transform duration-300 shadow-card">
             <p className="section-label mb-3">שאלה לדוגמה</p>
             <p className="text-lg leading-relaxed mb-5">
               במשפחת כהן מספר הילדים קטן מ-16. ידוע כי 25% מהם בנים. כמה בנים יש
               במשפחה?
             </p>
-            <ul className="grid grid-cols-2 gap-3 text-base">
+            <ul className="grid grid-cols-1 min-[380px]:grid-cols-2 gap-3 text-base">
               <li className="card p-3 text-center">גדול מ-5</li>
               <li className="card p-3 text-center">בין 0 ל-8</li>
               <li className="card p-3 text-center bg-brand-500 text-white border-brand-600">
@@ -84,7 +107,7 @@ export function LandingPage() {
       </section>
 
       {/* Stats strip */}
-      <section className="bg-surface border-y border-hair">
+      <section className="bg-surface border-y border-hair relative z-10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 py-10 grid grid-cols-3 gap-6 sm:gap-10 text-center">
           <Stat number={totalQuestions} label="שאלות מקוריות" />
           <Stat number={totalTopics} label="נושאים" />
@@ -101,38 +124,56 @@ export function LandingPage() {
           הכל לוקח בערך 10 דקות ביום. בלי הרשמה, בלי חשבון — הכל נשמר אצלכם
           במכשיר.
         </p>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-          <Feature
-            icon={<BookOpen size={24} />}
-            title="תרגול לפי נושא"
-            body="בוחרים נושא — שברים, אחוזים, גאומטריה, חשיבה מרחבית — ומקבלים שאלה ב-4 אפשרויות. 3 ניסיונות לכל שאלה."
-          />
-          <Feature
-            icon={<Lightbulb size={24} />}
-            title="רמזים חכמים"
-            body="טעיתם? הרמז גדל בכל ניסיון. הוא לוקח אתכם צעד-צעד דרך הפתרון בלי לתת את התשובה מיד."
-          />
-          <Feature
-            icon={<Calendar size={24} />}
-            title="מבחן לדוגמה"
-            body="24 שאלות בסדר אמיתי, אופציה לשעון של 60 דקות כמו במבחן הקבלה האמיתי. ציון מלא בסוף, עם פירוט לכל שאלה."
-          />
-          <Feature
-            icon={<Target size={24} />}
-            title="חזרה על טעויות"
-            body="כל שאלה שטעיתם בה נכנסת לתור חזרה. תוכלו לחזור עליה מתי שתרצו, עד שתפתרו אותה נכון."
-          />
-          <Feature
-            icon={<BookOpen size={24} />}
-            title="התקדמות אישית"
-            body="כוכב על כל שאלה שתפתרו נכון בפעם הראשונה. רצף ימים. סטטיסטיקות לכל נושא, רק על המכשיר שלכם."
-          />
-          <Feature
-            icon={<Calendar size={24} />}
-            title="מותאם לעברית"
-            body="ימין-לשמאל. נוסחאות מתמטיות נכונות. עובד באותה איכות בנייד, בטאבלט ובמחשב."
-          />
-        </div>
+        <motion.div
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, margin: "-80px" }}
+          variants={pageEnter}
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5"
+        >
+          <motion.div variants={child}>
+            <Feature
+              icon={<BookOpen size={24} />}
+              title="תרגול לפי נושא"
+              body="בוחרים נושא — שברים, אחוזים, גאומטריה, חשיבה מרחבית — ומקבלים שאלה ב-4 אפשרויות. 3 ניסיונות לכל שאלה."
+            />
+          </motion.div>
+          <motion.div variants={child}>
+            <Feature
+              icon={<Lightbulb size={24} />}
+              title="רמזים חכמים"
+              body="טעיתם? הרמז גדל בכל ניסיון. הוא לוקח אתכם צעד-צעד דרך הפתרון בלי לתת את התשובה מיד."
+            />
+          </motion.div>
+          <motion.div variants={child}>
+            <Feature
+              icon={<Calendar size={24} />}
+              title="מבחן לדוגמה"
+              body="24 שאלות בסדר אמיתי, אופציה לשעון של 60 דקות כמו במבחן הקבלה האמיתי. ציון מלא בסוף, עם פירוט לכל שאלה."
+            />
+          </motion.div>
+          <motion.div variants={child}>
+            <Feature
+              icon={<Target size={24} />}
+              title="חזרה על טעויות"
+              body="כל שאלה שטעיתם בה נכנסת לתור חזרה. תוכלו לחזור עליה מתי שתרצו, עד שתפתרו אותה נכון."
+            />
+          </motion.div>
+          <motion.div variants={child}>
+            <Feature
+              icon={<BookOpen size={24} />}
+              title="התקדמות אישית"
+              body="כוכב על כל שאלה שתפתרו נכון בפעם הראשונה. רצף ימים. סטטיסטיקות לכל נושא, רק על המכשיר שלכם."
+            />
+          </motion.div>
+          <motion.div variants={child}>
+            <Feature
+              icon={<Calendar size={24} />}
+              title="מותאם לעברית"
+              body="ימין-לשמאל. נוסחאות מתמטיות נכונות. עובד באותה איכות בנייד, בטאבלט ובמחשב."
+            />
+          </motion.div>
+        </motion.div>
       </section>
 
       {/* Final CTA */}
