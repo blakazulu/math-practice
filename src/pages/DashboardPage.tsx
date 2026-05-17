@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { Star, Flame, Target, TrendingUp } from "lucide-react";
 import { PageHeader } from "@/components/PageHeader";
 import { StatBan } from "@/components/dashboard/StatBan";
+import { SortedTopicBars } from "@/components/dashboard/SortedTopicBars";
 import { selectActiveUser, useStore } from "@/store";
 import { pageEnter, useMotionVariants } from "@/lib/motion";
 import {
@@ -11,6 +12,7 @@ import {
   firstTryAccuracyPct,
   todaySparkline,
   masteryTrendSparkline,
+  masteryByTopic,
 } from "@/lib/dashboardStats";
 
 export function DashboardPage() {
@@ -78,7 +80,7 @@ export function DashboardPage() {
                   : `דיוק בניסיון ראשון: ${firstTry}%`}
               </p>
 
-              {/* Section 2: Topic strength bars */}
+              <SortedTopicBars rows={masteryByTopic(user, bank)} />
               {/* Section 3: Topic bullet graphs */}
               {/* Section 4: Exam progression */}
               {/* Section 5: Action cards */}
