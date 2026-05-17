@@ -67,3 +67,17 @@ describe("pdfManifest", () => {
     }
   });
 });
+
+const jsonManifest: { slug: string; label_he: string }[] = JSON.parse(
+  readFileSync("tools/pdf/manifest.json", "utf8"),
+);
+
+describe("pdfManifest TS / JSON sync", () => {
+  it("tools/pdf/manifest.json has the same slugs+labels as src/data/pdfManifest.ts", () => {
+    expect(jsonManifest).toHaveLength(PDF_MANIFEST.length);
+    for (let i = 0; i < PDF_MANIFEST.length; i++) {
+      expect(jsonManifest[i].slug).toBe(PDF_MANIFEST[i].slug);
+      expect(jsonManifest[i].label_he).toBe(PDF_MANIFEST[i].label_he);
+    }
+  });
+});
