@@ -3,14 +3,16 @@ import { HashRouter } from "react-router-dom";
 import { AppRoutes } from "./routes";
 import { useStore } from "@/store";
 
+// Hydrate localStorage synchronously at module load to avoid a Welcome-flash
+// for returning users on first render.
+useStore.getState().hydrate();
+
 export function App() {
-  const hydrate = useStore((s) => s.hydrate);
   const loadBank = useStore((s) => s.loadBank);
 
   useEffect(() => {
-    hydrate();
     loadBank();
-  }, [hydrate, loadBank]);
+  }, [loadBank]);
 
   return (
     <HashRouter>

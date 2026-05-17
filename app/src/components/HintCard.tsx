@@ -22,9 +22,6 @@ export function hintForLevel(explanation: string, level: 0 | 1 | 2 | 3): string 
     .filter(Boolean);
   if (sentences.length === 0) return level >= 3 ? explanation : "";
   if (level === 1) return sentences.slice(0, 1).join(" ");
-  if (level === 2)
-    return sentences
-      .slice(0, Math.max(2, Math.ceil(sentences.length / 2)))
-      .join(" ");
+  if (level === 2) return sentences.slice(0, 2).join(" ");
   return explanation;
 }

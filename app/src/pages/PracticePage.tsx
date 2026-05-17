@@ -26,7 +26,7 @@ export function PracticePage() {
   const getQuestion = useStore((s) => s.getQuestion);
   const needsImage = useStore((s) => s.needsImage);
   const getImage = useStore((s) => s.getImage);
-  const isVisualOnly = useStore((s) => s.isVisualOnly);
+  const isUnanswerable = useStore((s) => s.isUnanswerable);
 
   const [stickyWrong, setStickyWrong] = useState<OptionLetter[]>([]);
   const [starKey, setStarKey] = useState(0);
@@ -50,11 +50,13 @@ export function PracticePage() {
     if (session && session.mode !== "exam" && session.topicId === topicId) return;
     const queueIds: QuestionId[] = topic.questions
       .map((q) => q.id)
-      .filter((id) => !isVisualOnly(id));
+      .filter((id) => !isUnanswerable(id));
     const shuffled = seededShuffle(queueIds, Date.now());
     startPracticeSession({ topicId, queue: shuffled, mode: "practice" });
     setStickyWrong([]);
-  }, [user, topic, topicId, session, startPracticeSession, isVisualOnly]);
+    // session intentionally excluded — restarting on each session mutation would loop forever.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user?.id, topic, topicId, startPracticeSession, isUnanswerable]);
 
   if (!user) return null;
   if (!bank || !topic) {

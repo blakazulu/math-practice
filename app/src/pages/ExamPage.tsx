@@ -23,7 +23,8 @@ export function ExamPage() {
   const examTick = useStore((s) => s.examTick);
   const examFinish = useStore((s) => s.examFinish);
   const getQuestion = useStore((s) => s.getQuestion);
-  const recordAnswer = useStore((s) => s.recordAnswer);
+  const recordExamAnswer = useStore((s) => s.recordExamAnswer);
+  const appendExamAttempt = useStore((s) => s.appendExamAttempt);
   const enqueueReview = useStore((s) => s.enqueueReview);
   const needsImage = useStore((s) => s.needsImage);
   const getImage = useStore((s) => s.getImage);
@@ -45,42 +46,25 @@ export function ExamPage() {
       const correct = !!q && p === q.correct_letter;
       if (correct) score++;
       answers[qid] = { picked: p, correct, flagged: s.flagged[qid] ?? false };
-      recordAnswer({
+      recordExamAnswer({
         userId: user.id,
         questionId: qid,
-        topicId: s.examId,
-        totalQuestionsInTopic: s.queue.length,
+        examId: s.examId,
         correct,
-        attemptIndex: 0,
-        pickedLetter: p,
       });
       if (!correct) enqueueReview(user.id, qid);
     }
-    useStore.setState((state) => {
-      const u = state.users[user.id];
-      if (!u) return state;
-      const updated = {
-        ...u,
-        progress: {
-          ...u.progress,
-          exams: [
-            ...u.progress.exams,
-            {
-              examId: s.examId,
-              takenAt: Date.now(),
-              durationSec: s.durationSec - s.remainingSec,
-              timerEnabled: s.timerEnabled,
-              score,
-              total: s.queue.length,
-              answers,
-            },
-          ],
-        },
-      };
-      return { users: { ...state.users, [user.id]: updated } };
+    appendExamAttempt(user.id, {
+      examId: s.examId,
+      takenAt: Date.now(),
+      durationSec: s.durationSec - s.remainingSec,
+      timerEnabled: s.timerEnabled,
+      score,
+      total: s.queue.length,
+      answers,
     });
     navigate(`/exam/${encodeURIComponent(s.examId)}/results`, { replace: true });
-  }, [user, bank, getQuestion, recordAnswer, enqueueReview, navigate]);
+  }, [user, bank, getQuestion, recordExamAnswer, appendExamAttempt, enqueueReview, navigate]);
 
   useEffect(() => {
     if (!session || session.mode !== "exam") return;

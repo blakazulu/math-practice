@@ -41,15 +41,16 @@ export function HomePage() {
       <div className="max-w-2xl mx-auto">
         <header className="flex items-center justify-between mb-6">
           <Logo />
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 flex-wrap justify-end">
             <StatPill variant="star" value={stats.starsEarned} />
             {stats.currentStreakDays > 0 && (
               <StatPill variant="streak" value={stats.currentStreakDays} />
             )}
+            {stats.todayCount > 0 && <StatPill variant="today" value={stats.todayCount} />}
             <Link
               to="/settings"
               aria-label="הגדרות"
-              className="p-2 rounded-full hover:bg-hair"
+              className="p-2 rounded-full hover:bg-hair focus-visible:ring-2 focus-visible:ring-brand-500"
             >
               <Settings size={20} />
             </Link>

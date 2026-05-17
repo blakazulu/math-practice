@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { Clock } from "lucide-react";
 
 interface Props {
@@ -8,11 +8,13 @@ interface Props {
 }
 
 export function ExamTimer({ remainingSec, enabled, onTick }: Props) {
+  const tickRef = useRef(onTick);
+  tickRef.current = onTick;
   useEffect(() => {
-    if (!enabled || remainingSec <= 0) return;
-    const id = window.setInterval(onTick, 1000);
+    if (!enabled) return;
+    const id = window.setInterval(() => tickRef.current(), 1000);
     return () => window.clearInterval(id);
-  }, [enabled, remainingSec, onTick]);
+  }, [enabled]);
 
   if (!enabled) return null;
 
@@ -21,10 +23,12 @@ export function ExamTimer({ remainingSec, enabled, onTick }: Props) {
   const low = remainingSec <= 60;
   return (
     <span
+      role="timer"
+      aria-live={low ? "polite" : "off"}
       className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-sm font-semibold tabular-nums ${
         low ? "bg-danger-50 text-danger-600" : "bg-hair text-ink"
       }`}
-      aria-label="זמן שנותר"
+      aria-label={`זמן שנותר ${mm} דקות ${ss} שניות`}
     >
       <Clock size={14} />
       {String(mm).padStart(2, "0")}:{String(ss).padStart(2, "0")}

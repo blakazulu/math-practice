@@ -44,7 +44,9 @@ export function OptionGrid({
 
   function handleClick(l: OptionLetter) {
     if (disabled || revealed || !onPick) return;
-    if (correctLetter && l !== correctLetter && !stickyWrong.includes(l)) {
+    // Clicking an already-marked-wrong option in practice/review must not consume another try.
+    if (stickyWrong.includes(l)) return;
+    if (correctLetter && l !== correctLetter) {
       setShake(l);
       window.setTimeout(() => setShake(null), 400);
     }

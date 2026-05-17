@@ -10,7 +10,7 @@ export function ExamPickerPage() {
   const bank = useStore((s) => s.bank);
   const loadBank = useStore((s) => s.loadBank);
   const startExamSession = useStore((s) => s.startExamSession);
-  const isVisualOnly = useStore((s) => s.isVisualOnly);
+  const isUnanswerable = useStore((s) => s.isUnanswerable);
   const [timerEnabled, setTimerEnabled] = useState(true);
   const navigate = useNavigate();
 
@@ -35,7 +35,7 @@ export function ExamPickerPage() {
     const cat = bank.categories.find((c) => c.id === "sample-exams")!;
     const topic = cat.topics.find((t) => topicIdFor(cat.id, t.id) === examFullId);
     if (!topic) return;
-    const queue = topic.questions.map((q) => q.id).filter((id) => !isVisualOnly(id));
+    const queue = topic.questions.map((q) => q.id).filter((id) => !isUnanswerable(id));
     startExamSession({
       examId: examFullId,
       queue,

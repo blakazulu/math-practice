@@ -27,12 +27,28 @@ export interface RecordAnswerInput {
 export interface UsersSlice {
   activeUserId: UserId | null;
   users: Record<UserId, UserState>;
+  hydrated: boolean;
   hydrate: () => void;
   createUser: (name: string) => UserId;
   switchUser: (id: UserId) => void;
   deleteUser: (id: UserId) => void;
   resetUserProgress: (id: UserId) => void;
   recordAnswer: (input: RecordAnswerInput) => void;
+  /**
+   * Record an exam answer — increments totalAnswered and updates streak/today count, but does NOT
+   * award stars or flip firstTryCorrect. Exam mode has no concept of "first try" since the kid
+   * picks once.
+   */
+  recordExamAnswer: (input: {
+    userId: UserId;
+    questionId: QuestionId;
+    examId: TopicId;
+    correct: boolean;
+  }) => void;
+  appendExamAttempt: (
+    userId: UserId,
+    attempt: import("@/data/types").ExamAttempt,
+  ) => void;
   enqueueReview: (userId: UserId, questionId: QuestionId) => void;
   dequeueReview: (userId: UserId, questionId: QuestionId) => void;
 }
@@ -49,10 +65,12 @@ function persist(state: { activeUserId: UserId | null; users: Record<UserId, Use
 export const createUsersSlice: StateCreator<UsersSlice, [], [], UsersSlice> = (set, get) => ({
   activeUserId: null,
   users: {},
+  hydrated: false,
 
   hydrate: () => {
+    if (get().hydrated) return;
     const root = migrate(readPersist());
-    set({ activeUserId: root.activeUserId, users: root.users });
+    set({ activeUserId: root.activeUserId, users: root.users, hydrated: true });
   },
 
   createUser: (rawName) => {
@@ -175,6 +193,57 @@ export const createUsersSlice: StateCreator<UsersSlice, [], [], UsersSlice> = (s
         progress: {
           ...user.progress,
           reviewQueue: [...user.progress.reviewQueue, questionId],
+        },
+      };
+      const users = { ...s.users, [userId]: updatedUser };
+      persist({ activeUserId: s.activeUserId, users });
+      return { users };
+    });
+  },
+
+  recordExamAnswer: ({ userId, questionId, examId, correct }) => {
+    set((s) => {
+      const user = s.users[userId];
+      if (!user) return s;
+      const today = todayLocal();
+      const stats = {
+        ...applyStreak(user.progress.stats, today),
+        totalAnswered: user.progress.stats.totalAnswered + 1,
+      };
+      // Touch lastSeen for visibility but DON'T set firstTryCorrect or mastered from exam.
+      const prev = user.progress.questions[questionId];
+      const updatedQ = {
+        attempts: prev?.attempts ?? 0,
+        firstTryCorrect: prev?.firstTryCorrect ?? false,
+        mastered: prev?.mastered ?? false,
+        lastSeen: Date.now(),
+        inReviewQueue: prev?.inReviewQueue ?? false,
+      };
+      void examId; // exam-mode progress is tracked via ExamAttempt, not topic aggregates
+      const updatedUser: UserState = {
+        ...user,
+        progress: {
+          ...user.progress,
+          questions: { ...user.progress.questions, [questionId]: updatedQ },
+          stats,
+        },
+      };
+      void correct; // correct is captured in the ExamAttempt
+      const users = { ...s.users, [userId]: updatedUser };
+      persist({ activeUserId: s.activeUserId, users });
+      return { users };
+    });
+  },
+
+  appendExamAttempt: (userId, attempt) => {
+    set((s) => {
+      const user = s.users[userId];
+      if (!user) return s;
+      const updatedUser: UserState = {
+        ...user,
+        progress: {
+          ...user.progress,
+          exams: [...user.progress.exams, attempt],
         },
       };
       const users = { ...s.users, [userId]: updatedUser };

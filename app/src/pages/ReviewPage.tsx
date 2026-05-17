@@ -20,6 +20,7 @@ export function ReviewPage() {
   const needsImage = useStore((s) => s.needsImage);
   const getImage = useStore((s) => s.getImage);
   const bank = useStore((s) => s.bank);
+  const isUnanswerable = useStore((s) => s.isUnanswerable);
   const navigate = useNavigate();
   const [stickyWrong, setStickyWrong] = useState<OptionLetter[]>([]);
 
@@ -28,18 +29,21 @@ export function ReviewPage() {
       navigate("/welcome", { replace: true });
       return;
     }
-    if (user.progress.reviewQueue.length === 0) {
+    const queue = user.progress.reviewQueue.filter((id) => !isUnanswerable(id));
+    if (queue.length === 0) {
       navigate("/home", { replace: true });
       return;
     }
     if (session && session.mode === "review") return;
     startPracticeSession({
       topicId: "review",
-      queue: [...user.progress.reviewQueue],
+      queue,
       mode: "review",
     });
     setStickyWrong([]);
-  }, [user, session, startPracticeSession, navigate]);
+    // session intentionally excluded — see PracticePage.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user?.id, startPracticeSession, navigate, isUnanswerable]);
 
   if (!user || !session || session.mode === "exam" || !bank) return null;
 
