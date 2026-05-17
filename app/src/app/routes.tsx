@@ -1,4 +1,5 @@
 import { Navigate, Route, Routes } from "react-router-dom";
+import { LandingPage } from "@/pages/LandingPage";
 import { WelcomePage } from "@/pages/WelcomePage";
 import { HomePage } from "@/pages/HomePage";
 import { SettingsPage } from "@/pages/SettingsPage";
@@ -15,9 +16,10 @@ export function AppRoutes() {
   const activeUserId = useStore((s) => s.activeUserId);
   return (
     <Routes>
+      {/* Public landing — also the redirect target for returning users. */}
       <Route
         path="/"
-        element={<Navigate to={activeUserId ? "/home" : "/welcome"} replace />}
+        element={activeUserId ? <Navigate to="/home" replace /> : <LandingPage />}
       />
       <Route path="/welcome" element={<WelcomePage />} />
       <Route path="/home" element={<HomePage />} />

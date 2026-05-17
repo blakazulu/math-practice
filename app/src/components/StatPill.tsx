@@ -18,11 +18,11 @@ export function StatPill({ variant, value }: Props) {
   const s = styles[variant];
   return (
     <span
-      className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-sm font-semibold ${s.bg} ${s.fg}`}
+      className={`inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full font-semibold ${s.bg} ${s.fg}`}
     >
       {s.icon}
       <span className="tabular-nums">{value}</span>
-      <span className="text-xs opacity-80">{s.label}</span>
+      <span className="opacity-80">{s.label}</span>
     </span>
   );
 }

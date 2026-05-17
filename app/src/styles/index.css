@@ -7,6 +7,19 @@
   body {
     @apply font-sans antialiased text-ink bg-white;
     direction: rtl;
+    /* Floor — never render anything smaller than 16px. */
+    font-size: 16px;
+    line-height: 1.55;
+  }
+
+  /* Override Tailwind's text-xs / text-sm so we never accidentally drop below 16px. */
+  .text-xs {
+    font-size: 16px !important;
+    line-height: 1.4 !important;
+  }
+  .text-sm {
+    font-size: 16px !important;
+    line-height: 1.5 !important;
   }
 
   /* KaTeX is LTR — preserve direction inside RTL paragraphs */
@@ -35,7 +48,8 @@
   }
 
   .section-label {
-    @apply text-xs uppercase tracking-[0.09em] font-bold text-brand-600;
+    @apply uppercase tracking-[0.09em] font-bold text-brand-600;
+    font-size: 16px;
   }
 
   .btn-primary {

@@ -111,13 +111,13 @@ export function PracticePage() {
   const showExplanation = session.revealed;
 
   return (
-    <main className="min-h-screen bg-white px-4 py-6">
-      <div className="max-w-2xl mx-auto">
+    <main className="min-h-screen bg-white">
+      <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-10 py-6 lg:py-10">
         <PageHeader
           backTo="/home"
           title={topic.name_he}
           rightSlot={
-            <span className="text-sm text-faint tabular-nums">
+            <span className="text-faint tabular-nums">
               {session.index + 1} / {session.queue.length}
             </span>
           }

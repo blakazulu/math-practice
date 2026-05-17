@@ -29,8 +29,8 @@ export function WelcomePage() {
   }
 
   return (
-    <main className="min-h-screen bg-white px-4 py-6 sm:py-12">
-      <div className="max-w-md mx-auto">
+    <main className="min-h-screen bg-white">
+      <div className="max-w-xl mx-auto px-4 sm:px-6 lg:px-10 py-8 lg:py-16">
         <div className="flex justify-center mb-8">
           <Logo />
         </div>

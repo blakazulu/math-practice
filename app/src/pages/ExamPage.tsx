@@ -96,8 +96,8 @@ export function ExamPage() {
   void examIdParam;
 
   return (
-    <main className="min-h-screen bg-white px-4 py-6">
-      <div className="max-w-3xl mx-auto">
+    <main className="min-h-screen bg-white">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 py-6 lg:py-10">
         <PageHeader
           title="מבחן לדוגמה"
           rightSlot={
@@ -115,7 +115,7 @@ export function ExamPage() {
           }
         />
 
-        <div className="grid grid-cols-1 lg:grid-cols-[1fr_180px] gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-[1fr_240px] gap-6 lg:gap-10">
           <section>
             <QuestionCard
               question={question}

@@ -33,8 +33,8 @@ export function ExamResultsPage() {
   const ss = attempt.durationSec % 60;
 
   return (
-    <main className="min-h-screen bg-white px-4 py-6">
-      <div className="max-w-2xl mx-auto">
+    <main className="min-h-screen bg-white">
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-10 py-6 lg:py-10">
         <PageHeader backTo="/home" title="תוצאות מבחן" />
         <section className="card p-6 mb-6 text-center">
           <Trophy size={36} className="text-brand-500 mx-auto mb-2" />

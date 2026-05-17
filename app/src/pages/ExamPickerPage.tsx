@@ -51,8 +51,8 @@ export function ExamPickerPage() {
   }
 
   return (
-    <main className="min-h-screen bg-white px-4 py-6">
-      <div className="max-w-2xl mx-auto">
+    <main className="min-h-screen bg-white">
+      <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-10 py-6 lg:py-10">
         <PageHeader backTo="/home" title="מבחן לדוגמה" />
         <p className="text-muted mb-4">
           7 מבחנים מלאים, כל אחד ~24 שאלות. בחירה אחת לכל שאלה. אפשר לדפדף לאחור.

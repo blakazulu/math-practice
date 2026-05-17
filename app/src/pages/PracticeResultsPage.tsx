@@ -20,8 +20,8 @@ export function PracticeResultsPage() {
         };
 
   return (
-    <main className="min-h-screen bg-white px-4 py-8">
-      <div className="max-w-md mx-auto text-center">
+    <main className="min-h-screen bg-white">
+      <div className="max-w-xl mx-auto px-4 sm:px-6 lg:px-10 py-8 lg:py-12 text-center">
         <PageHeader backTo="/home" title="סיכום תרגול" />
         <div className="card p-6 mb-6">
           <div className="text-faint section-label mb-2">סיימת את המפגש</div>
