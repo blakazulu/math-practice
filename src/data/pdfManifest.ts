@@ -17,6 +17,8 @@ function entry(
   return { slug, label_he, category, url: `/data/pdfs/${slug}.pdf`, questionCount };
 }
 
+export const PDF_BUNDLE_URL = "/data/pdfs/math-practice-tests.zip";
+
 export const PDF_MANIFEST: PdfManifestEntry[] = [
   // math-knowledge (9)
   entry("math-knowledge-decimal-fractions", "שברים עשרוניים", "math-knowledge", 21),

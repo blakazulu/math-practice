@@ -1,9 +1,12 @@
 #!/usr/bin/env node
-import { readFileSync, writeFileSync, mkdirSync, existsSync } from "node:fs";
+import { readFileSync, writeFileSync, mkdirSync, existsSync, createWriteStream } from "node:fs";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 import { chromium } from "playwright";
+import archiver from "archiver";
 import { renderTopicHtml } from "./render.mjs";
+
+const ZIP_FILENAME = "math-practice-tests.zip";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const REPO_ROOT = resolve(__dirname, "..", "..");
@@ -129,7 +132,26 @@ async function main() {
   console.log(`generated ${okCount} / ${MANIFEST.length} PDFs -> ${OUT_DIR}`);
   if (okCount !== MANIFEST.length) {
     process.exitCode = 1;
+    return;
   }
+
+  const zipPath = join(OUT_DIR, ZIP_FILENAME);
+  await zipPdfs(zipPath, MANIFEST.map((e) => join(OUT_DIR, `${e.slug}.pdf`)));
+  console.log(`bundled  ${ZIP_FILENAME} (${MANIFEST.length} pdfs)`);
+}
+
+function zipPdfs(zipPath, pdfPaths) {
+  return new Promise((resolvePromise, reject) => {
+    const output = createWriteStream(zipPath);
+    const archive = archiver("zip", { zlib: { level: 9 } });
+    output.on("close", () => resolvePromise());
+    archive.on("error", reject);
+    archive.pipe(output);
+    for (const p of pdfPaths) {
+      archive.file(p, { name: p.split(/[\\/]/).pop() });
+    }
+    archive.finalize();
+  });
 }
 
 main().catch((err) => {

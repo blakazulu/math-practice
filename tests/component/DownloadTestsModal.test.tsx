@@ -101,4 +101,11 @@ describe("DownloadTestsModal", () => {
     fireEvent.click(screen.getByLabelText("סגירה"));
     expect(onClose).toHaveBeenCalled();
   });
+
+  it("renders a 'הורדת כל המבחנים (ZIP)' CTA pointing at the bundle URL", () => {
+    render(<DownloadTestsModal open onClose={() => {}} />);
+    const cta = screen.getByRole("link", { name: /הורדת כל המבחנים/ });
+    expect(cta).toHaveAttribute("href", "/data/pdfs/math-practice-tests.zip");
+    expect(cta).toHaveAttribute("download");
+  });
 });

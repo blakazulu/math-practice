@@ -24,19 +24,39 @@ test("download modal shows collapsible categories and downloads one PDF", async 
   await expect(logicHeader).toHaveAttribute("aria-expanded", "false");
   await expect(examsHeader).toHaveAttribute("aria-expanded", "false");
 
-  // With everything collapsed, no download links are visible yet
-  await expect(dialog.getByRole("link")).toHaveCount(0);
+  // With everything collapsed, only the 'Download all' CTA is visible
+  await expect(dialog.getByRole("link")).toHaveCount(1);
 
-  // Expand all three sections — 23 download links total
+  // Expand all three sections — 23 topic links + 1 zip CTA = 24 total
   await mathHeader.click();
   await logicHeader.click();
   await examsHeader.click();
-  await expect(dialog.getByRole("link")).toHaveCount(23);
+  await expect(dialog.getByRole("link")).toHaveCount(24);
 
-  // Click the first link and assert a download begins
+  // Click the first per-topic link and assert a PDF download begins
+  const firstTopicLink = dialog.getByRole("link").nth(0);
   const [download] = await Promise.all([
     page.waitForEvent("download"),
-    dialog.getByRole("link").first().click(),
+    firstTopicLink.click(),
   ]);
   expect(download.suggestedFilename()).toMatch(/\.pdf$/);
+});
+
+test("the 'הורדת כל המבחנים' CTA downloads the bundled ZIP", async ({
+  page,
+  context,
+}) => {
+  await context.addInitScript(() => window.localStorage.clear());
+  await page.goto("/welcome");
+  await page.getByPlaceholder("לדוגמה: נועה").fill("בודק");
+  await page.getByRole("button", { name: /התחל/ }).click();
+  await page.getByRole("button", { name: "הורדת מבחנים" }).click();
+
+  const dialog = page.getByRole("dialog", { name: "הורדת מבחנים" });
+  const zipCta = dialog.getByRole("link", { name: /הורדת כל המבחנים/ });
+  const [download] = await Promise.all([
+    page.waitForEvent("download"),
+    zipCta.click(),
+  ]);
+  expect(download.suggestedFilename()).toMatch(/\.zip$/);
 });

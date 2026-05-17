@@ -1,7 +1,12 @@
 import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { ChevronDown, Download, X, FileDown } from "lucide-react";
-import { PDF_MANIFEST, type PdfCategory, type PdfManifestEntry } from "@/data/pdfManifest";
+import {
+  PDF_BUNDLE_URL,
+  PDF_MANIFEST,
+  type PdfCategory,
+  type PdfManifestEntry,
+} from "@/data/pdfManifest";
 
 interface Props {
   open: boolean;
@@ -223,6 +228,16 @@ export function DownloadTestsModal({ open, onClose }: Props) {
                   </section>
                 );
               })}
+
+              <a
+                href={PDF_BUNDLE_URL}
+                download
+                aria-label="הורדת כל המבחנים בקובץ ZIP אחד"
+                className="card flex items-center justify-center gap-2 p-4 mt-2 bg-brand-50 border-brand-200 hover:bg-brand-100 hover:border-brand-500 focus-visible:ring-2 focus-visible:ring-brand-500 text-brand-700 font-bold text-lg"
+              >
+                <Download size={20} />
+                הורדת כל המבחנים (ZIP)
+              </a>
             </div>
           </motion.div>
         </motion.div>
