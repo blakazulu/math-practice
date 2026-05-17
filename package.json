@@ -5,13 +5,14 @@
   "type": "module",
   "scripts": {
     "dev": "npm run sync-data && vite",
-    "build": "npm run sync-data && tsc -b && vite build",
+    "build": "npm run generate-pdfs && npm run sync-data && tsc -b && vite build",
     "preview": "vite preview",
     "test": "vitest run",
     "test:watch": "vitest",
     "test:e2e": "playwright test",
     "lint": "eslint .",
     "format": "prettier --write src",
+    "generate-pdfs": "node tools/pdf/generate_pdfs.mjs",
     "sync-data": "node scripts/sync-data.mjs",
     "gen-share-images": "node scripts/gen-share-images.mjs"
   },

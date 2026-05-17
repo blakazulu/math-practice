@@ -46,4 +46,20 @@ if (existsSync(SRC_IMAGES)) {
 }
 if (imgCount > 0) console.log(`  ${imgCount} images -> public/data/images/`);
 
-console.log(`synced ${copied} data file(s) + ${imgCount} images -> public/data/`);
+// Copy any pre-generated PDFs from tools/pdf/out/ into public/data/pdfs/
+const PDF_SRC = join(REPO_ROOT, "tools", "pdf", "out");
+const PUBLIC_PDFS = join(PUBLIC_DATA, "pdfs");
+let pdfCount = 0;
+if (existsSync(PDF_SRC)) {
+  mkdirSync(PUBLIC_PDFS, { recursive: true });
+  for (const entry of readdirSync(PDF_SRC)) {
+    const full = join(PDF_SRC, entry);
+    if (!statSync(full).isFile()) continue;
+    if (!entry.endsWith(".pdf")) continue;
+    copyFileSync(full, join(PUBLIC_PDFS, entry));
+    pdfCount++;
+  }
+}
+if (pdfCount > 0) console.log(`  ${pdfCount} pdfs -> public/data/pdfs/`);
+
+console.log(`synced ${copied} data file(s) + ${imgCount} images + ${pdfCount} pdfs -> public/data/`);
