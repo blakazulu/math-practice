@@ -3,6 +3,7 @@ import { LandingPage } from "@/pages/LandingPage";
 import { WelcomePage } from "@/pages/WelcomePage";
 import { HomePage } from "@/pages/HomePage";
 import { SettingsPage } from "@/pages/SettingsPage";
+import { DashboardPage } from "@/pages/DashboardPage";
 import { TopicPickerPage } from "@/pages/TopicPickerPage";
 import { PracticePage } from "@/pages/PracticePage";
 import { PracticeResultsPage } from "@/pages/PracticeResultsPage";
@@ -23,6 +24,7 @@ export function AppRoutes() {
       />
       <Route path="/welcome" element={<WelcomePage />} />
       <Route path="/home" element={<HomePage />} />
+      <Route path="/dashboard" element={<DashboardPage />} />
       <Route path="/settings" element={<SettingsPage />} />
       <Route path="/practice" element={<TopicPickerPage />} />
       <Route path="/practice/:cat/:topic" element={<PracticePage />} />

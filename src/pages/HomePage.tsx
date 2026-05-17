@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { Settings, Target, X } from "lucide-react";
+import { BarChart3, Settings, Target, X } from "lucide-react";
 import { AnimatePresence, motion } from "framer-motion";
 import { selectActiveUser, selectReviewQueueSize, useStore } from "@/store";
 import { topicIdFor, urlFromTopicId } from "@/data/types";
@@ -155,6 +155,13 @@ export function HomePage() {
               <StatPill variant="streak" value={stats.currentStreakDays} />
             )}
             {stats.todayCount > 0 && <StatPill variant="today" value={stats.todayCount} />}
+            <Link
+              to="/dashboard"
+              aria-label="לוח התקדמות"
+              className="p-3 rounded-full hover:bg-hair focus-visible:ring-2 focus-visible:ring-brand-500"
+            >
+              <BarChart3 size={20} />
+            </Link>
             <Link
               to="/settings"
               aria-label="הגדרות"
