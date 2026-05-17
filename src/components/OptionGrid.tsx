@@ -1,9 +1,17 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Check, X } from "lucide-react";
+import { motion } from "framer-motion";
 import type { OptionLetter, RawQuestion } from "@/data/types";
 import { InlineMath } from "@/lib/katex";
+import { pageEnter, riseIn, useMotionVariants } from "@/lib/motion";
 
-type Status = "neutral" | "correct" | "wrong" | "revealed-correct" | "revealed-other" | "picked";
+type Status =
+  | "neutral"
+  | "correct"
+  | "wrong"
+  | "revealed-correct"
+  | "revealed-other"
+  | "picked";
 
 interface Props {
   question: RawQuestion;
@@ -26,6 +34,9 @@ export function OptionGrid({
   disabled,
 }: Props) {
   const [shake, setShake] = useState<OptionLetter | null>(null);
+  const [redRing, setRedRing] = useState<OptionLetter | null>(null);
+  const child = useMotionVariants(riseIn);
+
   const letters = (["א", "ב", "ג", "ד"] as OptionLetter[]).filter(
     (l) => question.options[l] !== undefined,
   );
@@ -42,40 +53,54 @@ export function OptionGrid({
     return "neutral";
   }
 
+  useEffect(() => {
+    if (redRing) {
+      const t = window.setTimeout(() => setRedRing(null), 300);
+      return () => window.clearTimeout(t);
+    }
+  }, [redRing]);
+
   function handleClick(l: OptionLetter) {
     if (disabled || revealed || !onPick) return;
-    // Clicking an already-marked-wrong option in practice/review must not consume another try.
     if (stickyWrong.includes(l)) return;
     if (correctLetter && l !== correctLetter) {
       setShake(l);
+      setRedRing(l);
       window.setTimeout(() => setShake(null), 400);
     }
     onPick(l);
   }
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-4">
+    <motion.div
+      initial="hidden"
+      animate="show"
+      variants={pageEnter}
+      className="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-4"
+    >
       {letters.map((l) => {
         const s = statusFor(l);
         const styles =
           s === "revealed-correct"
-            ? "bg-brand-50 border-brand-500 ring-2 ring-brand-500"
+            ? "bg-brand-50 border-brand-500 ring-2 ring-brand-500 animate-pulse-glow"
             : s === "wrong"
               ? "bg-danger-50 border-danger-200 text-danger-600"
               : s === "picked"
                 ? "bg-brand-50 border-brand-500"
                 : s === "revealed-other"
                   ? "opacity-60"
-                  : "hover:bg-surface";
+                  : "hover:bg-brand-50/40";
         const isShaking = shake === l;
+        const showRedRing = redRing === l;
         return (
-          <button
+          <motion.button
             key={l}
+            variants={child}
             disabled={disabled || revealed}
             onClick={() => handleClick(l)}
-            className={`card p-4 text-right flex items-start gap-3 transition-colors ${styles} ${
+            className={`card p-4 min-h-[64px] text-right flex items-start gap-3 transition-all ${styles} ${
               isShaking ? "animate-shake" : ""
-            } focus-visible:ring-2 focus-visible:ring-brand-500`}
+            } ${showRedRing ? "ring-2 ring-danger-200" : ""} focus-visible:ring-2 focus-visible:ring-brand-500`}
           >
             <span
               className={`shrink-0 w-7 h-7 rounded-full flex items-center justify-center font-bold ${
@@ -99,9 +124,9 @@ export function OptionGrid({
             <span className="flex-1 leading-relaxed">
               <InlineMath text={question.options[l] ?? ""} />
             </span>
-          </button>
+          </motion.button>
         );
       })}
-    </div>
+    </motion.div>
   );
 }
