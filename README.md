@@ -1,24 +1,73 @@
-# מאגר שאלות — ערכת תרגול לבחינת הקבלה לשכבה ז'
+# חשבונייה — Math Practice
 
-## מקור המידע
+A two-part project for kids prepping for the **גיל מוכשר במתמטיקה** (Gifted in Math) program entrance exam for 7th grade:
 
-האתר: **[moodle.yuni.co.il](https://moodle.yuni.co.il/course/view.php?id=4)**
+1. **A curated question bank** — 497 questions across 23 topics in 3 categories, sourced from [yuni.co.il](https://yuni.co.il/) and cleaned/validated into `data/questions.json`.
+2. **A Hebrew RTL web app** (this directory's `src/`) that lets kids drill the bank by topic or run full mock exams, with per-user progress in localStorage.
 
-זוהי פלטפורמת Moodle של "התוכניות לנוער מוכשר במתמטיקה" — תוכנית המיועדת לתלמידים מחוננים שרוצים לעלות לשכבה ז' בתוכניות הצטיינות. הקורס נקרא **"ערכת תרגול לבחינת הקבלה - עולים לשכבה ז'"** ומכיל חומרי תרגול לבחינת כניסה לתוכניות מתמטיקה מחוננים.
+## Quickstart (web app)
 
-הבחינה עצמה מחולקת לשני פרקים עיקריים:
-- **פרק א'** — ידע מתמטי (חשבון, שברים, גאומטריה, נתונים)
-- **פרק ב'** — חשיבה והגיון (פירוק, סדרות, קומבינטוריקה, חשיבה מרחבית)
+```bash
+npm install
+npm run sync-data    # copy data/*.json + docs/images/ into public/data/
+npm run dev          # http://localhost:5173
+```
+
+### Scripts
+
+| Script | What |
+| ------ | ---- |
+| `npm run dev` | Start Vite dev server (auto-syncs data first) |
+| `npm run build` | Type-check + bundle to `dist/` |
+| `npm run preview` | Serve the built bundle locally |
+| `npm test` | Run unit + component tests (Vitest, 38 tests) |
+| `npm run test:watch` | Vitest in watch mode |
+| `npm run test:e2e` | Playwright happy-path E2E (run `npx playwright install chromium` once) |
+| `npm run lint` | ESLint |
+| `npm run format` | Prettier |
+| `npm run sync-data` | Refresh `public/data/` from `data/` + `docs/images/` |
+
+### Deployment
+
+Static build → drop `dist/` on any host. `public/_redirects` is included for Netlify SPA fallback. The GitHub Actions workflow at `.github/workflows/deploy.yml` builds and publishes to GitHub Pages on push to `main`.
+
+### Adding images for image-dependent questions
+
+1. Add the image to `docs/images/<name>.png`.
+2. Edit `docs/images/mapping.json` to point the relevant `q_id`(s) to that file.
+3. `npm run sync-data && npm run build`.
+
+Multiple questions can share the same image (follow-up chains) — set their `image_file` to the same path.
+
+### Architecture
+
+- **Routing:** BrowserRouter (clean URLs). Netlify rewrites `/*` to `/index.html` via `public/_redirects`.
+- **State:** Zustand with three slices — `bank` (in-mem, loaded JSON), `users` (persisted localStorage with versioned schema), `session` (in-mem practice/exam state).
+- **Styling:** Tailwind + Heebo, all design tokens defined in `tailwind.config.ts`.
+- **Icons:** lucide-react only — no emoji anywhere in the UI.
+- **Math:** KaTeX rendering inline `\(...\)` from question text.
+
+See `docs/superpowers/specs/2026-05-17-math-practice-app-design.md` for the full design.
 
 ---
 
-## מבנה המאגר
+## Question bank
 
-המידע שמור בתיקייה `db/` ומאורגן לפי שלושה חלקים:
+### Source
+
+**[moodle.yuni.co.il](https://moodle.yuni.co.il/course/view.php?id=4)** — Moodle platform for the "התוכניות לנוער מוכשר במתמטיקה" program, course "ערכת תרגול לבחינת הקבלה - עולים לשכבה ז'".
+
+The real entrance exam has two sections:
+- **פרק א'** — ידע מתמטי (arithmetic, fractions, geometry, data)
+- **פרק ב'** — חשיבה והגיון (factoring, sequences, combinatorics, spatial reasoning)
+
+### Structure
+
+The corpus lives in `data/db/` organized by category:
 
 ```
-db/
-├── 01_ידע_מתמטי/          ← 9 נושאים, 188 שאלות
+data/db/
+├── 01_ידע_מתמטי/          ← 9 topics, 189 questions
 │   ├── 01_שברים_עשרוניים.md
 │   ├── 02_שברים_פשוטים.md
 │   ├── 03_אחוזים.md
@@ -29,7 +78,7 @@ db/
 │   ├── 08_הספק.md
 │   └── 09_ממוצע.md
 │
-├── 02_חשיבה_והגיון/        ← 7 נושאים, 139 שאלות
+├── 02_חשיבה_והגיון/        ← 7 topics, 140 questions
 │   ├── 01_פירוק_לגורמים.md
 │   ├── 02_פעולה_מומצאת.md
 │   ├── 03_אמת_ושקר.md
@@ -38,7 +87,7 @@ db/
 │   ├── 06_קומבינטוריקה.md
 │   └── 07_חשיבה_מרחבית.md
 │
-└── 03_מבחנים_לדוגמה/       ← 7 מבחנים שלמים, 165 שאלות
+└── 03_מבחנים_לדוגמה/       ← 7 full sample exams, 168 questions
     ├── 01_מבחן_לדוגמה_1.md
     ├── 02_מבחן_לדוגמה_2.md
     ├── 03_מבחן_לדוגמה_3.md
@@ -48,25 +97,17 @@ db/
     └── 07_מבחן_לדוגמה_7.md
 ```
 
-**סה"כ: 23 קבצים, 492 שאלות**
+**Total: 23 files, 497 questions** — exported to `data/questions.json` for app consumption via `tools/parse_questions.py`.
 
----
+### Question schema (markdown source)
 
-## מבנה כל קובץ
-
-כל קובץ Markdown מכיל:
+Each question has:
 
 ```markdown
-# שם הנושא
-
-סה"כ שאלות: N
-
----
-
-## שאלה 1 ✅/❌/⬜
+## שאלה N ✅/❌/⬜
 
 **שאלה:**
-[טקסט השאלה, כולל נוסחאות LaTeX]
+[text, possibly with LaTeX in \( ... \)]
 
 **אפשרויות:**
 א. ...
@@ -74,82 +115,26 @@ db/
 ג. ...
 ד. ...
 
-**התשובה הנכונה: [טקסט התשובה הנכונה]**
+**התשובה הנכונה: [answer]**
 
 **הסבר:**
-[הסבר מפורט עם חישובים]
-
----
+[detailed explanation with calculations]
 ```
 
-### סימוני הסטטוס
+The status emoji is ignored by the app (it was unreliable in the original source).
 
-| סמל | משמעות |
-|-----|---------|
-| ✅  | תשובה נכונה (בניסיון שנרשם) |
-| ❌  | תשובה שגויה (בניסיון שנרשם) |
-| ⬜  | לא נענתה |
+### Quality notes
 
-> **הערה:** הסימונים ✅/❌ אינם בהכרח משקפים את הביצועים האמיתיים של המשתמש — חלקם נוצרו בתהליך חילוץ אוטומטי. התשובה הנכונה וההסבר הם המידע האמין.
+- 6 questions have content flags in the JSON (`visual-only` × 3, `three-option` × 2, `missing-explanation` × 1). The app filters unanswerable ones from practice/exam queues.
+- 73 questions reference images/graphs originally hosted as Moodle pluginfiles. These have been sourced into `docs/images/` and mapped via `docs/images/mapping.json` (32 direct images, 35 inherited via follow-up chains, 6 confirmed false positives needing no image).
+- LaTeX expressions use inline `\( ... \)`. Rendered by KaTeX in the app.
 
----
+### Tools
 
-## מבנה המבחנים לדוגמה
+`tools/` contains Python scripts used to build the bank:
+- `parse_questions.py` — parse the markdown source and emit `data/questions.json`
+- `fix_splits.py` — repair extraction artifacts (stray `\n\n` mid-token)
+- `find_image_questions.py` — heuristic detection of image-dependent questions
+- `list_image_questions.py` — emit a human-readable triage doc
 
-כל מבחן לדוגמה (חלק 3) מכיל כ-24 שאלות המחולקות לשני פרקים:
-- שאלות 1–14 בערך: **פרק א' — ידע מתמטי**
-- שאלות 15–24 בערך: **פרק ב' — חשיבה והגיון**
-
----
-
-## נושאים לפי חלקים
-
-### חלק 1 — ידע מתמטי
-
-| קובץ | נושא | שאלות |
-|------|------|-------|
-| 01_שברים_עשרוניים | חיבור, חיסור, כפל, חילוק של מספרים עשרוניים | 21 |
-| 02_שברים_פשוטים | פעולות על שברים, המרה, השוואה | 33 |
-| 03_אחוזים | חישוב אחוזים, עליה/ירידה באחוזים | 19 |
-| 04_רב_שלבי | שאלות מילוליות עם מספר שלבי חישוב | 16 |
-| 05_גאומטריה | שטח, היקף, נפח, צורות גאומטריות | 32 |
-| 06_חקר_נתונים | גרפים, טבלאות, ממוצע, ניתוח נתונים | 23 |
-| 07_יחס | יחסים, פרופורציות | 15 |
-| 08_הספק | קצב עבודה, מהירות, תפוקה | 15 |
-| 09_ממוצע | ממוצע, ממוצע משוקלל | 15 |
-
-### חלק 2 — חשיבה והגיון
-
-| קובץ | נושא | שאלות |
-|------|------|-------|
-| 01_פירוק_לגורמים | הכ"מ, המ"מ, חלוקה, זוגיות | 24 |
-| 02_פעולה_מומצאת | פעולות מוגדרות חדשות (★, □ וכד') | 23 |
-| 03_אמת_ושקר | הסקות לוגיות, אמת/שקר | 16 |
-| 04_סדרות | זיהוי חוקיות בסדרות מספרים וצורות | 17 |
-| 05_תנועה | שאלות מרחק/מהירות/זמן | 15 |
-| 06_קומבינטוריקה | ספירה, עקרון הכפל, סידורים | 27 |
-| 07_חשיבה_מרחבית | קוביות, גופים תלת-ממדיים, פריסות | 18 |
-
----
-
-## הערות איכות
-
-### שגיאות שתוקנו
-במסגרת בדיקת איכות שבוצעה על כל 492 השאלות, תוקנו 3 שגיאות שנמצאו בתוכן המקורי:
-
-1. **פירוק לגורמים, שאלה 1** — התשובה המסומנת הייתה "שני המספרים זוגיים" אך הנכונה היא "שני המספרים אי-זוגיים" (ההסבר עצמו הצביע על הטעות).
-2. **מבחן לדוגמה 6, שאלה 19** — התשובה המסומנת הייתה 7 אך הנכונה היא 17 (ההסבר חישב 10+7=17 אך התשובה היתה 7).
-3. **שברים פשוטים, שאלה 10** — ההסבר חישב חילוק במקום כפל; תוקן להסבר נכון.
-
-### שאלות תלויות תמונה
-כ-60 שאלות (בעיקר מגאומטריה וחקר נתונים) מתייחסות לגרפים, טבלאות ושרטוטים שאינם כלולים בקבצי הטקסט. אפשרויות התשובה והתשובה הנכונה עדיין כלולות, אך ללא הויזואל אי אפשר לפתור חלקן באופן עצמאי.
-
----
-
-## נוסחאות LaTeX
-
-הנוסחאות בקבצים כתובות בפורמט LaTeX תוך שימוש בסימון `\( ... \)` לנוסחאות שורתיות. לדוגמה:
-- `\(\frac{3}{4}\)` → ¾
-- `\(2\frac{1}{3}\)` → 2⅓
-- `\(\times\)` → ×
-- `\(\sqrt{16}\)` → √16
+Run any of them with `python tools/<name>.py`. They have no external dependencies.

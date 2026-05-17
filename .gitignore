@@ -3,32 +3,46 @@ node_modules/
 .npm/
 
 # Build outputs
-app/dist/
-app/.vite/
-app/**/*.tsbuildinfo
+dist/
+.vite/
+*.tsbuildinfo
 
 # Avoid committing tsc emit alongside src (Vite is the bundler)
-app/src/**/*.js
-app/src/**/*.d.ts
-app/tests/**/*.js
-app/tests/**/*.d.ts
-!app/src/vite-env.d.ts
+src/**/*.js
+src/**/*.d.ts
+tests/**/*.js
+tests/**/*.d.ts
+!src/vite-env.d.ts
+
+# Vite-scaffold defaults
+dist-ssr/
+*.local
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
 
 # OS
 .DS_Store
 Thumbs.db
 
 # Editor
-.vscode/
+.vscode/*
+!.vscode/extensions.json
 .idea/
-
-# Logs
-*.log
+*.suo
+*.sw?
 
 # Brainstorm/visual companion artifacts
 .superpowers/
 
 # Test artifacts
-app/coverage/
-app/playwright-report/
-app/test-results/
+coverage/
+playwright-report/
+test-results/
+
+# Temp
+*.tmp
