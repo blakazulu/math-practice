@@ -37,9 +37,14 @@ export function DashboardPage() {
 
         <motion.div initial="hidden" animate="show" variants={page} className="space-y-8">
           {!bank && <p className="text-muted">טוען נתונים…</p>}
-          {bank && (
+          {bank && (() => {
+            const firstTry = firstTryAccuracyPct(user);
+            return (
             <>
-              <section className="grid grid-cols-2 lg:grid-cols-4 gap-3 lg:gap-4">
+              <section
+                aria-label="סטטיסטיקות כלליות"
+                className="grid grid-cols-2 lg:grid-cols-4 gap-3 lg:gap-4"
+              >
                 <StatBan
                   label="כוכבים"
                   value={user.progress.stats.starsEarned}
@@ -68,9 +73,9 @@ export function DashboardPage() {
               </section>
 
               <p className="text-base text-muted">
-                {firstTryAccuracyPct(user) === null
+                {firstTry === null
                   ? "ענו על השאלה הראשונה כדי להתחיל לעקוב אחר ההצלחה."
-                  : `דיוק בנסיון ראשון: ${firstTryAccuracyPct(user)}%`}
+                  : `דיוק בניסיון ראשון: ${firstTry}%`}
               </p>
 
               {/* Section 2: Topic strength bars */}
@@ -78,7 +83,8 @@ export function DashboardPage() {
               {/* Section 4: Exam progression */}
               {/* Section 5: Action cards */}
             </>
-          )}
+            );
+          })()}
         </motion.div>
       </div>
     </main>

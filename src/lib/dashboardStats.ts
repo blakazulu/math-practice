@@ -103,11 +103,10 @@ export function todaySparkline(
   return dailyHistogram(user, 7, today).map((b) => b.count);
 }
 
-export function masteryTrendSparkline(user: UserState, bank: QuestionBank): number[] {
-  // Cheap proxy: current overall mastery as a single-point line.
-  // Real trend would require persisting daily mastery snapshots — out of scope here.
-  const m = overallMasteryPct(user, bank);
-  return [Math.max(0, m - 5), m];
+export function masteryTrendSparkline(_user: UserState, _bank: QuestionBank): number[] {
+  // Returns empty until daily mastery snapshots are persisted. A two-point fabrication
+  // would mislead users into seeing a trend that doesn't exist.
+  return [];
 }
 
 export function examTimeSeries(user: UserState): ExamPoint[] {

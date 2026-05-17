@@ -14,7 +14,7 @@ interface Props {
 
 const tintMap: Record<NonNullable<Props["tint"]>, string> = {
   brand: "bg-brand-100 text-brand-700",
-  warn: "bg-warn-100 text-warn-700",
+  warn: "bg-warn-200 text-warn-700",
   danger: "bg-danger-100 text-danger-600",
   muted: "bg-hair text-muted",
 };
@@ -33,7 +33,7 @@ export function StatBan({ label, value, unit, icon, sparkline, tint = "brand" }:
       <div className="flex items-end justify-between gap-3">
         <div className="text-4xl lg:text-5xl font-black tabular-nums text-ink leading-none">
           <CountUp value={value} />
-          {unit && <span className="text-xl text-muted font-bold mr-1">{unit}</span>}
+          {unit && <span className="text-xl text-muted font-bold ms-1">{unit}</span>}
         </div>
         {sparkline && sparkline.length > 0 && (
           <Sparkline data={sparkline} width={80} height={28} className="text-brand-500" />
