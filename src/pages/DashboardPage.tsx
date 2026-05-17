@@ -11,16 +11,16 @@ export function DashboardPage() {
   const loadBank = useStore((s) => s.loadBank);
   const navigate = useNavigate();
 
-  if (!user) {
-    navigate("/welcome", { replace: true });
-    return null;
-  }
-
   useEffect(() => {
     loadBank();
   }, [loadBank]);
 
   const page = useMotionVariants(pageEnter);
+
+  if (!user) {
+    navigate("/welcome", { replace: true });
+    return null;
+  }
 
   return (
     <main className="min-h-screen bg-white">
