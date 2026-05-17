@@ -29,7 +29,13 @@ export function ExamSlopeChart({ slopes }: Props) {
         <h3 className="text-xl font-bold text-ink">שיפור במבחנים</h3>
         <span className="section-label">ראשון מול אחרון</span>
       </div>
-      <svg viewBox={`0 0 ${W} ${H}`} width="100%" className="block" role="img">
+      <svg
+        viewBox={`0 0 ${W} ${H}`}
+        width="100%"
+        className="block"
+        role="img"
+        aria-label={`גרף שיפור במבחנים. ${slopes.length} מבחנים.`}
+      >
         {/* axes */}
         <line x1={leftX} y1={padTop} x2={leftX} y2={H - padBottom} stroke="#E5E7EB" />
         <line x1={rightX} y1={padTop} x2={rightX} y2={H - padBottom} stroke="#E5E7EB" />
