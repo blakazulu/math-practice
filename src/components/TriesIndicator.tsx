@@ -1,34 +1,36 @@
+import { Heart } from "lucide-react";
+
 interface Props {
   used: 0 | 1 | 2 | 3;
 }
 
 export function TriesIndicator({ used }: Props) {
+  const remaining = 3 - used;
   const dots = [0, 1, 2];
   return (
     <div
-      className="flex items-center gap-1.5"
-      aria-label={`${3 - used} ניסיונות נותרו`}
+      className="flex items-center gap-1"
+      role="img"
+      aria-label={`${remaining} ניסיונות נותרו`}
     >
       {dots.map((i) => {
         const consumed = i < used;
         return (
-          <svg
+          <span
             key={i}
-            width="14"
-            height="14"
-            viewBox="0 0 24 24"
-            className={`transition-all duration-300 ${
+            className={`inline-flex items-center justify-center w-6 h-6 rounded-full transition-all duration-300 ${
               consumed
-                ? "text-faint rotate-[30deg] scale-90"
-                : "text-brand-500 scale-100"
+                ? "bg-hair text-faint scale-90"
+                : "bg-brand-50 text-brand-600 scale-100 shadow-[0_1px_0_rgba(34,197,94,0.18)]"
             }`}
-            aria-hidden
           >
-            <path
-              d="M12 21V11c-3-1-5-3-5-7 4 0 5 3 5 7zm0-8c2-1 4-2 4-5-3 0-4 2-4 5z"
-              fill="currentColor"
+            <Heart
+              size={14}
+              strokeWidth={2.25}
+              fill={consumed ? "none" : "currentColor"}
+              aria-hidden
             />
-          </svg>
+          </span>
         );
       })}
     </div>

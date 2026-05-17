@@ -11,9 +11,7 @@ interface Props {
 export function ExplanationCard({ correctAnswer, explanation }: Props) {
   const stamp = useMotionVariants(springStamp);
   const child = useMotionVariants(riseIn);
-  const sentences = explanation
-    ? explanation.split(/(?<=[.!?])\s+/).map((s) => s.trim()).filter(Boolean)
-    : [];
+  const sentences = explanation ? splitSentencesPreservingMath(explanation) : [];
 
   return (
     <div className="mt-4 rounded-2xl bg-brand-50 border border-brand-200 p-4">
@@ -42,4 +40,33 @@ export function ExplanationCard({ correctAnswer, explanation }: Props) {
       )}
     </div>
   );
+}
+
+function splitSentencesPreservingMath(text: string): string[] {
+  const out: string[] = [];
+  let i = 0;
+  let start = 0;
+  let inMath = false;
+  while (i < text.length) {
+    if (text[i] === "\\" && (text[i + 1] === "(" || text[i + 1] === ")")) {
+      inMath = text[i + 1] === "(";
+      i += 2;
+      continue;
+    }
+    if (!inMath && (text[i] === "." || text[i] === "!" || text[i] === "?")) {
+      let j = i + 1;
+      while (j < text.length && /\s/.test(text[j])) j++;
+      if (j > i + 1) {
+        const piece = text.slice(start, i + 1).trim();
+        if (piece) out.push(piece);
+        start = j;
+        i = j;
+        continue;
+      }
+    }
+    i++;
+  }
+  const tail = text.slice(start).trim();
+  if (tail) out.push(tail);
+  return out;
 }
