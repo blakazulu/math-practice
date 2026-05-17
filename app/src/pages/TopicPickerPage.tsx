@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { PageHeader } from "@/components/PageHeader";
 import { useStore } from "@/store";
-import { topicIdFor } from "@/data/types";
+import { topicIdFor, urlFromTopicId } from "@/data/types";
 
 export function TopicPickerPage() {
   const bank = useStore((s) => s.bank);
@@ -35,7 +35,7 @@ export function TopicPickerPage() {
               {cat.topics.map((t) => (
                 <Link
                   key={t.id}
-                  to={`/practice/${encodeURIComponent(topicIdFor(cat.id, t.id))}`}
+                  to={`/practice/${urlFromTopicId(topicIdFor(cat.id, t.id))}`}
                   className="flex items-center justify-between px-4 py-3 hover:bg-surface"
                 >
                   <span className="font-semibold">{t.name_he}</span>

@@ -9,10 +9,11 @@ import { ExamGrid } from "@/components/ExamGrid";
 import { ExamTimer } from "@/components/ExamTimer";
 import { Confirm } from "@/components/Confirm";
 import type { ExamAnswerRecord, OptionLetter } from "@/data/types";
+import { topicIdFromUrl, urlFromTopicId } from "@/data/types";
 
 export function ExamPage() {
-  const params = useParams<{ examId: string }>();
-  const examIdParam = decodeURIComponent(params.examId ?? "");
+  const params = useParams<{ cat: string; topic: string }>();
+  const examIdParam = topicIdFromUrl(params.cat ?? "", params.topic ?? "") ?? "";
   const navigate = useNavigate();
 
   const user = useStore(selectActiveUser);
@@ -63,7 +64,7 @@ export function ExamPage() {
       total: s.queue.length,
       answers,
     });
-    navigate(`/exam/${encodeURIComponent(s.examId)}/results`, { replace: true });
+    navigate(`/exam/${urlFromTopicId(s.examId)}/results`, { replace: true });
   }, [user, bank, getQuestion, recordExamAnswer, appendExamAttempt, enqueueReview, navigate]);
 
   useEffect(() => {

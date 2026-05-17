@@ -230,3 +230,57 @@ export function dirForCategoryId(categoryId: string): string {
 export function topicIdFor(categoryId: string, topicSlug: string): string {
   return `${dirForCategoryId(categoryId)}/${topicSlug}`;
 }
+
+// ============================================================
+// ASCII URL slugs — keep Hebrew out of browser URLs
+// ============================================================
+
+/**
+ * Map from internal TopicId (Hebrew) → ASCII URL slug ("<category>/<topic>" form).
+ * Reverse lookup via topicIdFromUrl().
+ */
+export const TOPIC_URL_SLUGS: Record<string, string> = {
+  // math-knowledge
+  "01_ידע_מתמטי/שברים_עשרוניים": "math-knowledge/decimal-fractions",
+  "01_ידע_מתמטי/שברים_פשוטים": "math-knowledge/simple-fractions",
+  "01_ידע_מתמטי/אחוזים": "math-knowledge/percentages",
+  "01_ידע_מתמטי/רב_שלבי": "math-knowledge/multi-step",
+  "01_ידע_מתמטי/גאומטריה": "math-knowledge/geometry",
+  "01_ידע_מתמטי/חקר_נתונים": "math-knowledge/data-research",
+  "01_ידע_מתמטי/יחס": "math-knowledge/ratio",
+  "01_ידע_מתמטי/הספק": "math-knowledge/throughput",
+  "01_ידע_מתמטי/ממוצע": "math-knowledge/average",
+  // logic-reasoning
+  "02_חשיבה_והגיון/פירוק_לגורמים": "logic-reasoning/factoring",
+  "02_חשיבה_והגיון/פעולה_מומצאת": "logic-reasoning/invented-operation",
+  "02_חשיבה_והגיון/אמת_ושקר": "logic-reasoning/truth-falsehood",
+  "02_חשיבה_והגיון/סדרות": "logic-reasoning/sequences",
+  "02_חשיבה_והגיון/תנועה": "logic-reasoning/motion",
+  "02_חשיבה_והגיון/קומבינטוריקה": "logic-reasoning/combinatorics",
+  "02_חשיבה_והגיון/חשיבה_מרחבית": "logic-reasoning/spatial-reasoning",
+  // sample-exams
+  "03_מבחנים_לדוגמה/מבחן_לדוגמה_1": "sample-exams/exam-1",
+  "03_מבחנים_לדוגמה/מבחן_לדוגמה_2": "sample-exams/exam-2",
+  "03_מבחנים_לדוגמה/מבחן_לדוגמה_3": "sample-exams/exam-3",
+  "03_מבחנים_לדוגמה/מבחן_לדוגמה_4": "sample-exams/exam-4",
+  "03_מבחנים_לדוגמה/מבחן_לדוגמה_5": "sample-exams/exam-5",
+  "03_מבחנים_לדוגמה/מבחן_לדוגמה_6": "sample-exams/exam-6",
+  "03_מבחנים_לדוגמה/מבחן_לדוגמה_7": "sample-exams/exam-7",
+};
+
+const REVERSE_SLUG_LOOKUP: Record<string, string> = Object.fromEntries(
+  Object.entries(TOPIC_URL_SLUGS).map(([k, v]) => [v, k]),
+);
+
+/** Convert internal Hebrew TopicId to its ASCII URL slug. */
+export function urlFromTopicId(topicId: string): string {
+  return TOPIC_URL_SLUGS[topicId] ?? topicId;
+}
+
+/**
+ * Convert two URL segments (`:cat/:topic`) back to internal TopicId.
+ * Returns null if the slug is unknown.
+ */
+export function topicIdFromUrl(cat: string, topic: string): string | null {
+  return REVERSE_SLUG_LOOKUP[`${cat}/${topic}`] ?? null;
+}

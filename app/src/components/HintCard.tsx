@@ -1,4 +1,5 @@
 import { Lightbulb } from "lucide-react";
+import { InlineMath } from "@/lib/katex";
 
 interface Props {
   text: string;
@@ -9,7 +10,9 @@ export function HintCard({ text }: Props) {
   return (
     <div className="mt-4 rounded-2xl bg-warn-50 border border-warn-200 p-4 flex gap-3 text-warn-700">
       <Lightbulb size={20} className="shrink-0 mt-0.5" />
-      <p className="leading-relaxed">{text}</p>
+      <p className="leading-relaxed">
+        <InlineMath text={text} />
+      </p>
     </div>
   );
 }

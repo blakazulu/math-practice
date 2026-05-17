@@ -4,8 +4,8 @@ import { useStore } from "@/store";
 import { PageHeader } from "@/components/PageHeader";
 
 export function PracticeResultsPage() {
-  const params = useParams<{ topicId: string }>();
-  const topicId = decodeURIComponent(params.topicId ?? "");
+  const params = useParams<{ cat: string; topic: string }>();
+  const urlSlug = `${params.cat ?? ""}/${params.topic ?? ""}`;
   const session = useStore((s) => s.session);
   const endSession = useStore((s) => s.endSession);
   const r =
@@ -50,7 +50,7 @@ export function PracticeResultsPage() {
             לדף הבית
           </Link>
           <Link
-            to={`/practice/${encodeURIComponent(topicId)}`}
+            to={`/practice/${urlSlug}`}
             onClick={endSession}
             className="btn-primary"
           >

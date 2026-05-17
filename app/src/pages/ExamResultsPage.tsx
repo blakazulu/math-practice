@@ -5,10 +5,11 @@ import { selectActiveUser, useStore } from "@/store";
 import { PageHeader } from "@/components/PageHeader";
 import { QuestionCard } from "@/components/QuestionCard";
 import { ExplanationCard } from "@/components/ExplanationCard";
+import { topicIdFromUrl } from "@/data/types";
 
 export function ExamResultsPage() {
-  const params = useParams<{ examId: string }>();
-  const examId = decodeURIComponent(params.examId ?? "");
+  const params = useParams<{ cat: string; topic: string }>();
+  const examId = topicIdFromUrl(params.cat ?? "", params.topic ?? "") ?? "";
   const user = useStore(selectActiveUser);
   const getQuestion = useStore((s) => s.getQuestion);
 

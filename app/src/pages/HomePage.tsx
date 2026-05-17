@@ -7,7 +7,7 @@ import {
   useStore,
   type AppStore,
 } from "@/store";
-import { topicIdFor } from "@/data/types";
+import { topicIdFor, urlFromTopicId } from "@/data/types";
 import { StatPill } from "@/components/StatPill";
 import { ModeCard } from "@/components/ModeCard";
 import { TopicCard } from "@/components/TopicCard";
@@ -111,7 +111,7 @@ export function HomePage() {
                   return (
                     <TopicCard
                       key={topicId}
-                      to={`/practice/${encodeURIComponent(topicId)}`}
+                      to={`/practice/${urlFromTopicId(topicId)}`}
                       name={topicMeta ?? topicId}
                       attempted={t.attempted}
                       mastered={t.mastered}

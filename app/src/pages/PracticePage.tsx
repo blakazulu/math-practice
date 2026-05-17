@@ -9,11 +9,11 @@ import { ExplanationCard } from "@/components/ExplanationCard";
 import { StarBurst } from "@/components/StarBurst";
 import { seededShuffle } from "@/lib/shuffle";
 import type { OptionLetter, QuestionId, TopicId } from "@/data/types";
-import { topicIdFor } from "@/data/types";
+import { topicIdFor, topicIdFromUrl, urlFromTopicId } from "@/data/types";
 
 export function PracticePage() {
-  const params = useParams<{ topicId: string }>();
-  const topicId = decodeURIComponent(params.topicId ?? "") as TopicId;
+  const params = useParams<{ cat: string; topic: string }>();
+  const topicId = (topicIdFromUrl(params.cat ?? "", params.topic ?? "") ?? "") as TopicId;
   const navigate = useNavigate();
   const user = useStore(selectActiveUser);
   const bank = useStore((s) => s.bank);
@@ -70,7 +70,7 @@ export function PracticePage() {
   if (!session || session.mode === "exam") return null;
 
   if (session.index >= session.queue.length) {
-    navigate(`/practice/${encodeURIComponent(topicId)}/results`, { replace: true });
+    navigate(`/practice/${urlFromTopicId(topicId)}/results`, { replace: true });
     return null;
   }
 

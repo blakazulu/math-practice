@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { Calendar, Play } from "lucide-react";
 import { selectActiveUser, useStore } from "@/store";
 import { PageHeader } from "@/components/PageHeader";
-import { topicIdFor } from "@/data/types";
+import { topicIdFor, urlFromTopicId } from "@/data/types";
 
 export function ExamPickerPage() {
   const user = useStore(selectActiveUser);
@@ -42,7 +42,7 @@ export function ExamPickerPage() {
       timerEnabled,
       durationSec: 60 * 60,
     });
-    navigate(`/exam/${encodeURIComponent(examFullId)}`);
+    navigate(`/exam/${urlFromTopicId(examFullId)}`);
   }
 
   if (!user) {

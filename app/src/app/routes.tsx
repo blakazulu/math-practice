@@ -23,12 +23,12 @@ export function AppRoutes() {
       <Route path="/home" element={<HomePage />} />
       <Route path="/settings" element={<SettingsPage />} />
       <Route path="/practice" element={<TopicPickerPage />} />
-      <Route path="/practice/:topicId" element={<PracticePage />} />
-      <Route path="/practice/:topicId/results" element={<PracticeResultsPage />} />
+      <Route path="/practice/:cat/:topic" element={<PracticePage />} />
+      <Route path="/practice/:cat/:topic/results" element={<PracticeResultsPage />} />
       <Route path="/review" element={<ReviewPage />} />
       <Route path="/exam" element={<ExamPickerPage />} />
-      <Route path="/exam/:examId" element={<ExamPage />} />
-      <Route path="/exam/:examId/results" element={<ExamResultsPage />} />
+      <Route path="/exam/:cat/:topic" element={<ExamPage />} />
+      <Route path="/exam/:cat/:topic/results" element={<ExamResultsPage />} />
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   );
