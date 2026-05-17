@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { BookOpen, Calendar, Settings, Target } from "lucide-react";
+import { Settings, Target, X } from "lucide-react";
+import { AnimatePresence, motion } from "framer-motion";
 import { selectActiveUser, selectReviewQueueSize, useStore } from "@/store";
 import { topicIdFor, urlFromTopicId } from "@/data/types";
 import type { TopicProgress } from "@/data/types";
@@ -9,8 +10,50 @@ import { Logo } from "@/components/Logo";
 import { HeroBackdrop } from "@/components/HeroBackdrop";
 import { Ornament } from "@/components/Ornament";
 import { Confetti } from "@/components/Confetti";
+import { riseIn, pageEnter, useMotionVariants } from "@/lib/motion";
 
 type OrnamentName = "compass" | "brain-wave" | "sprout-mark";
+
+interface TopicRow {
+  id: string;
+  name: string;
+  total: number;
+  progress?: TopicProgress;
+}
+
+interface CategoryView {
+  id: string;
+  name: string;
+  topics: TopicRow[];
+  ornament: OrnamentName;
+  description: string;
+  isExam: boolean;
+  totalQs: number;
+  attempted: number;
+  mastered: number;
+  pct: number;
+}
+
+const CATEGORY_META: Record<
+  string,
+  { ornament: OrnamentName; description: string; isExam: boolean }
+> = {
+  "math-knowledge": {
+    ornament: "compass",
+    description: "שברים, אחוזים, גאומטריה, פעולות חשבון.",
+    isExam: false,
+  },
+  "logic-reasoning": {
+    ornament: "brain-wave",
+    description: "חשיבה מרחבית, סדרות, רצפים, אנלוגיות.",
+    isExam: false,
+  },
+  "sample-exams": {
+    ornament: "sprout-mark",
+    description: "מבחנים שלמים בסדר אמיתי. אופציה לשעון 60 דקות.",
+    isExam: true,
+  },
+};
 
 export function HomePage() {
   const user = useStore(selectActiveUser);
@@ -28,12 +71,10 @@ export function HomePage() {
     loadBank();
   }, [loadBank]);
 
-  const categoryRows = useMemo(() => {
+  const categories: CategoryView[] = useMemo(() => {
     if (!bank) return [];
-    return bank.categories.map((cat) => ({
-      id: cat.id,
-      name: cat.name_he,
-      topics: cat.topics.map((t) => {
+    return bank.categories.map((cat) => {
+      const topics: TopicRow[] = cat.topics.map((t) => {
         const fullId = topicIdFor(cat.id, t.id);
         return {
           id: fullId,
@@ -41,13 +82,35 @@ export function HomePage() {
           total: t.question_count,
           progress: user?.progress.topics[fullId] as TopicProgress | undefined,
         };
-      }),
-    }));
+      });
+      const totalQs = topics.reduce((n, t) => n + t.total, 0);
+      const attempted = topics.reduce((n, t) => n + (t.progress?.attempted ?? 0), 0);
+      const mastered = topics.reduce((n, t) => n + (t.progress?.mastered ?? 0), 0);
+      const pct = totalQs > 0 ? Math.round((mastered / totalQs) * 100) : 0;
+      const meta = CATEGORY_META[cat.id] ?? {
+        ornament: "sprout-mark" as OrnamentName,
+        description: "",
+        isExam: false,
+      };
+      return {
+        id: cat.id,
+        name: cat.name_he,
+        topics,
+        totalQs,
+        attempted,
+        mastered,
+        pct,
+        ornament: meta.ornament,
+        description: meta.description,
+        isExam: meta.isExam,
+      };
+    });
   }, [bank, user]);
 
   const fullName = user?.name ?? "";
   const [typed, setTyped] = useState(fullName);
   const [confettiTrigger, setConfettiTrigger] = useState(0);
+  const [openCategoryId, setOpenCategoryId] = useState<string | null>(null);
   const lastStreakRef = useRef(0);
 
   useEffect(() => {
@@ -77,9 +140,9 @@ export function HomePage() {
   if (!user) return null;
 
   const stats = user.progress.stats;
-  const mathCat = categoryRows.find((c) => c.id === "math-knowledge");
-  const logicCat = categoryRows.find((c) => c.id === "logic-reasoning");
-  const examsCat = categoryRows.find((c) => c.id === "sample-exams");
+  const openCategory = openCategoryId
+    ? categories.find((c) => c.id === openCategoryId) ?? null
+    : null;
 
   return (
     <main className="min-h-screen bg-white">
@@ -102,13 +165,14 @@ export function HomePage() {
           </div>
         </header>
 
-        {/* Hero band */}
         <section className="relative mb-8 lg:mb-10 overflow-hidden">
           <HeroBackdrop position="top-left" />
           <div className="relative z-10">
             <p className="section-label mb-3">תרגול חשבון מתקדם · כיתות ו׳</p>
             <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tightest leading-[1.06] text-ink">
-              שלום {typed},<br />
+              שלום {typed}
+              {typed ? "," : ""}
+              <br />
               <span className="h1-hero-accent">מה נתאמן היום?</span>
             </h1>
             <p className="mt-4 text-lg text-muted max-w-2xl">
@@ -117,7 +181,6 @@ export function HomePage() {
           </div>
         </section>
 
-        {/* Review queue banner */}
         {reviewSize > 0 && (
           <Link
             to="/review"
@@ -129,184 +192,199 @@ export function HomePage() {
           </Link>
         )}
 
-        {/* Mode picker — asymmetric: primary spans 2/3, secondary 1/3 */}
-        <section className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-12">
-          <div className="sm:col-span-2">
-            <ModeBigCard
-              to="/practice"
-              icon={<BookOpen size={28} />}
-              title="תרגול לפי נושא"
-              subtitle="בחרי תחום, 3 ניסיונות לכל שאלה, רמז ביניהם."
-              primary
-            />
-          </div>
-          <ModeBigCard
-            to="/exam"
-            icon={<Calendar size={28} />}
-            title="מבחן לדוגמה"
-            subtitle="24 שאלות, אופציה לשעון של 60 דקות."
-          />
-        </section>
-
         {bankError && (
           <p className="text-danger-600 mb-4">שגיאה בטעינת השאלות: {bankError}</p>
         )}
         {!bank && !bankError && <p className="text-muted">טוען נושאים...</p>}
 
-        {mathCat && (
-          <CategorySection
-            title={mathCat.name}
-            topics={mathCat.topics}
-            cta="תרגול"
-            ornamentName="compass"
-          />
-        )}
-
-        {logicCat && (
-          <CategorySection
-            title={logicCat.name}
-            topics={logicCat.topics}
-            cta="תרגול"
-            ornamentName="brain-wave"
-          />
-        )}
-
-        {examsCat && (
-          <CategorySection
-            title={examsCat.name}
-            topics={examsCat.topics}
-            cta="מבחן"
-            examMode
-            ornamentName="sprout-mark"
-          />
+        {categories.length > 0 && (
+          <section className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            {categories.map((cat) => (
+              <CategoryBlock
+                key={cat.id}
+                category={cat}
+                onOpen={() => setOpenCategoryId(cat.id)}
+              />
+            ))}
+          </section>
         )}
       </div>
 
       <Confetti trigger={confettiTrigger} />
+
+      <CategoryModal
+        category={openCategory}
+        onClose={() => setOpenCategoryId(null)}
+      />
     </main>
   );
 }
 
-function ModeBigCard({
-  to,
-  icon,
-  title,
-  subtitle,
-  primary,
+function CategoryBlock({
+  category,
+  onOpen,
 }: {
-  to: string;
-  icon: React.ReactNode;
-  title: string;
-  subtitle: string;
-  primary?: boolean;
+  category: CategoryView;
+  onOpen: () => void;
 }) {
-  const base = primary
-    ? "bg-brand-500 text-white border-brand-600 shadow-cta active:shadow-cta-pressed active:translate-y-[2px]"
-    : "bg-surface border-border hover:border-brand-500";
+  const circumference = 2 * Math.PI * 28;
+  const dash = (category.pct / 100) * circumference;
   return (
-    <Link
-      to={to}
-      className={`card p-6 lg:p-8 flex items-start gap-4 transition-all ${base} focus-visible:ring-2 focus-visible:ring-brand-500`}
+    <button
+      onClick={onOpen}
+      className="card card-warm relative text-right p-6 lg:p-7 flex flex-col gap-4 hover:border-brand-500 focus-visible:ring-2 focus-visible:ring-brand-500 transition-all"
     >
-      <span
-        className={`shrink-0 w-14 h-14 rounded-2xl grid place-items-center ${
-          primary ? "bg-white/20" : "bg-brand-100 text-brand-600"
-        }`}
-      >
-        {icon}
-      </span>
-      <div className="flex-1">
-        <div className={`text-xl lg:text-2xl font-bold ${primary ? "text-white" : "text-ink"}`}>
-          {title}
-        </div>
-        <div className={`mt-1 text-base ${primary ? "text-white/85" : "text-muted"}`}>
-          {subtitle}
-        </div>
+      <div className="flex items-start justify-between gap-3">
+        <span className="w-14 h-14 rounded-2xl grid place-items-center bg-brand-100 text-brand-600">
+          <Ornament name={category.ornament} size={28} />
+        </span>
+        <svg width="64" height="64" viewBox="0 0 64 64" aria-hidden>
+          <circle cx="32" cy="32" r="28" fill="none" stroke="#F3F4F6" strokeWidth="6" />
+          <circle
+            cx="32"
+            cy="32"
+            r="28"
+            fill="none"
+            stroke="#22C55E"
+            strokeWidth="6"
+            strokeLinecap="round"
+            strokeDasharray={`${dash} ${circumference}`}
+            transform="rotate(-90 32 32)"
+          />
+          <text
+            x="32"
+            y="36"
+            textAnchor="middle"
+            className="fill-ink"
+            style={{ fontSize: "16px", fontWeight: 800 }}
+          >
+            {category.pct}%
+          </text>
+        </svg>
       </div>
-    </Link>
+
+      <div>
+        <h3 className="text-xl lg:text-2xl font-bold text-ink leading-tight">{category.name}</h3>
+        <p className="mt-1 text-base text-muted leading-relaxed">{category.description}</p>
+      </div>
+
+      <div className="mt-auto flex items-center justify-between text-base">
+        <span className="text-muted tabular-nums">
+          {category.topics.length} {category.isExam ? "מבחנים" : "נושאים"} · {category.totalQs} שאלות
+        </span>
+        <span className="text-brand-700 font-semibold">פתחי ←</span>
+      </div>
+    </button>
   );
 }
 
-function CategorySection({
-  title,
-  topics,
-  cta,
-  examMode,
-  ornamentName,
+function CategoryModal({
+  category,
+  onClose,
 }: {
-  title: string;
-  topics: Array<{
-    id: string;
-    name: string;
-    total: number;
-    progress?: TopicProgress;
-  }>;
-  cta: string;
-  examMode?: boolean;
-  ornamentName?: OrnamentName;
+  category: CategoryView | null;
+  onClose: () => void;
 }) {
-  void cta;
+  const reducedChild = useMotionVariants(riseIn);
   return (
-    <section className="mb-10">
-      <h2 className="section-label mb-4 flex items-center gap-2">
-        {ornamentName && (
-          <span className="text-brand-500">
-            <Ornament name={ornamentName} size={18} />
-          </span>
-        )}
-        {title}
-      </h2>
-      <div
-        className="grid gap-3"
-        style={{ gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))" }}
-      >
-        {topics.map((t) => {
-          const attempted = t.progress?.attempted ?? 0;
-          const mastered = t.progress?.mastered ?? 0;
-          const pct = t.total > 0 ? Math.round((mastered / t.total) * 100) : 0;
-          const to = examMode
-            ? `/exam/${urlFromTopicId(t.id)}`
-            : `/practice/${urlFromTopicId(t.id)}`;
-          const circumference = 2 * Math.PI * 12;
-          return (
-            <Link
-              key={t.id}
-              to={to}
-              className="relative card p-4 lg:p-5 flex flex-col gap-2 hover:border-brand-500 focus-visible:ring-2 focus-visible:ring-brand-500"
-            >
-              <div className="absolute top-3 left-3" aria-hidden>
-                <svg width="28" height="28" viewBox="0 0 28 28">
-                  <circle cx="14" cy="14" r="12" fill="none" stroke="#F3F4F6" strokeWidth="3" />
-                  <circle
-                    cx="14"
-                    cy="14"
-                    r="12"
-                    fill="none"
-                    stroke="#22C55E"
-                    strokeWidth="3"
-                    strokeLinecap="round"
-                    strokeDasharray={`${(pct / 100) * circumference} ${circumference}`}
-                    transform="rotate(-90 14 14)"
-                  />
-                </svg>
-              </div>
-              <div className="flex items-baseline justify-between gap-2 pl-9">
-                <span className="font-bold text-lg text-ink truncate">{t.name}</span>
-                <span className="text-base text-faint tabular-nums shrink-0">
-                  {attempted}/{t.total}
+    <AnimatePresence>
+      {category && (
+        <motion.div
+          role="dialog"
+          aria-modal="true"
+          aria-label={category.name}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-6 bg-ink/40 backdrop-blur-sm"
+          onClick={onClose}
+        >
+          <motion.div
+            initial={{ y: 32, opacity: 0, scale: 0.96 }}
+            animate={{ y: 0, opacity: 1, scale: 1 }}
+            exit={{ y: 24, opacity: 0, scale: 0.98 }}
+            transition={{ type: "spring", stiffness: 340, damping: 28 }}
+            className="card w-full max-w-2xl max-h-[88vh] sm:max-h-[80vh] rounded-t-3xl sm:rounded-3xl shadow-xl flex flex-col"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <header className="flex items-start justify-between gap-3 p-5 sm:p-6 border-b border-hair">
+              <div className="flex items-start gap-3 min-w-0">
+                <span className="w-11 h-11 rounded-xl grid place-items-center bg-brand-100 text-brand-600 shrink-0">
+                  <Ornament name={category.ornament} size={22} />
                 </span>
+                <div className="min-w-0">
+                  <h2 className="text-xl font-bold text-ink">{category.name}</h2>
+                  <p className="text-muted text-base">
+                    {category.topics.length} {category.isExam ? "מבחנים" : "נושאים"} ·{" "}
+                    {category.totalQs} שאלות
+                  </p>
+                </div>
               </div>
-              <div className="text-base text-muted">
-                {attempted === 0
-                  ? "עוד לא התחלת"
-                  : pct === 100
-                    ? "שליטה מלאה"
-                    : `${pct}% שליטה`}
-              </div>
-            </Link>
-          );
-        })}
-      </div>
-    </section>
+              <button
+                onClick={onClose}
+                aria-label="סגירה"
+                className="shrink-0 rounded-full p-2 hover:bg-hair focus-visible:ring-2 focus-visible:ring-brand-500"
+              >
+                <X size={20} />
+              </button>
+            </header>
+
+            <motion.ul
+              initial="hidden"
+              animate="show"
+              variants={pageEnter}
+              className="flex-1 overflow-y-auto p-3 sm:p-4 space-y-2"
+            >
+              {category.topics.map((t) => {
+                const attempted = t.progress?.attempted ?? 0;
+                const mastered = t.progress?.mastered ?? 0;
+                const pct = t.total > 0 ? Math.round((mastered / t.total) * 100) : 0;
+                const to = category.isExam
+                  ? `/exam/${urlFromTopicId(t.id)}`
+                  : `/practice/${urlFromTopicId(t.id)}`;
+                const c = 2 * Math.PI * 12;
+                return (
+                  <motion.li key={t.id} variants={reducedChild}>
+                    <Link
+                      to={to}
+                      onClick={onClose}
+                      className="card flex items-center gap-3 p-4 hover:border-brand-500 focus-visible:ring-2 focus-visible:ring-brand-500"
+                    >
+                      <svg width="32" height="32" viewBox="0 0 32 32" aria-hidden className="shrink-0">
+                        <circle cx="16" cy="16" r="12" fill="none" stroke="#F3F4F6" strokeWidth="3" />
+                        <circle
+                          cx="16"
+                          cy="16"
+                          r="12"
+                          fill="none"
+                          stroke="#22C55E"
+                          strokeWidth="3"
+                          strokeLinecap="round"
+                          strokeDasharray={`${(pct / 100) * c} ${c}`}
+                          transform="rotate(-90 16 16)"
+                        />
+                      </svg>
+                      <div className="flex-1 min-w-0">
+                        <div className="font-bold text-lg text-ink leading-snug">{t.name}</div>
+                        <div className="text-base text-muted mt-0.5 tabular-nums">
+                          {attempted === 0
+                            ? `${t.total} שאלות`
+                            : pct === 100
+                              ? "שליטה מלאה"
+                              : `${attempted}/${t.total} · ${pct}% שליטה`}
+                        </div>
+                      </div>
+                      <span className="shrink-0 text-brand-700 font-semibold">
+                        {category.isExam ? "התחלי ←" : "תרגלי ←"}
+                      </span>
+                    </Link>
+                  </motion.li>
+                );
+              })}
+            </motion.ul>
+          </motion.div>
+        </motion.div>
+      )}
+    </AnimatePresence>
   );
 }
