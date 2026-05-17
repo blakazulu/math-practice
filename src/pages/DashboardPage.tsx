@@ -5,6 +5,7 @@ import { Star, Flame, Target, TrendingUp } from "lucide-react";
 import { PageHeader } from "@/components/PageHeader";
 import { StatBan } from "@/components/dashboard/StatBan";
 import { SortedTopicBars } from "@/components/dashboard/SortedTopicBars";
+import { TopicBulletList } from "@/components/dashboard/TopicBulletList";
 import { selectActiveUser, useStore } from "@/store";
 import { pageEnter, useMotionVariants } from "@/lib/motion";
 import {
@@ -81,7 +82,9 @@ export function DashboardPage() {
               </p>
 
               <SortedTopicBars rows={masteryByTopic(user, bank)} />
-              {/* Section 3: Topic bullet graphs */}
+
+              <TopicBulletList rows={masteryByTopic(user, bank)} />
+
               {/* Section 4: Exam progression */}
               {/* Section 5: Action cards */}
             </>
