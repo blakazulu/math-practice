@@ -53,7 +53,7 @@ export function SettingsPage() {
           </button>
         </section>
 
-        <section className="card p-4 border-danger-200">
+        <section className="card p-4 border-danger-200 bg-danger-50/40">
           <div className="section-label !text-danger-600 mb-3">אזור מסוכן</div>
           <button
             onClick={() => setDeleteOpen(true)}
