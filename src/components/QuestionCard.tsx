@@ -64,8 +64,12 @@ export function QuestionCard({
         </div>
       ) : null}
 
-      <div className="text-base sm:text-lg leading-relaxed text-ink">
-        <InlineMath text={question.question} />
+      <div className="text-base sm:text-lg leading-relaxed text-ink space-y-2">
+        {question.question.split(/\n\n+/).map((para, i) => (
+          <p key={i}>
+            <InlineMath text={para} />
+          </p>
+        ))}
       </div>
     </motion.section>
   );

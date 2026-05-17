@@ -31,6 +31,26 @@
     unicode-bidi: isolate;
   }
 
+  /* Keep a single inline expression from being broken across lines mid-token,
+     and give it breathing room from adjacent Hebrew text. */
+  .katex {
+    white-space: nowrap;
+    padding-inline: 0.2em;
+  }
+
+  /* Block-mode math (auto-detected for \begin{} environments) gets its own line. */
+  .math-block {
+    display: block;
+    margin-block: 0.4em;
+  }
+  .math-block .katex {
+    white-space: normal;
+    padding-inline: 0;
+  }
+  .katex-display {
+    margin-block: 0.4em;
+  }
+
   .tabular-nums {
     font-variant-numeric: tabular-nums;
   }

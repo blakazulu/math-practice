@@ -18,13 +18,17 @@ export function InlineMath({ text, className }: Props) {
 }
 
 function MathSpan({ tex }: { tex: string }) {
+  const display = /\\begin\{/.test(tex);
   const html = useMemo(() => {
     try {
-      return katex.renderToString(tex, { throwOnError: false, displayMode: false });
+      return katex.renderToString(tex, { throwOnError: false, displayMode: display });
     } catch {
       return tex;
     }
-  }, [tex]);
+  }, [tex, display]);
+  if (display) {
+    return <span className="math-block" dangerouslySetInnerHTML={{ __html: html }} />;
+  }
   return <span dangerouslySetInnerHTML={{ __html: html }} />;
 }
 
