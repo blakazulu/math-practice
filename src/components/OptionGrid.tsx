@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Check, X } from "lucide-react";
 import { motion } from "framer-motion";
 import type { OptionLetter, RawQuestion } from "@/data/types";
@@ -35,7 +35,14 @@ export function OptionGrid({
 }: Props) {
   const [shake, setShake] = useState<OptionLetter | null>(null);
   const [redRing, setRedRing] = useState<OptionLetter | null>(null);
+  const shakeTimeout = useRef<number | null>(null);
   const child = useMotionVariants(riseIn);
+
+  useEffect(() => {
+    return () => {
+      if (shakeTimeout.current !== null) window.clearTimeout(shakeTimeout.current);
+    };
+  }, []);
 
   const letters = (["א", "ב", "ג", "ד"] as OptionLetter[]).filter(
     (l) => question.options[l] !== undefined,
@@ -66,7 +73,8 @@ export function OptionGrid({
     if (correctLetter && l !== correctLetter) {
       setShake(l);
       setRedRing(l);
-      window.setTimeout(() => setShake(null), 400);
+      if (shakeTimeout.current !== null) window.clearTimeout(shakeTimeout.current);
+      shakeTimeout.current = window.setTimeout(() => setShake(null), 400);
     }
     onPick(l);
   }

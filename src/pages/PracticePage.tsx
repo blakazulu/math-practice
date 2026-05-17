@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { selectActiveUser, useStore } from "@/store";
 import { PageHeader } from "@/components/PageHeader";
@@ -31,6 +31,13 @@ export function PracticePage() {
   const [stickyWrong, setStickyWrong] = useState<OptionLetter[]>([]);
   const [starKey, setStarKey] = useState(0);
   const [flashGreen, setFlashGreen] = useState(false);
+  const flashTimeout = useRef<number | null>(null);
+
+  useEffect(() => {
+    return () => {
+      if (flashTimeout.current !== null) window.clearTimeout(flashTimeout.current);
+    };
+  }, []);
 
   useEffect(() => {
     loadBank();
@@ -92,7 +99,8 @@ export function PracticePage() {
     if (outcome === "first-correct") {
       setStarKey((k) => k + 1);
       setFlashGreen(true);
-      window.setTimeout(() => setFlashGreen(false), 300);
+      if (flashTimeout.current !== null) window.clearTimeout(flashTimeout.current);
+      flashTimeout.current = window.setTimeout(() => setFlashGreen(false), 300);
     }
     if (user && topic) {
       recordAnswer({
