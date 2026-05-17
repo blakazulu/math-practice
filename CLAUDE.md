@@ -21,15 +21,15 @@ npm run preview          # serve the built bundle
 npm run sync-data        # refresh public/data/ from data/ + docs/images/
 
 # Tests
-npm test                                                   # all 38 vitest tests
+npm test                                                   # all 40 vitest tests
 npx vitest run tests/unit/streak.test.ts                  # one file
 npx vitest run -t "applyStreak"                           # by name pattern
 npx vitest                                                 # watch mode
 npm run test:e2e                                          # Playwright (run `npx playwright install chromium` once)
 
 # Lint / format
-npm run lint
-npm run format
+npm run lint     # NOTE: currently broken — eslint v9 needs the flat config format
+npm run format   # prettier, works fine
 
 # Python tools (no deps; rebuild the bank from data/db/*.md)
 PYTHONIOENCODING=utf-8 python tools/parse_questions.py    # → data/questions.json + report
@@ -97,8 +97,27 @@ The user has **two strict preferences** captured in `memory/`:
 
 Additional rules baked into the styles:
 
-- **16px minimum font size everywhere**. `src/styles/index.css` overrides Tailwind's `text-xs` and `text-sm` to render at 16px. The only exception is `.section-label` (uppercase + tracking gives small-caps feel at 16px).
+- **16px minimum font size everywhere**. `src/styles/index.css` overrides Tailwind's `text-xs` and `text-sm` to render at 16px. The only exception is `.section-label` (uppercase + tracking gives small-caps feel at 16px). New code must not use `text-[<arbitrary>]` or inline `fontSize`.
 - Hebrew RTL is set at `<html dir="rtl">`. KaTeX math is forced LTR in CSS so inline expressions render correctly inside RTL paragraphs.
+
+## Motion & animation
+
+Framer Motion v12 is installed (it had been a dep, finally used after the May-17 polish pass). The animation system has one entry point and a strict reduced-motion contract:
+
+- **`src/lib/motion.ts`** exports shared Variants: `pageEnter`, `riseIn`, `slideInRTL` (RTL-correct: `x: 12 → 0`), `springStamp`, plus `useMotionVariants()` which degrades to fade-only under `prefers-reduced-motion`. Always import variants from here — don't write ad-hoc Variants inline.
+- **`src/lib/useMagnetic.ts`** — cursor-magnetic translation for primary CTAs. Bails out on `(pointer: coarse)` and `(prefers-reduced-motion: reduce)` before installing listeners. Don't combine on the same element with a Framer Motion `whileHover` transform — they fight over `style.transform`.
+- **Atmospheric components**: `HeroBackdrop` (radial gradient mesh), `GrainOverlay` (fixed SVG noise, mounted once at App root), `Ornament` (sprout-mark / compass / brain-wave / leaf-cluster SVG family). Use these instead of flat colored backgrounds when adding a new hero.
+- **Effect components**: `Confetti` (inline-SVG particle burst, trigger via incrementing key), `CountUp` (RAF-driven number animation), `StarBurst` (7-star radial burst for first-try-correct). All respect reduced-motion.
+- **Reduced-motion override** in `src/styles/index.css` neutralizes every new animation utility (`animate-bob`, `animate-pulse-glow`, `animate-confetti-pop`, `animate-ring-sweep`, `animate-underline-grow`, `animate-flicker`). When you add a new `@keyframes` entry to `tailwind.config.ts`, add the matching class to that override block.
+- **Bundle weight**: Framer Motion costs ~140 kB un-gzipped. The current bundle is ~633 kB (198 kB gzip). If this becomes a problem, route-level lazy-loading on the exam pages is the cheapest win — they pull the heaviest deps (KaTeX + AnimatePresence).
+
+## HomePage navigation pattern
+
+The HomePage uses a **category-block + modal** pattern, not a flat topic wall:
+
+- Three big category cards (math, logic, sample exams) with overall progress rings.
+- Tapping one opens a slide-up (mobile) / scale-in (desktop) modal listing every topic in that category with full names — no truncation.
+- Long Hebrew topic names (e.g. "פעולות חשבון בשלמים שליליים וחיוביים") must wrap naturally, never `truncate`/ellipsis. If you add a new topic-list surface, follow the modal pattern.
 
 ## Source-of-truth data flow
 
@@ -126,7 +145,9 @@ Target is Netlify. Base directory `/`, build command `npm run build`, publish di
 
 ## Recent reference docs
 
-- Full design spec: `docs/superpowers/specs/2026-05-17-math-practice-app-design.md`
+- Original design spec: `docs/superpowers/specs/2026-05-17-math-practice-app-design.md`
 - Original implementation plan: `docs/superpowers/plans/2026-05-17-math-practice-app.md`
+- Polish-pass design spec: `docs/superpowers/specs/2026-05-17-frontend-polish-pass-design.md`
+- Polish-pass implementation plan: `docs/superpowers/plans/2026-05-17-frontend-polish-pass.md`
 - Image-question triage doc (human-readable, 78 KB): `docs/image_dependent_questions.md`
 - Project memory directory: `C:\Users\liraz\.claude\projects\D--Code-My-Stuff-math-practice\memory\`
