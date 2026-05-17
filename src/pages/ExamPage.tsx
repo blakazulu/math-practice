@@ -8,6 +8,7 @@ import { OptionGrid } from "@/components/OptionGrid";
 import { ExamGrid } from "@/components/ExamGrid";
 import { ExamTimer } from "@/components/ExamTimer";
 import { Confirm } from "@/components/Confirm";
+import { CountUp } from "@/components/CountUp";
 import type { ExamAnswerRecord, OptionLetter } from "@/data/types";
 import { topicIdFromUrl, urlFromTopicId } from "@/data/types";
 
@@ -92,6 +93,11 @@ export function ExamPage() {
   const picked = session.picks[currentId] ?? null;
   const flagged = session.flagged[currentId] ?? false;
 
+  const answeredCount = Object.values(session.picks).filter(Boolean).length;
+  const flaggedCount = Object.values(session.flagged).filter(Boolean).length;
+  const remaining = session.queue.length - answeredCount;
+  const answeredPct = (answeredCount / session.queue.length) * 100;
+
   function handlePick(l: OptionLetter) {
     examPick(currentId, picked === l ? null : l);
   }
@@ -118,6 +124,18 @@ export function ExamPage() {
             </>
           }
         />
+
+        <div className="flex flex-wrap items-center gap-2 mb-4 text-sm">
+          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-brand-50 text-brand-700 font-semibold tabular-nums">
+            נענו <CountUp value={answeredCount} />/{session.queue.length}
+          </span>
+          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-warn-50 text-warn-700 font-semibold tabular-nums">
+            מסומנות <CountUp value={flaggedCount} />
+          </span>
+          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-hair text-ink font-semibold tabular-nums">
+            נותרו <CountUp value={remaining} />
+          </span>
+        </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-[1fr_240px] gap-6 lg:gap-10">
           <section>
@@ -158,13 +176,24 @@ export function ExamPage() {
 
           <aside className="lg:sticky lg:top-6 self-start">
             <div className="section-label mb-2">דפדוף</div>
-            <ExamGrid
-              queue={session.queue}
-              picks={session.picks}
-              flagged={session.flagged}
-              currentIndex={session.index}
-              onJump={examJumpTo}
-            />
+            <div className="flex gap-2">
+              <div className="w-1.5 rounded-full bg-hair relative self-stretch">
+                <div
+                  className="absolute bottom-0 left-0 right-0 rounded-full bg-brand-500 transition-all duration-300"
+                  style={{ height: `${answeredPct}%` }}
+                  aria-hidden
+                />
+              </div>
+              <div className="flex-1 lg:max-h-none max-h-[40vh] overflow-y-auto">
+                <ExamGrid
+                  queue={session.queue}
+                  picks={session.picks}
+                  flagged={session.flagged}
+                  currentIndex={session.index}
+                  onJump={examJumpTo}
+                />
+              </div>
+            </div>
           </aside>
         </div>
       </div>
@@ -172,7 +201,9 @@ export function ExamPage() {
       <Confirm
         open={confirmEnd}
         title="לסיים את המבחן?"
-        body={`ענית על ${Object.values(session.picks).filter(Boolean).length} מתוך ${session.queue.length} שאלות.`}
+        body={`ענית על ${answeredCount} מתוך ${session.queue.length} שאלות.${
+          flaggedCount > 0 ? ` יש ${flaggedCount} שאלות מסומנות.` : ""
+        }`}
         confirmLabel="סיים והצג ציון"
         onConfirm={() => {
           setConfirmEnd(false);
