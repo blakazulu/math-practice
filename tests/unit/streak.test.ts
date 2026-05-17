@@ -41,4 +41,21 @@ describe("applyStreak", () => {
     expect(s.currentStreakDays).toBe(1);
     expect(s.longestStreakDays).toBe(3);
   });
+
+  it("writes today's count into dailyAnswered map on every call", () => {
+    let s = applyStreak({ ...EMPTY_STATS }, "2026-05-17");
+    expect(s.dailyAnswered["2026-05-17"]).toBe(1);
+    s = applyStreak(s, "2026-05-17");
+    expect(s.dailyAnswered["2026-05-17"]).toBe(2);
+    s = applyStreak(s, "2026-05-18");
+    expect(s.dailyAnswered["2026-05-17"]).toBe(2);
+    expect(s.dailyAnswered["2026-05-18"]).toBe(1);
+  });
+
+  it("preserves prior days' counts when the streak resets", () => {
+    let s = applyStreak({ ...EMPTY_STATS }, "2026-05-17");
+    s = applyStreak(s, "2026-05-21"); // gap > 1, streak resets
+    expect(s.dailyAnswered["2026-05-17"]).toBe(1);
+    expect(s.dailyAnswered["2026-05-21"]).toBe(1);
+  });
 });

@@ -131,6 +131,8 @@ export interface UserStats {
   longestStreakDays: number;
   lastActiveDate: string;
   todayCount: number;
+  /** Map of "YYYY-MM-DD" → questions answered that day. Append-only; never trim. */
+  dailyAnswered: Record<string, number>;
 }
 
 export interface UserProgress {
@@ -202,6 +204,7 @@ export const EMPTY_STATS: UserStats = {
   longestStreakDays: 0,
   lastActiveDate: "",
   todayCount: 0,
+  dailyAnswered: {},
 };
 
 export function emptyProgress(): UserProgress {
