@@ -28,8 +28,10 @@ function categoryOf(slug) {
   return cat;
 }
 
-// Reverse map: URL topicSlug → Hebrew topic id (mirrors TOPIC_URL_SLUGS).
-// Hand-coded to avoid importing TS at build time.
+// Mirrors TOPIC_URL_SLUGS in src/data/types.ts. Hand-maintained because importing
+// TypeScript directly from a Node build script would require an extra compile step.
+// Sync is guarded by the manifest tests (TS pdfManifest <-> tools/pdf/manifest.json),
+// but adding a new topic still requires editing this map by hand.
 const SLUG_TO_HEBREW_TOPIC = {
   "math-knowledge/decimal-fractions": "שברים_עשרוניים",
   "math-knowledge/simple-fractions": "שברים_פשוטים",
@@ -74,6 +76,8 @@ async function main() {
   }
 
   const imagesBaseUrl = pathToFileURL(IMAGES_DIR).href;
+  const cssHref = pathToFileURL(join(__dirname, "print.css")).href;
+  const katexHref = pathToFileURL(join(__dirname, "katex.min.css")).href;
 
   const browser = await chromium.launch();
   const ctx = await browser.newContext();
@@ -94,6 +98,8 @@ async function main() {
         questions: topic.questions,
         mapping,
         imagesBaseUrl,
+        cssHref,
+        katexHref,
       });
 
       const htmlPath = join(OUT_DIR, `${entry.slug}.html`);
@@ -102,6 +108,7 @@ async function main() {
 
       const page = await ctx.newPage();
       await page.goto(pathToFileURL(htmlPath).href, { waitUntil: "networkidle" });
+      await page.evaluate(() => document.fonts.ready);
       await page.pdf({
         path: pdfPath,
         format: "A4",
