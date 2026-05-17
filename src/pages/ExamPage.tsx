@@ -117,7 +117,7 @@ export function ExamPage() {
                 enabled={session.timerEnabled}
                 onTick={examTick}
               />
-              <button onClick={() => setConfirmEnd(true)} className="btn-secondary !px-3 !py-1.5">
+              <button onClick={() => setConfirmEnd(true)} className="btn-secondary !px-3 !py-2 min-h-[40px]">
                 <X size={16} />
                 סיים
               </button>
@@ -146,12 +146,12 @@ export function ExamPage() {
               topRight={
                 <button
                   onClick={() => examFlag(currentId, !flagged)}
-                  className={`px-2 py-1 rounded-lg text-sm font-semibold flex items-center gap-1 ${
-                    flagged ? "bg-warn-50 text-warn-700" : "text-faint"
+                  className={`min-h-[40px] px-3 py-2 rounded-lg text-sm font-semibold flex items-center gap-1.5 ${
+                    flagged ? "bg-warn-50 text-warn-700" : "text-faint hover:bg-hair"
                   }`}
                   aria-pressed={flagged}
                 >
-                  <Flag size={14} /> {flagged ? "מסומנת" : "סמני לבדיקה"}
+                  <Flag size={16} /> {flagged ? "מסומנת" : "סמני לבדיקה"}
                 </button>
               }
             />
