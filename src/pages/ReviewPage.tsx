@@ -141,6 +141,12 @@ export function ReviewPage() {
           </div>
         )}
       </div>
+      <div className="fixed bottom-0 left-0 right-0 h-1 bg-hair z-30">
+        <div
+          className="h-full bg-brand-500 transition-all duration-300"
+          style={{ width: `${((session.index + 1) / session.queue.length) * 100}%` }}
+        />
+      </div>
     </main>
   );
 }
