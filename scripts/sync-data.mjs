@@ -12,7 +12,12 @@ const PUBLIC_IMAGES = join(PUBLIC_DATA, "images");
 mkdirSync(PUBLIC_DATA, { recursive: true });
 mkdirSync(PUBLIC_IMAGES, { recursive: true });
 
-const dataFiles = ["questions.json", "image_dependent_questions.json"];
+const dataFiles = [
+  "questions.json",
+  "image_dependent_questions.json",
+  "lessons.json",
+  "question_skills.json",
+];
 let copied = 0;
 for (const f of dataFiles) {
   const src = join(SRC_DATA, f);
