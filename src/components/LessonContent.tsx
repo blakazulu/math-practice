@@ -57,11 +57,20 @@ function parseBlocks(body: string): Block[] {
 }
 
 function renderInline(text: string): ReactNode {
-  // Split on $...$ pairs. Even indices are plain text, odd indices are math.
-  const parts = text.split(/\$([^$]+)\$/g);
-  return parts.map((part, idx) =>
-    idx % 2 === 0 ? <Fragment key={idx}>{part}</Fragment> : <InlineMath key={idx} math={part} />,
-  );
+  // Split on $...$ math AND **...** bold. Use a single combined regex with
+  // capture groups; odd-indexed parts are matches, even-indexed are plain.
+  // We do two passes to keep the logic readable: first split on math (so $...$
+  // remains an atomic chunk), then for each plain-text chunk split on bold.
+  const mathParts = text.split(/\$([^$]+)\$/g);
+  return mathParts.map((mp, mi) => {
+    if (mi % 2 === 1) return <InlineMath key={mi} math={mp} />;
+    const boldParts = mp.split(/\*\*([^*]+)\*\*/g);
+    return boldParts.map((bp, bi) => (
+      bi % 2 === 0
+        ? <Fragment key={`${mi}-${bi}`}>{bp}</Fragment>
+        : <strong key={`${mi}-${bi}`}>{bp}</strong>
+    ));
+  });
 }
 
 export function LessonContent({ body }: Props) {

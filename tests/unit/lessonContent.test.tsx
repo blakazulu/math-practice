@@ -43,4 +43,13 @@ describe("LessonContent", () => {
     const { container } = render(<LessonContent body={body} />);
     expect(container.querySelector(".katex-display")).not.toBeNull();
   });
+
+  it("renders **bold** spans inside paragraphs", () => {
+    const body =
+      "## איך עושים זאת?\nthis is **important** text.\n\n## דוגמה\n.\n\n## לשים לב\n.\n";
+    const { container } = render(<LessonContent body={body} />);
+    const strong = container.querySelector("strong");
+    expect(strong).not.toBeNull();
+    expect(strong?.textContent).toBe("important");
+  });
 });
