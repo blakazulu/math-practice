@@ -100,5 +100,20 @@
   "01_ידע_מתמטי/יחס/12": "ratio-from-difference",
   "01_ידע_מתמטי/יחס/13": "ratio-to-quantity",
   "01_ידע_מתמטי/יחס/14": "ratio-to-quantity",
-  "01_ידע_מתמטי/יחס/15": "ratio-to-quantity"
+  "01_ידע_מתמטי/יחס/15": "ratio-to-quantity",
+  "01_ידע_מתמטי/ממוצע/1": "use-sum-not-average",
+  "01_ידע_מתמטי/ממוצע/2": "weighted-average-two-groups",
+  "01_ידע_מתמטי/ממוצע/3": "use-sum-not-average",
+  "01_ידע_מתמטי/ממוצע/4": "use-sum-not-average",
+  "01_ידע_מתמטי/ממוצע/5": "use-sum-not-average",
+  "01_ידע_מתמטי/ממוצע/6": "use-sum-not-average",
+  "01_ידע_מתמטי/ממוצע/7": "use-sum-not-average",
+  "01_ידע_מתמטי/ממוצע/8": "use-sum-not-average",
+  "01_ידע_מתמטי/ממוצע/9": "use-sum-not-average",
+  "01_ידע_מתמטי/ממוצע/10": "target-score-for-new-average",
+  "01_ידע_מתמטי/ממוצע/11": "use-sum-not-average",
+  "01_ידע_מתמטי/ממוצע/12": "weighted-average-two-groups",
+  "01_ידע_מתמטי/ממוצע/13": "average-edge-cases",
+  "01_ידע_מתמטי/ממוצע/14": "average-edge-cases",
+  "01_ידע_מתמטי/ממוצע/15": "use-sum-not-average"
 }
