@@ -6,6 +6,8 @@ import { QuestionCard } from "@/components/QuestionCard";
 import { OptionGrid } from "@/components/OptionGrid";
 import { HintCard, hintForLevel } from "@/components/HintCard";
 import { ExplanationCard } from "@/components/ExplanationCard";
+import { ExplainButton } from "@/components/ExplainButton";
+import { LessonModal } from "@/components/LessonModal";
 import { StarBurst } from "@/components/StarBurst";
 import { seededShuffle } from "@/lib/shuffle";
 import type { OptionLetter, QuestionId, TopicId } from "@/data/types";
@@ -27,8 +29,11 @@ export function PracticePage() {
   const needsImage = useStore((s) => s.needsImage);
   const getImage = useStore((s) => s.getImage);
   const isUnanswerable = useStore((s) => s.isUnanswerable);
+  const lessonForQuestion = useStore((s) => s.lessonForQuestion);
+  const markLessonHintSeen = useStore((s) => s.markLessonHintSeen);
 
   const [stickyWrong, setStickyWrong] = useState<OptionLetter[]>([]);
+  const [lessonOpen, setLessonOpen] = useState(false);
   const [starKey, setStarKey] = useState(0);
   const [flashGreen, setFlashGreen] = useState(false);
   const flashTimeout = useRef<number | null>(null);
@@ -84,6 +89,8 @@ export function PracticePage() {
 
   const currentId = session.queue[session.index];
   const question = getQuestion(currentId);
+  const lesson = lessonForQuestion(currentId);
+  const showPulse = lesson != null && user.progress.stats.lessonHintSeen === false;
   if (!question) return <p className="p-6 text-danger-600">שאלה לא נמצאה.</p>;
 
   const triesUsed = session.currentAttempts;
@@ -135,6 +142,17 @@ export function PracticePage() {
             </span>
           }
         />
+        {lesson && (
+          <div className="flex justify-start mb-3">
+            <ExplainButton
+              pulse={showPulse}
+              onClick={() => {
+                setLessonOpen(true);
+                if (showPulse) markLessonHintSeen(user.id);
+              }}
+            />
+          </div>
+        )}
         <QuestionCard
           question={question}
           used={triesUsed}
@@ -162,6 +180,7 @@ export function PracticePage() {
           </div>
         )}
         <StarBurst triggerKey={starKey} />
+        <LessonModal open={lessonOpen} lesson={lesson} onClose={() => setLessonOpen(false)} />
       </div>
       {flashGreen && (
         <div
