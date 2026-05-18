@@ -84,7 +84,7 @@ export function OptionGrid({
       initial="hidden"
       animate="show"
       variants={pageEnter}
-      className="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-4"
+      className="grid grid-cols-1 gap-3 mt-4"
     >
       {letters.map((l) => {
         const s = statusFor(l);
