@@ -4,6 +4,8 @@ Drafted: 2026-05-18. Awaits user review before lesson authoring begins (Phase G)
 
 Methodology: every question in `math-knowledge` and `logic-reasoning` was scanned (text, options, correct answer). Within each topic, questions were grouped by the discrete *technique* a kid needs to learn in order to solve them. Sibling techniques are kept separate (e.g. add-fractions-same-denominator vs add-fractions-different-denominator) per the spec, even when one topic does not actually contain both — so the skill list reads as a coherent curriculum, not just a frequency table.
 
+**Decisions applied (2026-05-18, defensive defaults):** Four clean merges have been applied to reduce the original 69 skills to 64 (see `## Notes`). Six previously-flagged classification edge cases have been resolved with defensive defaults; the user can override any of them by editing this file before lesson authoring begins.
+
 ## math-knowledge
 
 ### decimal-fractions
@@ -20,8 +22,7 @@ Methodology: every question in `math-knowledge` and `logic-reasoning` was scanne
 ### simple-fractions
 33 questions. Heavy on "fraction of remainder" word problems, complex fractions, "marble exchange" reverse problems, and a few unsolvable-condition traps.
 
-- `add-fractions-different-denominator` — חיבור שברים עם מכנים שונים
-- `subtract-fractions-different-denominator` — חיסור שברים עם מכנים שונים
+- `common-denominator-arithmetic` — חיבור וחיסור שברים עם מכנים שונים
 - `multiply-fractions` — כפל שברים פשוטים
 - `mixed-numbers-arithmetic` — חשבון עם מספרים מעורבים
 - `fraction-of-amount` — חישוב חלק מכמות
@@ -55,8 +56,7 @@ Methodology: every question in `math-knowledge` and `logic-reasoning` was scanne
 ### geometry
 32 questions. Square/rectangle perimeter+area in both directions, scaling, area-preserving transformations, circle area, cut-corner problems, and shape comparisons.
 
-- `square-perimeter-area` — היקף ושטח של ריבוע
-- `rectangle-perimeter-area` — היקף ושטח של מלבן
+- `rectangle-family-perimeter-area` — היקף ושטח של ריבוע ומלבן
 - `perimeter-from-area-or-vice-versa` — מעבר בין היקף לשטח
 - `triangle-area` — שטח משולש
 - `circle-area-with-pi` — שטח עיגול עם פאי
@@ -67,9 +67,7 @@ Methodology: every question in `math-knowledge` and `logic-reasoning` was scanne
 ### data-research
 23 questions. Almost all are *follow-up* chains attached to a chart/table. Skills are about reading charts, comparing categories, computing averages from a chart, computing differences/extremes, and combining percent or ratio with chart data.
 
-- `read-bar-chart` — קריאת נתונים מתרשים עמודות
-- `read-line-graph-extremes` — קריאת שיא ושפל בגרף קווי
-- `read-table-data` — קריאת נתונים מטבלה
+- `read-chart-or-table` — קריאת נתונים מתרשים או מטבלה
 - `average-from-chart` — ממוצע מתוך תרשים
 - `difference-from-chart` — הפרש בין ערכים בגרף
 - `percent-on-chart-data` — אחוזים על נתוני גרף
@@ -95,8 +93,7 @@ Methodology: every question in `math-knowledge` and `logic-reasoning` was scanne
 ### average
 15 questions. Classic "find missing item from average", "swap one member, what is new average", weighted average of two groups, and a couple of edge cases (range constraints, removing average-value item).
 
-- `find-missing-from-average` — מציאת איבר חסר מתוך ממוצע
-- `swap-member-update-average` — החלפת איבר ועדכון ממוצע
+- `use-sum-not-average` — לחשוב במונחי הסכום במקום הממוצע
 - `weighted-average-two-groups` — ממוצע משוקלל של שתי קבוצות
 - `target-score-for-new-average` — איזה ציון נדרש לשינוי הממוצע
 - `average-edge-cases` — מקרי קצה בממוצע
@@ -147,29 +144,18 @@ Methodology: every question in `math-knowledge` and `logic-reasoning` was scanne
 
 **Skill totals:**
 
-- math-knowledge: 7 + 8 + 7 + 6 + 8 + 7 + 4 + 5 + 5 = 57 skills across 9 topics.
+- math-knowledge: 7 + 7 + 7 + 6 + 7 + 5 + 4 + 5 + 4 = 52 skills across 9 topics.
 - logic-reasoning: 2 + 2 + 1 + 2 + 2 + 2 + 1 = 12 skills across 7 topics.
-- **Grand total: 69 skills.**
+- **Grand total: 64 skills.**
 
-This overshoots the "~40–50" target stated in the design spec but stays within the looser "5–7 per math topic, 1–2 per logic topic" guideline (with two math topics — geometry and simple-fractions — landing at 8 because the bank really does cover that many distinct techniques there). The user should prune wherever they prefer fewer lessons over finer-grained coverage. Candidate merges if pruning is desired:
-
-- `add-subtract-decimals` could be one lesson covering both directions.
-- `add-fractions-different-denominator` and `subtract-fractions-different-denominator` could be merged into a single "common denominator" lesson; they share the entire technique.
-- `square-perimeter-area` and `rectangle-perimeter-area` could be merged into one "rectangle family" lesson, leaving `perimeter-from-area-or-vice-versa` as the back-and-forth case.
-- `read-bar-chart`, `read-line-graph-extremes`, and `read-table-data` could collapse into one `read-chart-or-table` lesson — the procedural skill is similar even if the visual differs.
-- `swap-member-update-average` and `find-missing-from-average` are very close; could merge into one "use the sum, not the average" lesson.
-
-Pruning the five bullets above brings the count from 69 down to about 60. Going further would risk losing teachable distinctions.
+Four merges from the original draft have been applied (see git history for the prior shape). Total is 64; further pruning is up to the user.
 
 **Skills not derivable from the bank but worth teaching anyway:** none. The bank is broad enough that every skill listed above has at least three exercising questions, and there is no missing-foundational-skill gap that the kid would hit before any of these.
 
-**Questions I could not classify cleanly (flagged for the human):**
+**Classification decisions (defensive defaults applied; user can override):**
 
-- `01_ידע_מתמטי/שברים_פשוטים/27` — "X had 100–200 stickers, Y had 60, find how many were transferred to equalize". The answer is "אי אפשר לדעת" (can't be determined). It's a sibling of `recognize-underdetermined-problem` (which I put in multi-step) but lives in simple-fractions. Possibly tag with a future `recognize-underdetermined-fraction-problem` or fold into `reverse-fraction-word-problem` with a note. I left it under `reverse-fraction-word-problem`.
-- `01_ידע_מתמטי/שברים_פשוטים/30` and `/31` — Venn diagram word problems about students enrolled in one or both clubs, both arriving at "אי אפשר לדעת". These don't really fit any of the simple-fractions skills above. Candidates: introduce `venn-overlap-reasoning` here, or treat them as `recognize-underdetermined-problem` (currently in multi-step). I have not added a new skill; flagging for the user.
-- `01_ידע_מתמטי/ממוצע/13` — "20–30 students, 12% wear glasses, how many?" is really a divisibility/constraint problem hiding under an average topic. Best fit is `divisibility-and-parity-reasoning` from factoring, but cross-topic tagging is awkward. Suggest tagging as `average-edge-cases` with an explanation note.
-- `01_ידע_מתמטי/הספק/15` — "Bought 400g at 75 ₪/kg + 2kg at 25 ₪/kg" is a straight unit-conversion question with no real "throughput" character. Tagged as `convert-rate-units` for now.
-- `02_חשיבה_והגיון/חשיבה_מרחבית/2`, `/3`, `/4` — "guess the number from digit clues" are technically constraint-satisfaction like the rest of spatial-reasoning, but mathematically closer to factoring/divisibility. Left in `solve-positional-constraint-puzzle` because the *strategy* (eliminate via clues) is shared with the seating puzzles.
-- `02_חשיבה_והגיון/קומבינטוריקה/9`, `/15`, `/20` — "guaranteed worst-case pick" (pigeonhole-style) is a distinct sub-skill from raw counting/probability. Could justify its own `pigeonhole-guarantee` skill. Currently rolled into `counting-with-product-rule` for brevity; user may want to split.
-
-These six flags are the only ones I'd ask the human to resolve before tagging begins. Everything else maps cleanly.
+- `01_ידע_מתמטי/שברים_פשוטים/27`, `/30`, `/31` — "can't be determined" word problems. Tagged as `recognize-unsolvable-fraction-problem` (which already exists in simple-fractions). This is the natural home for "אי אפשר לדעת" answers in fraction topics.
+- `01_ידע_מתמטי/ממוצע/13` — divisibility-flavored problem in the average topic. Tagged as `average-edge-cases`. Cross-topic tagging would be more accurate but less useful for the kid.
+- `01_ידע_מתמטי/הספק/15` — unit-conversion problem with no real rate character. Tagged as `convert-rate-units`. Acceptable since the technique (unit math) is what the lesson teaches.
+- `02_חשיבה_והגיון/חשיבה_מרחבית/2`, `/3`, `/4` — digit-clue puzzles. Tagged as `solve-positional-constraint-puzzle`. Strategy is shared with seating puzzles.
+- `02_חשיבה_והגיון/קומבינטוריקה/9`, `/15`, `/20` — pigeonhole-style "guaranteed worst case". Rolled into `counting-with-product-rule`. Per the spec, logic topics get at most 1-2 broad skills; this preserves the limit.
