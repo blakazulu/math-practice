@@ -9,6 +9,9 @@ import { ExamGrid } from "@/components/ExamGrid";
 import { ExamTimer } from "@/components/ExamTimer";
 import { Confirm } from "@/components/Confirm";
 import { CountUp } from "@/components/CountUp";
+import { ExplainButton } from "@/components/ExplainButton";
+import { LessonModal } from "@/components/LessonModal";
+import { ExamLessonConfirmDialog } from "@/components/ExamLessonConfirmDialog";
 import type { ExamAnswerRecord, OptionLetter } from "@/data/types";
 import { topicIdFromUrl, urlFromTopicId } from "@/data/types";
 
@@ -32,7 +35,10 @@ export function ExamPage() {
   const getImage = useStore((s) => s.getImage);
   const bank = useStore((s) => s.bank);
 
+  const lessonForQuestion = useStore((s) => s.lessonForQuestion);
   const [confirmEnd, setConfirmEnd] = useState(false);
+  const [lessonOpen, setLessonOpen] = useState(false);
+  const [confirmOpen, setConfirmOpen] = useState(false);
   /** Guards against finalize() re-entering after its store writes invalidate the effect's deps. */
   const finalizedRef = useRef(false);
 
@@ -89,6 +95,8 @@ export function ExamPage() {
   const currentId = session.queue[session.index];
   const question = getQuestion(currentId);
   if (!question || !bank) return null;
+
+  const lesson = currentId ? lessonForQuestion(currentId) : null;
 
   const picked = session.picks[currentId] ?? null;
   const flagged = session.flagged[currentId] ?? false;
@@ -156,6 +164,11 @@ export function ExamPage() {
               }
             />
             <OptionGrid question={question} onPick={handlePick} picked={picked} />
+            {lesson && (
+              <div className="flex justify-start mb-3">
+                <ExplainButton pulse={false} onClick={() => setConfirmOpen(true)} />
+              </div>
+            )}
             <div className="mt-5 flex justify-between">
               <button
                 onClick={() => examJumpTo(session.index - 1)}
@@ -215,6 +228,15 @@ export function ExamPage() {
         }}
         onCancel={() => setConfirmEnd(false)}
       />
+      <ExamLessonConfirmDialog
+        open={confirmOpen}
+        onConfirm={() => {
+          setConfirmOpen(false);
+          setLessonOpen(true);
+        }}
+        onDismiss={() => setConfirmOpen(false)}
+      />
+      <LessonModal open={lessonOpen} lesson={lesson} onClose={() => setLessonOpen(false)} />
     </main>
   );
 }
