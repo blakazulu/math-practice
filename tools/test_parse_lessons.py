@@ -118,6 +118,7 @@ class ParseLessonsTest(unittest.TestCase):
             [sys.executable, PARSE_SCRIPT, "--root", self.tmp],
             capture_output=True,
             text=True,
+            encoding="utf-8",
             env=env,
         )
 

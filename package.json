@@ -14,6 +14,7 @@
     "format": "prettier --write src",
     "generate-pdfs": "node tools/pdf/generate_pdfs.mjs && npm run sync-data",
     "sync-data": "node scripts/sync-data.mjs",
+    "parse-lessons": "node -e \"const {execSync}=require('child_process');execSync('python tools/parse_lessons.py',{stdio:'inherit',env:{...process.env,PYTHONIOENCODING:'utf-8'}})\"",
     "gen-share-images": "node scripts/gen-share-images.mjs"
   },
   "dependencies": {
