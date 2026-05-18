@@ -54,4 +54,36 @@ describe("migrations", () => {
     const out = migrate(legacy);
     expect(out.users.u.progress.stats.dailyAnswered).toEqual({});
   });
+
+  it("backfills lessonHintSeen=false when migrating legacy users without it", () => {
+    const legacy = {
+      version: 1,
+      activeUserId: "u",
+      users: {
+        u: {
+          id: "u",
+          name: "L",
+          createdAt: 1,
+          progress: {
+            questions: {},
+            topics: {},
+            exams: [],
+            reviewQueue: [],
+            stats: {
+              totalAnswered: 0,
+              starsEarned: 0,
+              currentStreakDays: 0,
+              longestStreakDays: 0,
+              lastActiveDate: "",
+              todayCount: 0,
+              dailyAnswered: {},
+              // lessonHintSeen intentionally absent
+            },
+          },
+        },
+      },
+    };
+    const out = migrate(legacy);
+    expect(out.users.u.progress.stats.lessonHintSeen).toBe(false);
+  });
 });

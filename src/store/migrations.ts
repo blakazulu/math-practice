@@ -1,12 +1,19 @@
 import type { PersistRoot, UserState } from "@/data/types";
 
 function backfillUser(u: UserState): UserState {
-  if (u.progress.stats.dailyAnswered) return u;
+  const stats = u.progress.stats;
+  const needsDaily = !stats.dailyAnswered;
+  const needsLessonHint = stats.lessonHintSeen === undefined;
+  if (!needsDaily && !needsLessonHint) return u;
   return {
     ...u,
     progress: {
       ...u.progress,
-      stats: { ...u.progress.stats, dailyAnswered: {} },
+      stats: {
+        ...stats,
+        ...(needsDaily ? { dailyAnswered: {} } : {}),
+        ...(needsLessonHint ? { lessonHintSeen: false } : {}),
+      },
     },
   };
 }

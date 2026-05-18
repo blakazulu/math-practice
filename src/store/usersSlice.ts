@@ -51,6 +51,8 @@ export interface UsersSlice {
   ) => void;
   enqueueReview: (userId: UserId, questionId: QuestionId) => void;
   dequeueReview: (userId: UserId, questionId: QuestionId) => void;
+  /** Set lessonHintSeen=true for the user (called after the first pulse fires). */
+  markLessonHintSeen: (userId: UserId) => void;
 }
 
 function persist(state: { activeUserId: UserId | null; users: Record<UserId, UserState> }): void {
@@ -264,6 +266,23 @@ export const createUsersSlice: StateCreator<UsersSlice, [], [], UsersSlice> = (s
         },
       };
       const users = { ...s.users, [userId]: updatedUser };
+      persist({ activeUserId: s.activeUserId, users });
+      return { users };
+    });
+  },
+
+  markLessonHintSeen: (userId) => {
+    set((s) => {
+      const user = s.users[userId];
+      if (!user || user.progress.stats.lessonHintSeen) return s;
+      const next: UserState = {
+        ...user,
+        progress: {
+          ...user.progress,
+          stats: { ...user.progress.stats, lessonHintSeen: true },
+        },
+      };
+      const users = { ...s.users, [userId]: next };
       persist({ activeUserId: s.activeUserId, users });
       return { users };
     });
