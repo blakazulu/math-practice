@@ -91,6 +91,34 @@ export interface ImageMapping {
 }
 
 // ============================================================
+// Lesson explanations
+// ============================================================
+
+export type SkillId = string;
+
+export interface RawLesson {
+  /** skill_id, kebab-case, globally unique (e.g. "multiply-decimals"). */
+  id: SkillId;
+  /** Hebrew title shown as the modal header. */
+  title: string;
+  /** Topic slug from TOPIC_URL_SLUGS (e.g. "decimal-fractions"). */
+  topic: string;
+  /** Markdown body — three H2 sections in order: how-to, example, watch-out. */
+  body: string;
+  /** Optional Hebrew aliases reserved for future search. */
+  aliases?: string[];
+}
+
+export interface LessonBank {
+  version: 1;
+  total_lessons: number;
+  lessons: RawLesson[];
+}
+
+/** Flat map { q_id: skill_id } — questions without a mapping are omitted. */
+export type QuestionSkillMap = Record<QuestionId, SkillId>;
+
+// ============================================================
 // Per-user persisted state
 // ============================================================
 
@@ -133,6 +161,8 @@ export interface UserStats {
   todayCount: number;
   /** Map of "YYYY-MM-DD" → questions answered that day. Append-only; never trim. */
   dailyAnswered: Record<string, number>;
+  /** Flipped true the first time the kid sees the "איך פותרים?" pulse animation. */
+  lessonHintSeen: boolean;
 }
 
 export interface UserProgress {
@@ -205,6 +235,7 @@ export const EMPTY_STATS: UserStats = {
   lastActiveDate: "",
   todayCount: 0,
   dailyAnswered: {},
+  lessonHintSeen: false,
 };
 
 export function emptyProgress(): UserProgress {
