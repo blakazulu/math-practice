@@ -42,6 +42,15 @@ test("download modal shows collapsible categories and downloads one PDF", async 
   expect(download.suggestedFilename()).toMatch(/\.pdf$/);
 });
 
+test("unregistered visitor on / can open the download modal", async ({ page, context }) => {
+  await context.addInitScript(() => window.localStorage.clear());
+  await page.goto("/");
+  await page.getByRole("button", { name: "הורדת מבחנים" }).click();
+  const dialog = page.getByRole("dialog", { name: "הורדת מבחנים" });
+  await expect(dialog).toBeVisible();
+  await expect(dialog.getByRole("link", { name: /הורדת כל המבחנים/ })).toBeVisible();
+});
+
 test("the 'הורדת כל המבחנים' CTA downloads the bundled ZIP", async ({
   page,
   context,

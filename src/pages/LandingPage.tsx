@@ -1,11 +1,13 @@
 import { Link, useNavigate } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { ArrowLeft, BookOpen, Calendar, Lightbulb, Target } from "lucide-react";
 import { motion } from "framer-motion";
 import { useStore } from "@/store";
 import { Logo } from "@/components/Logo";
 import { HeroBackdrop } from "@/components/HeroBackdrop";
 import { Ornament } from "@/components/Ornament";
+import { DownloadTestsButton } from "@/components/DownloadTestsButton";
+import { DownloadTestsModal } from "@/components/DownloadTestsModal";
 import { pageEnter, riseIn, useMotionVariants } from "@/lib/motion";
 
 export function LandingPage() {
@@ -14,6 +16,7 @@ export function LandingPage() {
   const loadBank = useStore((s) => s.loadBank);
   const bank = useStore((s) => s.bank);
   const child = useMotionVariants(riseIn);
+  const [downloadsOpen, setDownloadsOpen] = useState(false);
 
   useEffect(() => {
     loadBank();
@@ -34,10 +37,13 @@ export function LandingPage() {
       <header className="border-b border-hair relative z-10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 py-5 flex items-center justify-between">
           <Logo />
-          <Link to="/welcome" className="btn-secondary">
-            התחילי כעת
-            <ArrowLeft size={18} />
-          </Link>
+          <div className="flex items-center gap-2">
+            <DownloadTestsButton onClick={() => setDownloadsOpen(true)} />
+            <Link to="/welcome" className="btn-secondary">
+              התחילי כעת
+              <ArrowLeft size={18} />
+            </Link>
+          </div>
         </div>
       </header>
 
@@ -191,6 +197,8 @@ export function LandingPage() {
           </Link>
         </div>
       </section>
+
+      <DownloadTestsModal open={downloadsOpen} onClose={() => setDownloadsOpen(false)} />
     </main>
   );
 }
