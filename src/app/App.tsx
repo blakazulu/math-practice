@@ -11,10 +11,12 @@ useStore.getState().hydrate();
 
 export function App() {
   const loadBank = useStore((s) => s.loadBank);
+  const loadLessons = useStore((s) => s.loadLessons);
 
   useEffect(() => {
     loadBank();
-  }, [loadBank]);
+    loadLessons();
+  }, [loadBank, loadLessons]);
 
   return (
     <BrowserRouter>
